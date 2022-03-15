@@ -1,13 +1,20 @@
 ---
 title: "EA Market testing data analysis"
+author: "David Reinstein and other members of the EAMT team"
 logo: bulb.png
-bibliography: ["assets/bib/book.bib"]
-always_allow_html: yes
+bibliography: references.bib
+csl: assets/apa.csl
 link-citations: true
-github-repo: daaronr/effective_giving_market_testing
-description: "Analysing marketing trials, experiments, and more"
+always_allow_html: true
+use_littlefoot: true
+sidebar_width: "350px"
 site: bookdown::bookdown_site
-output: rethinkpriorities::book
+output:
+  rethinkpriorities::book:
+    toc_depth: 2
+    split_by: "chapter"
+github-repo: daaronr/eamt_data_analysis
+description: "Description and analysis of EAMT trials"
 ---
 
 

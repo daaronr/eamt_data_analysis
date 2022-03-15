@@ -27,6 +27,8 @@ Quick note here on how Kennan put the (different types of) data together in that
 
 ## Input and clean data
 
+We input the sheet from the external Google sheet location:
+
 
 ```{r}
 
@@ -45,7 +47,7 @@ oftw_ppl_don_21_22 %>% names() %>% paste(collapse=", ")
 ### Labeling and cleaning 
 
 
-Make names snake_case, use original names as labels:
+Make names `snake_case`, using original names as labels:
 
 ```{r}
 
@@ -94,4 +96,4 @@ oftw_ppl_don_21_22 <- oftw_ppl_don_21_22 %>%
 
 ## "Equivalence testing" with randomization inference/simulation
 
-(Reprise/merge in analysis done [HERE](https://rethinkpriorities.github.io/methodology-statistics-design/inference-and-rough-equivalence-testing-with-binomial-outcomes.html#how-likely-are-proportions-this-similar-under-different-size-true-effect-sizes))
+(Here we should merge in the analysis done in  [HERE](https://rethinkpriorities.github.io/methodology-statistics-design/inference-and-rough-equivalence-testing-with-binomial-outcomes.html#how-likely-are-proportions-this-similar-under-different-size-true-effect-sizes))

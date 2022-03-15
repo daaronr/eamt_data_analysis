@@ -8,6 +8,7 @@ exploratory-analysis
 casualsimple-uptick-analysis
 bound-maximum-impactminimum-cost-subject-to-random-variation
 difference-in-differences-comparison-to-other-cities
+plotting-the-difference-in-difference-work-in-progress
 oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion
 the-trial-1
 capturing-data-1

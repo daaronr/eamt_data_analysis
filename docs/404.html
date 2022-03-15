@@ -9,9 +9,10 @@
 <meta property="og:type" content="book" />
 
 
-<meta property="og:description" content="Analysing marketing trials, experiments, and more" />
-<meta name="github-repo" content="daaronr/effective_giving_market_testing" />
+<meta property="og:description" content="Description and analysis of EAMT trials" />
+<meta name="github-repo" content="daaronr/eamt_data_analysis" />
 
+<meta name="author" content="David Reinstein and other members of the EAMT team" />
 
 
 <script type="text/x-mathjax-config">
@@ -21,7 +22,7 @@ MathJax.Hub.Config({
 </script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<meta name="description" content="Analysing marketing trials, experiments, and more">
+<meta name="description" content="Description and analysis of EAMT trials">
 
 <title>Page not found | EA Market testing data analysis</title>
 
@@ -93,6 +94,209 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style>
+  
+:root {
+  --sidebar-width: 350px;
+  --primary-color: #43718f;
+}
+
+#wrapper {
+  overflow: hidden;
+  height: 100vh;
+}
+
+@supports (-webkit-touch-callout: none) {
+  #wrapper {
+    height: -webkit-fill-available;
+  }
+}
+
+/* Main */
+
+#main-container {
+  height: calc(100% - 57px);
+  overflow-y: auto;
+}
+
+main {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+main h1, main h2 {
+  padding-top: 1rem;
+}
+
+/* Sidebar */
+
+#sidebar-wrapper {
+  margin-left: calc(var(--sidebar-width) * -1);
+  transition: margin 0.25s ease-out;
+}
+
+#sidebar-wrapper .list-group {
+  width: var(--sidebar-width);
+}
+
+#sidebar-wrapper .list-group-flush > .list-group-item:last-child {
+  border-bottom-width: 1px;
+}
+
+#sidebar-wrapper .list-group {
+  width: var(--sidebar-width);
+}
+
+#sidebar-wrapper .list-subgroup a {
+  margin-left: 1rem;
+}
+
+.list-group-item.active {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);;
+}
+
+#page-content-wrapper {
+  min-width: 100vw;
+}
+
+body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
+  margin-left: 0;
+}
+
+@media (min-width: 768px) {
+  #sidebar-wrapper {
+    margin-left: 0;
+  }
+
+  #page-content-wrapper {
+    min-width: 0;
+    width: 100%;
+  }
+
+  body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
+    margin-left: calc(var(--sidebar-width) * -1);
+  }
+}
+
+#sidebar-heading {
+  display: flex;
+  height: 57px;
+  width: var(--sidebar-width);
+  padding: 0.875rem 1.25rem;
+  font-size: 1.2rem;
+}
+
+#sidebar-heading img {
+  margin-right: 0.5rem;
+}
+
+/* TOC */
+
+#TOC {
+  height: calc(100% - 57px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  font-size: 0.9rem;
+}
+
+#TOC a {
+  display: flex;
+}
+
+#TOC a:hover {
+  color: var(--primary-color);
+}
+
+#TOC .active:hover {
+  color: #fff;
+}
+
+#TOC a span {
+  margin-left: 0.5em;
+}
+
+#TOC a .toc-section-number {
+  margin-left: 0;
+}
+
+/* Callout blocks */
+
+.alert {
+  padding-bottom: 0 !important;
+}
+
+/* Code */
+
+pre {
+  overflow: auto;
+  word-wrap: normal;
+  margin: 0 0 1.275em;
+  padding: .85em 1em;
+  background: #f7f7f7;
+}
+
+pre.sourceCode.r {
+  padding: 0;
+}
+
+pre.sourceCode.r div {
+  padding: .85em 1em;
+}
+
+/* Foldables */
+
+.foldable {
+  margin: 0 0 1.275em;
+  padding: .85em 1em 0 1em;
+  background: #f7f7f7;
+}
+
+.foldable a {
+  display: block;
+  color: #212529;
+  padding-bottom: 1em;
+}
+
+.foldable .show > p {
+  padding-bottom: 1em;
+  margin-bottom: 0;
+}
+
+.foldable .show > ul {
+  padding-bottom: 1em;
+}
+
+/* Buttons */
+
+.btn-primary, .btn-primary:hover, .btn-primary:focus {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);;
+}
+
+/* Links */
+
+a {
+  color: var(--primary-color);
+}
+
+.anchor-section {
+  color: var(--primary-color) !important;
+}
+
+/* Blockquotes */
+
+blockquote {
+  border-left: 5px solid #f7f7f7;
+  padding-left: 1em;
+  font-style: italic;
+}
+
+blockquote p {
+  padding: 0.25em;
+}
+</style>
+
 
 <!-- CSS only -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -104,13 +308,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   href="https://unpkg.com/littlefoot/dist/littlefoot.css"
 />
 
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
-<link href="libs/book-1.0.0/style.css" rel="stylesheet" />
-<script src="libs/book-1.0.0/littlefoot.js"></script>
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<!--<script src="libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="libs/navigation-1.1/tabsets.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+-->
 
 </head>
 
@@ -135,19 +352,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <a id="item-input-and-clean-data" class="list-group-item" href="tlycs-portland-trial-background-data-input-brief-report.html#input-and-clean-data"><span class="toc-section-number">1.3</span><span>Input and clean data</a>
   <a id="item-exploratory-analysis" class="list-group-item" href="tlycs-portland-trial-background-data-input-brief-report.html#exploratory-analysis"><span class="toc-section-number">1.4</span><span>Exploratory analysis</a>
   <a id="item-casualsimple-uptick-analysis" class="list-group-item" href="tlycs-portland-trial-background-data-input-brief-report.html#casualsimple-uptick-analysis"><span class="toc-section-number">1.5</span><span>Casual/simple ‘uptick’ analysis</a>
-  <div class="list-group list-group-flush list-subgroup">
-  <a id="item-bound-maximum-impactminimum-cost-subject-to-random-variation" class="list-group-item" href="tlycs-portland-trial-background-data-input-brief-report.html#bound-maximum-impactminimum-cost-subject-to-random-variation"><span class="toc-section-number">1.5.1</span><span>Bound: Maximum impact/minimum cost (subject to random variation)</a>
-  <a id="item-difference-in-differences-comparison-to-other-cities" class="list-group-item" href="tlycs-portland-trial-background-data-input-brief-report.html#difference-in-differences-comparison-to-other-cities"><span class="toc-section-number">1.5.2</span><span>Difference in Differences comparison to other cities</a>
-  </div>
   </div>
   <a id="item-oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion" class="list-group-item" href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html"><span class="toc-section-number">2</span><span>OftW pre-giving-tuesday-email upselling split test (impact vs emotion)</a>
   <div class="list-group list-group-flush list-subgroup">
   <a id="item-the-trial-1" class="list-group-item" href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#the-trial-1"><span class="toc-section-number">2.1</span><span>The trial</a>
   <a id="item-capturing-data-1" class="list-group-item" href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#capturing-data-1"><span class="toc-section-number">2.2</span><span>Capturing data</a>
   <a id="item-input-and-clean-data-1" class="list-group-item" href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#input-and-clean-data-1"><span class="toc-section-number">2.3</span><span>Input and clean data</a>
-  <div class="list-group list-group-flush list-subgroup">
-  <a id="item-labeling-and-cleaning" class="list-group-item" href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#labeling-and-cleaning"><span class="toc-section-number">2.3.1</span><span>Labeling and cleaning</a>
-  </div>
   <a id="item-descriptives-and-exploratory-analysis" class="list-group-item" href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#descriptives-and-exploratory-analysis"><span class="toc-section-number">2.4</span><span>Descriptives and exploratory analysis</a>
   <a id="item-basic-tests-donation-incidence-and-amounts" class="list-group-item" href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#basic-tests-donation-incidence-and-amounts"><span class="toc-section-number">2.5</span><span>Basic tests: Donation incidence and amounts</a>
   <a id="item-basic-tests-clicks-and-retention-outcomes" class="list-group-item" href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#basic-tests-clicks-and-retention-outcomes"><span class="toc-section-number">2.6</span><span>Basic tests: Clicks and retention outcomes</a>
@@ -218,7 +428,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>You may want to try searching to find the page's new location, or use
 the table of contents to find the page you are looking for.</p>
 </div>
-<div class="text-center m-3">
+<div class="text-center m-5">
 
 
 </div>
@@ -237,8 +447,12 @@ the table of contents to find the page you are looking for.</p>
 </script>
 
 <!-- Littlefoot -->
+<script
+  src="https://unpkg.com/littlefoot/dist/littlefoot.js"
+  type="application/javascript"
+></script>
 <script type="application/javascript">
-  littlefoot.littlefoot()
+  littlefoot.littlefoot() // Pass any littlefoot settings here.
 </script>
 
 <script>
@@ -252,10 +466,16 @@ const foldables = document.getElementsByClassName("foldable")
 
 for (foldable of foldables) {
   const a = foldable.firstChild
-  console.log(a)
   
   a.href = "#"
   a.onclick = function() {
+
+    if (this.innerHTML === "Show") {
+      this.innerHTML = "Hide"
+    } else {
+      this.innerHTML = "Show"
+    }
+    
     const bsCollapse = new bootstrap.Collapse(a.nextSibling, {
       toggle: true
     })

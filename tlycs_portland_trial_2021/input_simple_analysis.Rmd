@@ -34,8 +34,8 @@ I downloaded this as an Excel spreadsheet to the private `eamt_actual_data` repo
 
 #tl21 <- read_excel(here::here("data_do_not_commit", "tlycs", "tlycs_dec_2021_vs_2020_by_city_n_america.xlsx"), sheet = "Dataset1") #this should have worked?
 
-tl21 <- readxl::read_excel("~githubs/eamt_actual_data/tlycs/tlycs_dec_2021_vs_2020_by_city_n_america.xlsx",  sheet = "Dataset1") %>%
-as_tibble()
+tl21 <- readxl::read_excel("~/githubs/eamt_actual_data/tlycs/tlycs_dec_2021_vs_2020_by_city_n_america.xlsx",  sheet = "Dataset1") %>%
+dplyr::as_tibble()
 
 
 ```

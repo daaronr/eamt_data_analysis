@@ -36,7 +36,6 @@ knitr::write_bib(
 )
 
 # For a list of 'rethink packages' and common packages we install, see: LINK HERE ####
-here::i_am("SUMMARY.md") #define root for 'here'
 
 
 {

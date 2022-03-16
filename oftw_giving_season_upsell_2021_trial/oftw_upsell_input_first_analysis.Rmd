@@ -17,7 +17,6 @@ Putting this into the (private) Google sheet linked [HERE](https://docs.google.c
 
 We added some metadata/explainers to that data, and downloaded it as an Excel sheet.^[Todo -- more direct input through API tools.]
 
-...
 
 <!-- (This is gitignored so it won't be 'committed' to our repo, at least for now)
 
@@ -27,10 +26,10 @@ Quick note here on how Kennan put the (different types of) data together in that
 
 ## Input and clean data
 
-We input the sheet from the external Google sheet location:
+We input the sheet from the external Google sheet location (access required)...
 
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 
 gs4_auth(scope = "https://www.googleapis.com/auth/drive")
 drive_auth(token = gs4_token())
@@ -42,12 +41,13 @@ oftw_ppl_don_21_22 %>% names() %>% paste(collapse=", ")
 
 ```
 
-...
 
 ### Labeling and cleaning 
 
 
-Make names `snake_case`, using original names as labels:
+The code ... 
+
+...makes names `snake_case`, using original names as labels...
 
 ```{r}
 
@@ -57,12 +57,9 @@ names(oftw_ppl_don_21_22) <- snakecase::to_snake_case(names(oftw_ppl_don_21_22))
 
 ```
 
-
 <!--Todo: Remove useless columns -->
 
-
-
-Separate second row (descriptors) from tibble:
+...separates second row (descriptors) from tibble...
 
 ```{r}
 
@@ -73,7 +70,7 @@ oftw_ppl_don_21_22 <- oftw_ppl_don_21_22[-c(1),]
 ```
 
 
-Anonymize it:
+...and anonymizes the data...
 
 ```{r}
 
@@ -87,6 +84,8 @@ oftw_ppl_don_21_22 <- oftw_ppl_don_21_22 %>%
 ```
 
 ## Descriptives and exploratory analysis
+
+
 
 ## Basic tests: Donation incidence and amounts
 

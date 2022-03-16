@@ -42,9 +42,10 @@ dplyr::as_tibble()
 ```
 
 And companion data on US city sizes, and top-15 Canadian cities      
-```{r}
 
-us_cities_pop <- read.csv("uscities_pop.csv") %>%
+```{r us_cities_pop}
+
+us_cities_pop <- read.csv(here::here("tlycs_portland_trial_2021", "uscities_pop.csv")) %>%
   dplyr::select(name, rank, usps, pop2022) %>%
   mutate(name = if_else(name=="New York City", "New York", name)) %>% 
   as_tibble()
@@ -52,8 +53,7 @@ us_cities_pop <- read.csv("uscities_pop.csv") %>%
 tl21 <- left_join(
   tl21,
   us_cities_pop,
- by = c("City" = "name")
-) %>%
+ by = c("City" = "name") ) %>%
   mutate(
     pop_gt250k = pop2022>250000 | str_det(City, "Windsor|Oshawa|Halifax|Victoria|Kitchener|Hamilton|Quebec|Winnipeg|Ottawa|Edmonton|Calgary|Vancouver|Montreal|Toronto") 
   ) %>% 
@@ -65,7 +65,7 @@ tl21 <- left_join(
 
 Code: creates 'year' feature...
 
-```{r}
+```{r year_feature}
 
 tl21 <- tl21 %>% mutate(
   year = case_when(
@@ -250,7 +250,7 @@ This seems realistic at a first-pass.
 \
 
 
-### Plotting the 'difference in difference' (work in progress)
+### Plotting the 'difference in difference' 
 
 
 Scatterplot of unique users by city, both time periods, US cities with 500k-1.5mill population, Portland highlighted

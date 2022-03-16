@@ -18,6 +18,15 @@ description: "Description and analysis of EAMT trials"
 ---
 
 
+```{r html, echo=FALSE}
+# globally set chunk options
+#This allows building even if errors come along the way
+knitr::opts_chunk$set(fig.align='center', out.width='80%', warning=FALSE, message = FALSE, error=TRUE)
+
+my_output <- knitr::opts_knit$get("rmarkdown.pandoc.to")
+
+```
+
 # About {.unnumbered}
 
 See ['Effective Giving & Action: Market testing & Synthesis' - public](https://effective-giving-marketing.gitbook.io/untitled/) and [private version](https://app.gitbook.com/o/-MfFk4CTSGwVOPkwnRgx/s/-Mf8cHxdwePMZXRTKnEE/)

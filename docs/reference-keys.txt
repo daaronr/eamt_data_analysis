@@ -18,3 +18,5 @@ descriptives-and-exploratory-analysis
 basic-tests-donation-incidence-and-amounts
 basic-tests-clicks-and-retention-outcomes
 equivalence-testing-with-randomization-inferencesimulation
+difference-between-two-binomial-random-variables.
+adaptation-of-this-magnitude-or-smaller

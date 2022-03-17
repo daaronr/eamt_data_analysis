@@ -444,7 +444,7 @@ blockquote p {
 <li>SurveyMonkey</li>
 </ol>
 <p>Putting this into the (private) Google sheet linked <a href="https://docs.google.com/spreadsheets/d/1iUKXkEqoadBgtUG_epBzUzCgA_J5mdWWstcXtpAdNJs/edit#gid=521638649">HERE</a></p>
-<p>We added some metadata/explainers to that data, and downloaded it as an Excel sheet.<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a></p>
+<p>We added some metadata/explainers to that data, and downloaded it as an Excel sheet.<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a></p>
 <!-- (This is gitignored so it won't be 'committed' to our repo, at least for now)
 
 Quick note here on how Kennan put the (different types of) data together in that Gsheet. We probably should use the API tool to import it directly here. -->
@@ -483,20 +483,151 @@ Quick note here on how Kennan put the (different types of) data together in that
 </div>
 <div id="descriptives-and-exploratory-analysis" class="section level2" number="2.4">
 <h2><span class="header-section-number">2.4</span> Descriptives and exploratory analysis</h2>
+<p>We could and should do a great deal of this. We should present the results relevant to this trial in specific here. Elsewhere we can do a deeper dive into OftW data in a general sense.</p>
 </div>
 <div id="basic-tests-donation-incidence-and-amounts" class="section level2" number="2.5">
 <h2><span class="header-section-number">2.5</span> Basic tests: Donation incidence and amounts</h2>
-<p>(See preregistration – go through preregistered tests one at a time)</p>
+<p>(See preregistration – go through preregistered tests one at a time. Note that given observed conversion rates I do not expect any ‘significant differences.’)</p>
 </div>
 <div id="basic-tests-clicks-and-retention-outcomes" class="section level2" number="2.6">
 <h2><span class="header-section-number">2.6</span> Basic tests: Clicks and retention outcomes</h2>
 </div>
 <div id="equivalence-testing-with-randomization-inferencesimulation" class="section level2" number="2.7">
 <h2><span class="header-section-number">2.7</span> “Equivalence testing” with randomization inference/simulation</h2>
-<p>(Here we should merge in the analysis done in <a href="https://rethinkpriorities.github.io/methodology-statistics-design/inference-and-rough-equivalence-testing-with-binomial-outcomes.html#how-likely-are-proportions-this-similar-under-different-size-true-effect-sizes">HERE</a>)</p>
+<p>We see a ‘small difference’ between and it is ‘not significant in standard’ (tests not shown here yet). But can we put meaningful bounds on this? Can we statistically ‘rule out large effects?’</p>
+<p>(This parallels the analysis done in <a href="https://rethinkpriorities.github.io/methodology-statistics-design/inference-and-rough-equivalence-testing-with-binomial-outcomes.html#how-likely-are-proportions-this-similar-under-different-size-true-effect-sizes">HERE</a>, which includes dome further explanation of the methods)</p>
+<div id="difference-between-two-binomial-random-variables." class="section level3" number="2.7.1">
+<h3><span class="header-section-number">2.7.1</span> Difference between two binomial random variables.</h3>
+<p>First, some building blocks.</p>
+<p><strong>Adapting formulas from <a href="https://math.stackexchange.com/questions/562119/difference-of-two-binomial-random-variables">Stackexchange post</a> discussion</strong></p>
+<p>Defining their code for this function:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r collapse"><div><code class="sourceCode r"><span id="cb24-1"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb24-1" aria-hidden="true" tabindex="-1"></a>modBin <span class="ot">&lt;-</span>dbinom <span class="co">#DR: I just do this renaming here for consistency with the rest ... but the modBin they defined was redundant</span></span>
+<span id="cb24-2"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb24-3" aria-hidden="true" tabindex="-1"></a>diffBin<span class="ot">&lt;-</span><span class="cf">function</span>(z, n1, p1, n2, p2){</span>
+<span id="cb24-4"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb24-5" aria-hidden="true" tabindex="-1"></a>  prob <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb24-6"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (z<span class="sc">&gt;=</span><span class="dv">0</span>){</span>
+<span id="cb24-8"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n1){</span>
+<span id="cb24-9"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb24-9" aria-hidden="true" tabindex="-1"></a>      prob <span class="ot">&lt;-</span> prob <span class="sc">+</span> <span class="fu">modBin</span>(i<span class="sc">+</span>z, n1, p1) <span class="sc">*</span> <span class="fu">modBin</span>(i, n2, p2)</span>
+<span id="cb24-10"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb24-10" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb24-11"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb24-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-12"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb24-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb24-13"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb24-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span></span>
+<span id="cb24-14"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb24-14" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb24-15"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb24-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n2){</span>
+<span id="cb24-16"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb24-16" aria-hidden="true" tabindex="-1"></a>      prob<span class="ot">&lt;-</span>prob<span class="sc">+</span><span class="fu">modBin</span>(i<span class="sc">+</span>z, n1, p1)<span class="sc">*</span><span class="fu">modBin</span>(i, n2, p2)</span>
+<span id="cb24-17"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb24-17" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb24-18"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb24-18" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb24-19"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb24-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(prob)</span>
+<span id="cb24-20"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb24-20" aria-hidden="true" tabindex="-1"></a>}</span></code></div></pre></div>
+<p>For the present case</p>
+<p>Hard-coded notes…</p>
+<div class="foldable"><a>Show</a><div class="collapse">
+<p>Treatment 1 - Impact and
+Treatment 2 - Emotion Story tabs</p>
+<p>Treatment 1: We record
+- 8 unique emails donating, 26 donations in total,
+- worth 5200 USD in total
+- 1345 unique emails listed as getting ‘control’ treatment 1</p>
+<p>Treatment 2:
+- 6 unique emails, 28 donations so far
+— worth 7500 USD in total.
+- 1190 unique emails listed for treatment 2</p>
+<p>If I believe my ‘unique emails count,’ that implies
+an 0.59% ‘conversion’ rate for T1 - Control
+a 0.50% conversion rate for T2 - Emotion/Story</p>
+</div></div>
+<p>Putting the observations into defined objects</p>
+<!-- Doing this from the (later: do from data) -->
+<div class="sourceCode" id="cb25"><pre class="sourceCode r collapse"><div><code class="sourceCode r"><span id="cb25-1"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb25-1" aria-hidden="true" tabindex="-1"></a>n1 <span class="ot">&lt;-</span> <span class="dv">1345</span></span>
+<span id="cb25-2"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb25-2" aria-hidden="true" tabindex="-1"></a>n2 <span class="ot">&lt;-</span> <span class="dv">1190</span></span>
+<span id="cb25-3"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb25-3" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> <span class="dv">8</span></span>
+<span id="cb25-4"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb25-4" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb25-5"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb25-5" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> d1<span class="sc">-</span>d2</span></code></div></pre></div>
+<p>Computation for a few ‘ad-hoc cases’ (later explore the space with vectors of values)</p>
+<ol style="list-style-type: decimal">
+<li>Suppose truly equal incidence, at the mean level</li>
+</ol>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r collapse"><div><code class="sourceCode r"><span id="cb26-1"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb26-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> (d1<span class="sc">+</span>d2)<span class="sc">/</span>(n1<span class="sc">+</span>n2)</span>
+<span id="cb26-2"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb26-3" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> p1</span>
+<span id="cb26-4"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb26-5" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb26-6"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb26-6" aria-hidden="true" tabindex="-1"></a>  db_0 <span class="ot">&lt;-</span> <span class="fu">diffBin</span>(z, n1, p1, n2, p2)</span>
+<span id="cb26-7"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb26-7" aria-hidden="true" tabindex="-1"></a>)</span></code></div></pre></div>
+<pre><code>## [1] 0.1024599</code></pre>
+<p>This implies there is a 10.2% chance of getting this <em>exact</em> difference of +2 incidences between the treatments (in one direction), if the true incidence rates were equal.</p>
+<p>Let’s plot this for a range of ‘incidence rate differences’ in this region. (Sorry, using the traditional plot, ggplot is better).</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r collapse"><div><code class="sourceCode r"><span id="cb28-1"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb28-1" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">10</span><span class="sc">*</span>z, <span class="dv">10</span><span class="sc">*</span>z)</span>
+<span id="cb28-2"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb28-2" aria-hidden="true" tabindex="-1"></a>p<span class="ot">&lt;-</span><span class="fu">sapply</span>(s, <span class="cf">function</span>(z) <span class="fu">diffBin</span>(z, n1, p1, n2, p2))</span>
+<span id="cb28-3"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s,p)</span></code></div></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-24-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<p>We see a large likelihood of values in the range of the +2 difference observed, and a low likelihood of a difference of 10 or more in either direction.</p>
+</div>
+<div id="adaptation-of-this-magnitude-or-smaller" class="section level3" number="2.7.2">
+<h3><span class="header-section-number">2.7.2</span> Adaptation: ‘of this magnitude or smaller’</h3>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r collapse"><div><code class="sourceCode r"><span id="cb29-1"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb29-1" aria-hidden="true" tabindex="-1"></a>ltmag_diffBin <span class="ot">&lt;-</span> <span class="cf">function</span>(z, n1, p1, n2, p2){</span>
+<span id="cb29-2"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb29-2" aria-hidden="true" tabindex="-1"></a>  prob <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb29-3"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb29-3" aria-hidden="true" tabindex="-1"></a>  z_n <span class="ot">&lt;-</span> <span class="sc">-</span>z <span class="co">#negative value</span></span>
+<span id="cb29-4"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> z_n<span class="sc">:</span>z){     <span class="co">#sum for all integer differences between observed value and its negative, inclusive</span></span>
+<span id="cb29-6"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb29-6" aria-hidden="true" tabindex="-1"></a>    prob <span class="ot">&lt;-</span> prob <span class="sc">+</span> <span class="fu">diffBin</span>(i, n1, p1, n2, p2)</span>
+<span id="cb29-7"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb29-7" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb29-8"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-9"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(prob)</span>
+<span id="cb29-10"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb29-10" aria-hidden="true" tabindex="-1"></a>}</span></code></div></pre></div>
+<p>Now, a similar computation as above, but for ‘this big or smaller in magnitude’:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r collapse"><div><code class="sourceCode r"><span id="cb30-1"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb30-1" aria-hidden="true" tabindex="-1"></a>  (</span>
+<span id="cb30-2"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb30-2" aria-hidden="true" tabindex="-1"></a>    mag_db_0 <span class="ot">&lt;-</span> <span class="fu">ltmag_diffBin</span>(z, n1, p1, n2, p2)</span>
+<span id="cb30-3"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb30-3" aria-hidden="true" tabindex="-1"></a>  )</span></code></div></pre></div>
+<pre><code>## [1] 0.4908031</code></pre>
+<p>This implies there is a 49.1% chance of getting a difference <em>no larger than this one in magnitude</em> of +/-2 incidences between the treatments if the true incidence rates were equal.</p>
+<p><br />
+</p>
+<p><strong>And finally, what we were looking for:</strong> the chance of ‘a difference this small or smaller’ as a function of the <strong>true difference…</strong></p>
+<p>Set up an arbitrary vector of ‘true differences’ (to keep it simple, only change it in one direction for now …)</p>
+<p>Below, I plot</p>
+<p>Y-axis: ’how likely would a difference in donations ‘as small or smaller in magnitude’” than we see in the data against</p>
+<p>X-axis: if the “true difference in incidence rates” were of these magnitudes</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r collapse"><div><code class="sourceCode r"><span id="cb32-1"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">scipen=</span><span class="dv">999</span>)</span>
+<span id="cb32-2"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb32-3" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">1.5</span>, <span class="dv">2</span>, <span class="fl">2.5</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">10</span>)</span>
+<span id="cb32-4"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb32-5" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">rep</span>((d1<span class="sc">+</span>d2)<span class="sc">/</span>(n1<span class="sc">+</span>n2), <span class="fu">length</span>(B))</span>
+<span id="cb32-6"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb32-6" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> p1<span class="sc">*</span>B</span>
+<span id="cb32-7"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-8"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb32-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-9"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="fu">as.list</span>(<span class="fu">ltmag_diffBin</span>(z, n1, p1, n2, p2)<span class="sc">*</span><span class="dv">100</span>) <span class="sc">%&gt;%</span> <span class="fu">format</span>(<span class="at">digits=</span><span class="dv">3</span>, <span class="at">scientific=</span><span class="cn">FALSE</span>)</span></code></div></pre></div>
+<pre><code>## [1] &quot;49.1&quot;             &quot;39.4&quot;             &quot;20.6&quot;             &quot;8.02&quot;             &quot;2.51&quot;            
+## [6] &quot;0.153&quot;            &quot;0.00000000000855&quot;</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r collapse"><div><code class="sourceCode r"><span id="cb34-1"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb34-1" aria-hidden="true" tabindex="-1"></a>probmag <span class="ot">&lt;-</span> <span class="fu">ltmag_diffBin</span>(z, n1, p1, n2, p2)</span>
+<span id="cb34-2"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co">#qplot(B, probmag, log  = &quot;x&quot;, xlab = &quot;True relative incidence&quot;, ylab =&quot;Prob. of difference this small&quot;)</span></span>
+<span id="cb34-5"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb34-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-6"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb34-6" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb34-7"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb34-7" aria-hidden="true" tabindex="-1"></a>  probmag_plot <span class="ot">&lt;-</span></span>
+<span id="cb34-8"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb34-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb34-9"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb34-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x=</span>B, <span class="at">y=</span>probmag) <span class="sc">+</span></span>
+<span id="cb34-10"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb34-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb34-11"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb34-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">trans=</span><span class="st">&#39;log2&#39;</span>) <span class="sc">+</span></span>
+<span id="cb34-12"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb34-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylim</span>(<span class="dv">0</span>,.<span class="dv">51</span>) <span class="sc">+</span></span>
+<span id="cb34-13"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb34-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">&quot;True relative incidence rate&quot;</span>) <span class="sc">+</span></span>
+<span id="cb34-14"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb34-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;Prob. diff. as small as obsd&quot;</span>)</span>
+<span id="cb34-15"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb34-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-16"><a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#cb34-16" aria-hidden="true" tabindex="-1"></a>)</span></code></div></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-27-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<p>Hard-coded takeaways 15 Dec 2021 :</p>
+<p>Our data is consistent with ‘no difference’ (of course) … but it’s also consistent with ‘a fairly large difference in incidence’</p>
+<p>E.g., even if one treatment truly lead to ‘twice as many donations as the other,’ we still have a 20% chance of seeing a differences as small as the one we see (of 8 versus 6)</p>
+<p>We can reasonably ‘rule out’ differences of maybe 2.5x or greater</p>
+<p>Main point: given the rareness of donations in this context, our sample size doesn’t let us make very strong conclusions in either directions … at least not yet. I hope that combined with other evidence, we will be able to infer more</p>
 
 </div>
 </div>
+</div>
+
 
 
 
@@ -510,8 +641,8 @@ Quick note here on how Kennan put the (different types of) data together in that
 
 <div class="footnotes">
 <hr />
-<ol start="6">
-<li id="fn6"><p>Todo – more direct input through API tools.<a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#fnref6" class="footnote-back">↩︎</a></p></li>
+<ol start="7">
+<li id="fn7"><p>Todo – more direct input through API tools.<a href="oftw-pre-giving-tuesday-email-upselling-split-test-impact-vs-emotion.html#fnref7" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
 <div class="text-center m-5">

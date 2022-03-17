@@ -235,7 +235,7 @@ For 'all North American cities other than Portland (with greater than 250,000 pe
 
 The average is `r op(mean(nonOR_gt250k$Users[nonOR_gt250k$year==2020]))`  users in the 2020 period and `r op(mean(nonOR_gt250k$Users[nonOR_gt250k$year==2021]))` users in the 2021 period, an uptick of `r op(nonOR_gt250k_users_21)`
 - `r op(nonOR_gt250k_users_20)`)/`r op(nonOR_gt250k_users_20)` = about `r op(100*nonOR_gt250k_uptick)`%.
-^[This is very similar to the result if we look at all cities which has an uptick of `r op(100*nonOR_uptick)`%)
+^[This is very similar to the result if we look at all cities which has an uptick of `r op(100*nonOR_uptick)`%]
 
 
 `r op(100*nonOR_gt250k_uptick)`% uptick $\times$ `r OR_users_20` = `r op(nonOR_gt250k_uptick*OR_users_20)` 'counterfactual uptick' in users for Portland

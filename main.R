@@ -63,7 +63,7 @@ zip(zipfile = 'eamt_bookdown',
   )
 
 file.copy(from = "eamt_bookdown.zip",
-  to   = "Dropbox/ea_marketing_misc_for_sharing/eamt_bookdown.zip")
+  to   = "../../Dropbox/ea_marketing_misc_for_sharing/eamt_bookdown.zip", overwrite = TRUE)
 
 #bookdown::publish_book()
 

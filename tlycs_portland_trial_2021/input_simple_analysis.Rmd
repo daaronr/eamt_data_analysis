@@ -35,13 +35,16 @@ Reading TLYCS trial data
 
 #tl21 <- read_excel(here::here("data_do_not_commit", "tlycs", "tlycs_dec_2021_vs_2020_by_city_n_america.xlsx"), sheet = "Dataset1") #this should have worked?
 
-tl21 <- readxl::read_excel("~/githubs/eamt_actual_data/tlycs/tlycs_dec_2021_vs_2020_by_city_n_america.xlsx",  sheet = "Dataset1") %>%
-dplyr::as_tibble()
+#tl21 <- readxl::read_excel("~/githubs/eamt_actual_data/tlycs/tlycs_dec_2021_vs_2020_by_city_n_america.xlsx",  sheet = "Dataset1") 
+
+  
+tl21 <- readxl::read_excel(here::here("tlycs_portland_trial_2021", "tlycs_dec_2021_vs_2020_by_city_n_america.xlsx"),  sheet = "Dataset1") %>%
+  dplyr::as_tibble()
 
 
 ```
 
-And companion data on US city sizes, and top-15 Canadian cities      
+And companion data on US city sizes downloaded from [this link](https://worldpopulationreview.com/us-cities) accessed on 17 Mar 2022 <!--(input from download link itself?)--> , and largest-15 Canadian cities (hand-input)  
 
 ```{r us_cities_pop}
 

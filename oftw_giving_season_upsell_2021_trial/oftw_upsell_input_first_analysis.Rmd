@@ -85,14 +85,204 @@ oftw_ppl_don_21_22 <- oftw_ppl_don_21_22 %>%
 
 ## Descriptives and exploratory analysis
 
-
+We could and should do a great deal of this. We should present the results relevant to this trial in specific here. Elsewhere we can do a deeper dive into OftW data in a general sense.   
 
 ## Basic tests: Donation incidence and amounts
 
-(See preregistration -- go through preregistered tests one at a time)
+(See preregistration -- go through preregistered tests one at a time. Note that given observed conversion rates I do not expect any 'significant differences'.)   
 
 ## Basic tests: Clicks and retention outcomes
 
-## "Equivalence testing" with randomization inference/simulation
+## "Equivalence testing" with randomization inference/simulation    
 
-(Here we should merge in the analysis done in  [HERE](https://rethinkpriorities.github.io/methodology-statistics-design/inference-and-rough-equivalence-testing-with-binomial-outcomes.html#how-likely-are-proportions-this-similar-under-different-size-true-effect-sizes))
+We see a 'small difference' between and it is 'not significant in standard' (tests not shown here yet). But can we put meaningful bounds on this? Can we statistically 'rule out large effects'?
+                
+(This parallels the analysis done in  [HERE](https://rethinkpriorities.github.io/methodology-statistics-design/inference-and-rough-equivalence-testing-with-binomial-outcomes.html#how-likely-are-proportions-this-similar-under-different-size-true-effect-sizes), which includes dome further explanation of the methods)
+
+
+
+###  Difference between two binomial random variables.
+
+First, some building blocks. 
+
+**Adapting formulas from [Stackexchange post](https://math.stackexchange.com/questions/562119/difference-of-two-binomial-random-variables) discussion**
+
+Defining their code for this function:
+```{r}
+modBin <-dbinom #DR: I just do this renaming here for consistency with the rest ... but the modBin they defined was redundant
+
+diffBin<-function(z, n1, p1, n2, p2){
+
+  prob <- 0
+
+  if (z>=0){
+    for (i in 1:n1){
+      prob <- prob + modBin(i+z, n1, p1) * modBin(i, n2, p2)
+    }
+
+  }
+  else
+  {
+    for (i in 1:n2){
+      prob<-prob+modBin(i+z, n1, p1)*modBin(i, n2, p2)
+    }
+  }
+  return(prob)
+}
+```
+
+
+
+For the present case
+
+ Hard-coded notes...
+ 
+::: {.foldable} 
+
+
+Treatment 1 - Impact and
+Treatment 2 - Emotion Story tabs
+
+Treatment 1: We record
+- 8 unique emails donating, 26 donations in total,
+- worth 5200 USD in total
+- 1345 unique emails listed as getting  ‘control’ treatment 1
+
+Treatment 2:
+-  6 unique emails, 28 donations so far
+—  worth 7500 USD in total.
+- 1190 unique emails listed for treatment 2
+
+If I believe my ‘unique emails count’, that implies
+an 0.59% ‘conversion’ rate for T1 - Control
+a 0.50% conversion rate for T2 - Emotion/Story
+ 
+:::
+
+Putting the observations into defined objects 
+
+
+<!-- Doing this from the (later: do from data) --> 
+
+
+```{r}
+
+n1 <- 1345
+n2 <- 1190
+d1 <- 8
+d2 <- 6
+z <- d1-d2
+
+
+```
+
+Computation for a few 'ad-hoc cases' (later explore the space with vectors of values)
+
+1. Suppose truly equal incidence, at the mean level
+
+```{r}
+p1 <- (d1+d2)/(n1+n2)
+
+p2 <- p1
+
+(
+  db_0 <- diffBin(z, n1, p1, n2, p2)
+)
+```
+
+This implies there is a `r op(db_0*100)`% chance of getting this *exact* difference of +`r z` incidences between the treatments (in one direction), if the true incidence rates were equal.
+
+Let's plot this for a range of 'incidence rate differences' in this region. (Sorry, using the traditional plot, ggplot is better).
+
+```{r}
+
+s <- seq(-10*z, 10*z)
+p<-sapply(s, function(z) diffBin(z, n1, p1, n2, p2))
+plot(s,p)
+```
+
+We see a large likelihood of values in the range of the +`r z` difference observed, and a low likelihood of a difference of 10 or more in either direction.
+
+### Adaptation: 'of this magnitude or smaller'
+
+```{r}
+
+ltmag_diffBin <- function(z, n1, p1, n2, p2){
+  prob <- 0
+  z_n <- -z #negative value
+
+  for (i in z_n:z){     #sum for all integer differences between observed value and its negative, inclusive
+    prob <- prob + diffBin(i, n1, p1, n2, p2)
+    }
+
+  return(prob)
+}
+```
+
+Now, a similar computation as above, but for 'this big or smaller in magnitude':
+
+```{r}
+  (
+    mag_db_0 <- ltmag_diffBin(z, n1, p1, n2, p2)
+  )
+```
+
+This implies there is a `r op(mag_db_0*100)`% chance of getting a difference *no larger than this one in magnitude* of +/-`r z` incidences between the treatments if the true incidence rates were equal.
+
+\
+
+**And finally, what we were looking for:** the chance of 'a difference this small or smaller' as a function of the **true difference...**
+
+Set up an arbitrary vector of 'true differences' (to keep it simple, only change it in one direction for now ...)
+
+
+Below, I plot
+
+Y-axis: ’how likely would a difference in donations ‘as small or smaller in magnitude’” than we see in the data  against
+
+X-axis: if the “true difference in incidence rates” were of these magnitudes
+
+```{r}
+
+options(scipen=999)
+
+B <- c(1, 1.5, 2, 2.5, 3, 4, 10)
+
+p1 <- rep((d1+d2)/(n1+n2), length(B))
+p2 <- p1*B
+
+
+as.list(ltmag_diffBin(z, n1, p1, n2, p2)*100) %>% format(digits=3, scientific=FALSE)
+
+
+probmag <- ltmag_diffBin(z, n1, p1, n2, p2)
+
+
+#qplot(B, probmag, log  = "x", xlab = "True relative incidence", ylab ="Prob. of difference this small")
+
+(
+  probmag_plot <-
+    ggplot() +
+  aes(x=B, y=probmag) +
+  geom_point() +
+  scale_x_continuous(trans='log2') +
+    ylim(0,.51) +
+    xlab("True relative incidence rate") +
+    ylab("Prob. diff. as small as obsd")
+
+)
+
+```
+
+
+Hard-coded takeaways 15 Dec 2021 :
+
+Our data is consistent with ‘no difference’ (of course) ... but it's also consistent with ‘a fairly large difference in incidence’
+
+E.g., even if one treatment truly lead to ‘twice as many donations as the other’, we still have a 20% chance of seeing a differences as small as the one we see (of 8 versus 6)
+
+We can reasonably ‘rule out’ differences of maybe 2.5x or greater
+
+
+Main point: given the rareness of donations in this context, our sample size doesn’t let us make very strong conclusions in either directions … at least not yet. I hope that combined with other evidence, we will be able to infer more
+

@@ -6,20 +6,9 @@
 #Note: I am mainly using renv for package management here, so the things below are not necessary 
 library(pacman)
 p_load(dplyr, knitr, here, bookdown, install = TRUE)
-p_load(readxl)
-p_load(ggplot2)
-p_load(car)
-p_load(effects)
+p_load(magrittr, purrr, tidyr)
+p_load(readxl, ggplot2, car, effects, janitor, plotly, plm, pryr, stringr, devtools, googledrive, googlesheets4)
 
-p_load(plotly)
-p_load(plm)
-p_load(pryr)
-p_load(stringr)
-p_load(stringr)
-p_load(effects)
-p_load(devtools)
-p_load(googledrive)
-p_load(googlesheets4)
 p_load(esquisse)
 p_load(rsconnect) #for rstudio 'private access' pubilshing
 devtools::install_github("paulhendricks/anonymizer")

@@ -1,4 +1,4 @@
-# OftW pre-giving-tuesday-email upselling split test (impact vs emotion)
+# OftW pre-giving-tuesday-email upselling split test (considering 'impact vs emotion')
 
 ## The trial
 
@@ -15,7 +15,7 @@ Kennan and Chloe captured the data and Metadata from
 
 Putting this into the (private) Google sheet linked [HERE](https://docs.google.com/spreadsheets/d/1iUKXkEqoadBgtUG_epBzUzCgA_J5mdWWstcXtpAdNJs/edit#gid=521638649)
 
-We added some metadata/explainers to that data, and downloaded it as an Excel sheet.^[Todo -- more direct input through API tools.]
+We added some metadata/explainers to that data.^[Todo -- more direct input through API tools; package bigrquery for bitquery.]
 
 
 <!-- (This is gitignored so it won't be 'committed' to our repo, at least for now)
@@ -26,20 +26,54 @@ Quick note here on how Kennan put the (different types of) data together in that
 
 ## Input and clean data
 
-We input the sheet from the external Google sheet location (access required)...
+We input the sheets from the external Google sheet location (access required)...
 
-
-```{r, warning=FALSE, message=FALSE}
+```{r oftw_21_22_mc, warning=FALSE, message=FALSE}
 
 gs4_auth(scope = "https://www.googleapis.com/auth/drive")
 drive_auth(token = gs4_token())
 
-oftw_ppl_don_21_22 <- read_sheet("https://docs.google.com/spreadsheets/d/1iUKXkEqoadBgtUG_epBzUzCgA_J5mdWWstcXtpAdNJs/edit#gid=521638649", sheet="Raw data (Mailchimp)")  %>% 
-  select(-`Treatment group`) #remove an un-useful repeated name column
+#Mailchimp data 
 
-oftw_ppl_don_21_22 %>% names() %>% paste(collapse=", ")
+oftw_21_22_mc <- read_sheet("https://docs.google.com/spreadsheets/d/1iUKXkEqoadBgtUG_epBzUzCgA_J5mdWWstcXtpAdNJs/edit#gid=521638649", 
+  sheet="Raw data (Mailchimp)")  %>% 
+  select(-`Treatment group`) %>%  #remove an un-useful repeated name column 
+    mutate(`Treatment Group` = purrr::map_chr(`Treatment Group`, ~ .[[1]])) %>%
+  select(`Email Address`, `Email Date`, `Treatment Group`, Opens, `Donate link clicks`, everything()) %>% #Most relevant features organized first
+  arrange(`Email Address`)
+
+
+#later: remove features brought in from OFTW database, reconstruct it
+
+oftw_21_22_mc %>% names() %>% paste(collapse=", ")
+ 
+#...input descriptors for the above (do this later from "doc: ...Mailchimp" sheet
 
 ```
+
+```{r oftw_21_22_db_don, warning=FALSE, message=FALSE}
+
+#Donations data (and OftW database info)
+
+oftw_21_22_db_don <- read_sheet(
+  "https://docs.google.com/spreadsheets/d/1iUKXkEqoadBgtUG_epBzUzCgA_J5mdWWstcXtpAdNJs/edit#gid=521638649", 
+  sheet="Giving Season contributions (BigQuery)") %>% 
+  mutate(`Treatment group` = purrr::map_chr(`Treatment group`, ~ .[[1]])) %>%
+    select(`email`, `primary_email`, `donation_date`, `Net_Contribution_Amount_USD`, `payment_platform`, everything()) %>%  #Most relevant features organized first
+  filter(donation_date>=as.Date("2021-11-15")) # At least for now, remove pre-treatment donation data
+
+oftw_21_22_db_don %>% names() %>% paste(collapse=", ")
+
+
+```
+
+<!-- 
+
+For the first question, we'll need to transform the contribution data to look at how many contributions came from people in each group who actually opened the emails (Column D) and then further subset it to just website donations (ie Column I = "Squarespace").
+
+For the second, I just updated the formulas in both of those columns. Remember that, since the Raw Data (Mailchimp) tab holds one observation for each email-open by a given donor, an individual donor may appear up to five times. Accordingly, summing these aggregated columns will vastly inflate the totals. We may be better off making a unique() call to the emails and constructing a donor-level dataset separately. Happy to talk more tomorrow (or next week if those times don't work).
+-->
+
 
 
 ### Labeling and cleaning 
@@ -51,37 +85,105 @@ The code ...
 
 ```{r}
 
-labelled::var_label(oftw_ppl_don_21_22) <- names(oftw_ppl_don_21_22) 
+labelled::var_label(oftw_21_22_mc) <- names(oftw_21_22_mc) 
+names(oftw_21_22_mc) <- snakecase::to_snake_case(names(oftw_21_22_mc)) 
 
-names(oftw_ppl_don_21_22) <- snakecase::to_snake_case(names(oftw_ppl_don_21_22)) 
-
+labelled::var_label(oftw_21_22_db_don) <- names(oftw_21_22_db_don) 
+names(oftw_21_22_db_don) <- snakecase::to_snake_case(names(oftw_21_22_db_don)) 
 ```
 
 <!--Todo: Remove useless columns -->
 
-...separates second row (descriptors) from tibble...
+
+...and anonymizes the data, hashing anything with the chance of being identifying
 
 ```{r}
 
-oftw_ppl_don_21_22_col_descriptors <- oftw_ppl_don_21_22[1,]
+salty_hash <- function(x) {
+  salt(.seed = 42, x) %>% hash(.algo = "crc32")
+}
 
-oftw_ppl_don_21_22 <- oftw_ppl_don_21_22[-c(1),] 
-
-```
-
-
-...and anonymizes the data...
-
-```{r}
-
-oftw_ppl_don_21_22 <- oftw_ppl_don_21_22 %>%
+oftw_21_22_mc <- oftw_21_22_mc %>%
   dplyr::select(-first_name, -last_name) %>%
-  mutate(email_address= salt(.seed = 42, email_address) %>% hash(.algo = "crc32"),
-         school_string= salt(.seed = 43, school_string) %>% hash(.algo = "crc32"),
-         employer= salt(.seed = 44, employer) %>% hash(.algo = "crc32")
-  )
+    mutate(across(c(email_address,  employer, school_string), salty_hash))
+
   
+oftw_21_22_db_don <- oftw_21_22_db_don %>%
+      mutate(across(c(primary_email, email, school), salty_hash))
+
 ```
+
+Roll up to 1 per person; summarize and pivot_wider
+
+```{r}
+
+outcomes_base_mc <- c("opens", "donate_link_clicks")
+
+oftw_21_22_mc_wide <- oftw_21_22_mc %>%
+  group_by(email_address) %>%
+      mutate(across(all_of(outcomes_base_mc), sum, .names = "{.col}_tot")) %>% 
+  tidyr::pivot_wider(names_from = email_number, values_from = c("opens", "donate_link_clicks")) %>%
+  arrange(email_address) %>%
+  filter(row_number()==1)
+
+
+oftw_21_22_db_don <- oftw_21_22_db_don %>%
+  group_by(email) %>%
+    mutate(
+      don_tot = sum(net_contribution_amount_usd),
+      num_don= n(),
+      d_don = num_don>0,
+      don_tot_ot = sum(net_contribution_amount_usd[contribution_frequency=="One-time"]),
+      num_don_ot= sum(contribution_frequency=="One-time"),
+      d_don_ot = num_don_ot>0,
+      don_tot_ss = sum(net_contribution_amount_usd[payment_platform=="Squarespace"]),
+      num_don_ss= sum(payment_platform=="Squarespace"),
+      d_don_ss = num_don_ss>0,
+      ) 
+
+
+# oftw_21_22_db_don_wide <- oftw_21_22_db_don %>%
+#   select(email, donation_date, net_contribution_amount_usd, payment_platform) %>% 
+#    group_by(email) %>%
+#    mutate(row = row_number()) %>%
+#       tidyr::pivot_wider(names_from = row, values_from = c("donation_date", "net_contribution_amount_usd"))
+
+```
+
+### Constructing outcome measures, especially  'donations likely driven by email'
+
+
+1. Donations (presence, count, amounts) in giving seasons, 1 row per user (with treatment etc.)
+
+- overall
+- non-regular
+- 'likely from email'
+
+```{r}
+
+s
+
+```
+
+
+
+are in Giving Season contributions (BigQuery)
+
+- subset for payment platform = squarespace (unlikely to come from any other checkout page)
+- email as primary key, link to `Raw Data (mailchimp)`, filter on 'Donate link clicks`>0
+(note that one needs aggregating by donor because it is 'per email')
+
+
+2. Giving season donations .. 
+
+Giving Season contributions (BigQuery), sum donation_date	Net_Contribution_Amount_USD with filters for one-time etc
+
+Can check against fields 'Total Giving Season contributions	Total Giving Season contribution amount' 
+
+
+Could make a nested array:
+- Dates emails sent, number of clicks per email
+- Dates donations made, donation amount
 
 ## Descriptives and exploratory analysis
 
@@ -162,7 +264,7 @@ a 0.50% conversion rate for T2 - Emotion/Story
 Putting the observations into defined objects 
 
 
-<!-- Doing this from the (later: do from data) --> 
+<!-- Doing this from the (later: do from data) -->
 
 
 ```{r}
@@ -277,7 +379,7 @@ probmag <- ltmag_diffBin(z, n1, p1, n2, p2)
 
 Hard-coded takeaways 15 Dec 2021 :
 
-Our data is consistent with ‘no difference’ (of course) ... but it's also consistent with ‘a fairly large difference in incidence’
+Our data is consistent with ‘no difference’ (of course) ... but its also consistent with ‘a fairly large difference in incidence’
 
 E.g., even if one treatment truly lead to ‘twice as many donations as the other’, we still have a 20% chance of seeing a differences as small as the one we see (of 8 versus 6)
 

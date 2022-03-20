@@ -126,7 +126,6 @@ oftw_21_22_mc_wide <- oftw_21_22_mc %>%
   arrange(email_address) %>%
   filter(row_number()==1)
 
-
 oftw_21_22_db_don <- oftw_21_22_db_don %>%
   group_by(email) %>%
     mutate(
@@ -135,18 +134,35 @@ oftw_21_22_db_don <- oftw_21_22_db_don %>%
       d_don = num_don>0,
       don_tot_ot = sum(net_contribution_amount_usd[contribution_frequency=="One-time"]),
       num_don_ot= sum(contribution_frequency=="One-time"),
-      d_don_ot = num_don_ot>0,
+      d_don_ot = num_don_ot>0, #WAIT THIS IS NOT WIDE DATA -- don't interpret it as 'number of individuals'
       don_tot_ss = sum(net_contribution_amount_usd[payment_platform=="Squarespace"]),
       num_don_ss= sum(payment_platform=="Squarespace"),
       d_don_ss = num_don_ss>0,
       ) 
 
 
+oftw_21_22_db_don_persons <- oftw_21_22_db_don %>%  
+  arrange(email) %>%
+  filter(row_number()==1)
+
 # oftw_21_22_db_don_wide <- oftw_21_22_db_don %>%
 #   select(email, donation_date, net_contribution_amount_usd, payment_platform) %>% 
 #    group_by(email) %>%
 #    mutate(row = row_number()) %>%
 #       tidyr::pivot_wider(names_from = row, values_from = c("donation_date", "net_contribution_amount_usd"))
+
+```
+
+
+Prelim results 
+```{r}
+
+
+oftw_21_22_db_don_persons %>% tabyl(treatment_group, d_don)
+oftw_21_22_db_don_persons %>% tabyl(treatment_group, d_don_ss)
+oftw_21_22_db_don_persons %>% tabyl(treatment_group, d_don_ot)
+
+
 
 ```
 
@@ -159,11 +175,7 @@ oftw_21_22_db_don <- oftw_21_22_db_don %>%
 - non-regular
 - 'likely from email'
 
-```{r}
 
-s
-
-```
 
 
 
@@ -188,6 +200,11 @@ Could make a nested array:
 ## Descriptives and exploratory analysis
 
 We could and should do a great deal of this. We should present the results relevant to this trial in specific here. Elsewhere we can do a deeper dive into OftW data in a general sense.   
+
+
+### Donation and outcome summary statistics, by treatment
+
+Incidence rates
 
 ## Basic tests: Donation incidence and amounts
 
@@ -274,7 +291,6 @@ n2 <- 1190
 d1 <- 8
 d2 <- 6
 z <- d1-d2
-
 
 ```
 
@@ -387,4 +403,55 @@ We can reasonably ‘rule out’ differences of maybe 2.5x or greater
 
 
 Main point: given the rareness of donations in this context, our sample size doesn’t let us make very strong conclusions in either directions … at least not yet. I hope that combined with other evidence, we will be able to infer more
+
+
+### Quick redo assuming equal shares recieved each email, and treating 'email reciepts as denom'
+
+Approx 4000 total emails sent?
+
+For squarespace
+
+```{r}
+
+n1 <- 2000
+n2 <- 2000
+d1 <- 8
+d2 <- 9
+z <- d1-d2
+
+B <- c(1/3, 1/2.5, 1/2, 1/1.5, 1, 1.5, 2, 2.5, 3)
+
+p1 <- rep((d1+d2)/(n1+n2), length(B))
+p2 <- p1*B
+
+
+(
+    mag_db_0 <- ltmag_diffBin(z, n1, p1, n2, p2)
+  )
+
+```   
+
+
+
+For all one-time donations 
+
+```{r}
+
+n1 <- 2000
+n2 <- 2000
+d1 <- 15
+d2 <- 12
+z <- d1-d2
+
+B <- c(1/3, 1/2.5, 1/2, 1/1.5, 1, 1.5, 2, 2.5, 3)
+
+p1 <- rep((d1+d2)/(n1+n2), length(B))
+p2 <- p1*B
+
+
+(
+    mag_db_0 <- ltmag_diffBin(z, n1, p1, n2, p2)
+  )
+
+```   
 

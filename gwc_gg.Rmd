@@ -1,0 +1,15 @@
+# Giving What We Can: Giving guides {#gwwc_gg}
+
+## The trial
+
+Details in Gitbook [HERE](https://effective-giving-marketing.gitbook.io/untitled/partner-organizations-and-trials/gwwc/giving-guides-+) and Gdoc [here](https://docs.google.com/document/d/1FfrXhD1YAIjrATy9PR6ScP20NMQa82sd80YvMb62iUQ/edit)
+
+```{r wppage}
+
+knitr::include_url("https://effective-giving-marketing.gitbook.io/untitled/partner-organizations-and-trials/gwwc/giving-guides-+s")
+
+```
+
+## Capturing data   
+
+

@@ -170,7 +170,6 @@ tl21 %>% sumtab(Sessions, year, caption="Sessions by year, all")
 Note that all measures generally show an increase. 
 
 
-
 ```{r}
 
 

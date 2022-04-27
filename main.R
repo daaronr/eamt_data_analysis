@@ -7,12 +7,18 @@
 library(pacman)
 p_load(dplyr, knitr, here, bookdown, install = TRUE)
 p_load(magrittr, purrr, tidyr)
-p_load(readxl, ggplot2, car, effects, janitor, plotly, plm, pryr, stringr, devtools, googledrive, googlesheets4)
+p_load(readxl, ggplot2, car, effects, janitor, plotly, plm, pryr, stringr, devtools, googledrive, googlesheets4, kableExtra)
+
+p_load(kable) 
 
 p_load(esquisse)
 p_load(rsconnect) #for rstudio 'private access' pubilshing
 devtools::install_github("paulhendricks/anonymizer")
 library(anonymizer)
+
+devtools::install_github("rasmusab/bayesian_first_aid")
+library(BayesianFirstAid)
+
 
 #source(here("code", "packages.R")) # Install and load packages used in build and analysis (note: these could be cleaned)
 
@@ -57,5 +63,5 @@ zip(zipfile = 'eamt_bookdown',
 file.copy(from = "eamt_bookdown.zip",
   to   = "../../Dropbox/ea_marketing_misc_for_sharing/eamt_bookdown.zip", overwrite = TRUE)
 
-#bookdown::publish_book()
+bookdown::publish_book(account = "daaronr@gmail.com")
 

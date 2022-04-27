@@ -1,0 +1,18 @@
+# Giving What We Can: Feb 22 Facebook Message Test {#gwwc_fb}
+
+## The trial
+
+Details in Gitbook [HERE](https://effective-giving-marketing.gitbook.io/untitled/partner-organizations-and-trials/gwwc/feb-22-message-test) and Gdoc [here](https://docs.google.com/document/d/1yFU3-P3dlwP9IZ0yEbD_k9ePZQGK0NJ7o8G27HVi6yM/edit?usp=sharing)
+
+```{r wppage}
+
+knitr::include_url("https://effective-giving-marketing.gitbook.io/untitled/partner-organizations-and-trials/gwwc/feb-22-message-test")
+
+```
+
+
+## Capturing data   
+
+
+
+ 

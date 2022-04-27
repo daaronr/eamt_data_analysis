@@ -1,0 +1,28 @@
+# About {.unnumbered}
+
+The “EA Market Testing Team” represents a small group of researchers and practitioners interested in promoting effective altruism and effective charitable giving and learning more about what motivates this.
+
+
+See ['Effective Giving & Action: Market testing & Synthesis' - public](https://effective-giving-marketing.gitbook.io/untitled/) and [private version](https://app.gitbook.com/o/-MfFk4CTSGwVOPkwnRgx/s/-Mf8cHxdwePMZXRTKnEE/), and our [FAQ here](https://docs.google.com/document/d/1Ok9b51p5aQ1qHFnrGkf_e7vsjnDWzWdU_Zv3eUCtEL4/edit#).
+
+<!-- 
+logo: bulb.png
+description: "Description and analysis of EAMT trials"
+-->
+
+
+The present web book aims to present all of the trials and experiments that we are able to share. We aim to present the setup, results, and analysis as concisely and transparently as possible. This dynamic document combines data, code, visualization, tests, and limited narrative. It is a complement to the 'Gitbook' linked above, and each refer to each other.
+
+
+## Tech and collophon
+
+This is styled with Quatro. See my template repo  [here](https://github.com/daaronr/dr_quarto_template), hosted [here](https://daaronr.github.io/dr_quarto_template/),
+
+However, we're not sure yet if and how it can be integrated with the `https://app.gitbook.com/` content.
+
+Note: as this is Quarto and not Rmd, packages need to be loaded in every chapter. I'll put these in `code/shared_packages_code.R`.
+
+
+
+
+

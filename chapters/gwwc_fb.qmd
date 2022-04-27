@@ -1,0 +1,44 @@
+# Giving What We Can: Feb 22 Facebook Message Test {#gwwc_fb}
+
+```{r, include=FALSE}
+library(here)
+source(here("code", "shared_packages_code.R"))
+```
+
+
+## The trial
+
+Details in Gitbook [HERE](https://effective-giving-marketing.gitbook.io/untitled/partner-organizations-and-trials/gwwc/feb-22-message-test) and Gdoc [here](https://docs.google.com/document/d/1yFU3-P3dlwP9IZ0yEbD_k9ePZQGK0NJ7o8G27HVi6yM/edit?usp=sharing)
+
+```{r wppage}
+
+knitr::include_url("https://effective-giving-marketing.gitbook.io/untitled/partner-organizations-and-trials/gwwc/feb-22-message-test")
+
+
+
+```
+
+
+## Capturing data   
+
+::: {.callout-note collapse="true"}
+## Bringing in the data Erin coded
+
+As a start, I source build work (Erin's work, which I edited a bit) to bring in (and store) the data.  I would do the coding a bit differently (more 'tidyverse' and less repetition), but it may not be worth redoing at this point.
+
+::: 
+
+
+```{r source_builds}
+
+#this seems to be what Erin used ... but what is 
+
+source(here("gwwc", "build_GWWC_Feb_22_Message_test.R"))
+
+```
+
+
+
+
+ 
+

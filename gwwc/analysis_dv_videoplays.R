@@ -11,7 +11,7 @@ for (i in packages){
 
 #### UPLOAD DATA ####
 
-raw_data <- read.csv("gwwc_feb22messsage_dvvideoplays.csv")
+raw_data <- read.csv("gwwc_feb22message_dvvideoplays.csv")
 
 #### DATA CLEANING ####
 

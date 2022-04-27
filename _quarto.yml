@@ -1,0 +1,44 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "EA Market testing data analysis"
+  author: "David Reinstein and other members of the EAMT team"
+  repo-url: https://github.com/daaronr/eamt_data_analysis
+  execute:
+    freeze: auto # re-render only when source changes
+    warning: false
+    error: true
+    message: false
+  repo-actions: [edit, issue]
+  chapters:
+    - index.qmd
+    - chapters/oftw_upsell_input_first_analysis.qmd
+    - chapters/tlycs_placeholder.qmd
+    - chapters/gwwc_gg.qmd
+    - chapters/gwwc_fb.qmd
+    - references.qmd
+  reader-mode: true
+
+comments:
+    hypothesis: true
+
+bibliography: references.bib
+
+format:
+  html:
+    code-fold: true
+    code-link: true #note: this isn't working for me
+    code-tools: true
+    theme: cosmo
+    citations-hover: true
+    footnotes-hover: true
+
+ # pdf:
+  #  documentclass: scrreprt
+  #
+
+
+#editor: visual
+

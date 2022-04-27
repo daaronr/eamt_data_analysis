@@ -12,7 +12,7 @@ for (i in packages){
 
 #### UPLOAD DATA ####
 
-raw_data <- read.csv("gwwc_feb22messsage_fulldataset_noagegender.csv")
+raw_data <- read.csv("gwwc_feb22message_fulldataset_noagegender.csv")
 
 #### DATA CLEANING ####
 

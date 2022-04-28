@@ -15,4 +15,48 @@ library(rethinkpriorities)
 #devtools::install_github("rethinkpriorities/r-noodling-package")
 library(rnoodling)
 
+#Erin used:
+p_load(data.table,
+  tidyr,
+  digest,
+  tidyverse,
+  stringr,
+  lmtest,
+  plm,
+  sandwich,
+  miceadds,
+  quantreg,
+  readxl,
+  psych,
+  dplyr,
+  plotrix,
+  qualtRics,
+  psych,
+  pastecs,
+  dplyr,
+  tidyverse,
+  ggplot2,
+  tidyr,
+  broom,
+  MASS,
+  corrr,
+  nFactors,
+  GPArotation,
+  reshape2,
+  skimr,
+  sjmisc,
+  modeest,
+  DescTools,
+  plm,
+  lmtest,
+  effectsize,
+  ggeffects,
+  mediation,
+  miceadds,
+  lavaan,
+  jtools,
+  scales,
+  RColorBrewer
+)
+
 

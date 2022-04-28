@@ -19,5 +19,23 @@ knitr::include_url("https://effective-giving-marketing.gitbook.io/untitled/partn
 
 ## Capturing data   
 
+```{r}
+
+eas_all <- read_file_from_repo(
+  repo = "ea-data",
+  path = "data/edited_data/eas_all.Rdata",
+  user = "rethinkpriorities",
+  token_key = "github-API",
+  private = TRUE
+)
+
+eas_20 <- read_file_from_repo("ea-data",  "data/edited_data/eas_20.Rdata", "github-API", private = TRUE )
+
+```
+
+
+
+
+
 
             

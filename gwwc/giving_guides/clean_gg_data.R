@@ -35,6 +35,10 @@ data <- data %>%
   mutate(agetrin =
            case_when(Age=="18-24"|Age=="13-17"|Age=="25-34"~1,
                      Age=="35-44"~0,TRUE~-1))
+
+
+data <- data %>% as_tibble()
+
 return(data)
 }
 

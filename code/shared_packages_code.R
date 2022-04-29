@@ -56,7 +56,9 @@ p_load(data.table,
   lavaan,
   jtools,
   scales,
-  RColorBrewer
+  RColorBrewer,
+  plotrix,
+  scales
 )
 
 

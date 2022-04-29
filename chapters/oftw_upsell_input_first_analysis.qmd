@@ -864,8 +864,6 @@ probmag_ss <- ltmag_diffBin(z, n1, p1, n2, p2)
 )
 
 #note that it is not symmetric bc (I think) a very low incidence on one side makes particular large observed proportional differences more likely
- 
-
 
 ```   
 

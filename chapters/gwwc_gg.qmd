@@ -37,7 +37,12 @@ knitr::include_url("https://effective-giving-marketing.gitbook.io/untitled/partn
 
 ## Build: Source data input and cleaning code
 
-**Update:** The discussion below does not pertain to the actual raw data. The actual original/raw data is collapsed (breakdowns) by demography and ad set, into 2 files:
+
+
+::: {.callout-note collapse="true"}
+## **Update:** The discussion below does not pertain to the actual raw data. 
+
+The actual original/raw data is collapsed (breakdowns) by demography and ad set, into 2 files:
 
 
 `video breakdown.csv`
@@ -46,6 +51,18 @@ knitr::include_url("https://effective-giving-marketing.gitbook.io/untitled/partn
 
 
 That data is clearly not identifying individuals; it involves aggregates based on real or assumed characteristics ... and, as the other data is derived from it, there is clearly nothing that needs to be hidden there
+
+
+We input the actual raw data below.
+:::
+
+```{r real_raw}
+
+raw_gwwc_gg_vid <-  read.csv(here(raw_data_path, "video breakdown.csv")) %>% as_tibble()
+
+raw_gwwc_gg_text <-  read.csv(here(raw_data_path, "text breakdown.csv")) %>% as_tibble()
+```
+
 
 
 ::: {.callout-note collapse="true"}
@@ -111,17 +128,26 @@ The code above inputs and builds 2-4 related data frames (tibbles), which were c
 
 Data summary
 
+
+::: {.alert .alert-secondary}
+
+Below, a few data summary bits (from Erin). I commented most of it out and will redo it using an automated and formatted 'key summary statistics' package.
+
+:::
+ 
+
 ```{r}
 
-gwwc_vid_results %>% group_by(Age) %>% summarise(n=n())
-gwwc_vid_results %>% group_by(Gender) %>% summarise(n=n())
-print(gwwc_vid_results %>% group_by(Gender,Age) %>% summarise(n=n(),cost=mean(ave.cost.impr)),n=40)
-print(gwwc_vid_results %>% group_by(Ad.Set.Name) %>% summarise(n=n(),cost=mean(ave.cost.impr)),n=41)
-print(gwwc_vid_results %>% group_by(Campaign.name,Ad.Set.Name) %>% summarise(n=n(),cost=mean(ave.cost.impr)),n=100)
-gwwc_vid_results %>% group_by(audience) %>% summarise(n=n(),cost=mean(ave.cost.impr)*100)
-gwwc_vid_results %>% group_by(message) %>% summarise(n=n(),cost=mean(ave.cost.impr)*100)
+gwwc_vid_results %>% group_by(Age) %>% summarise(n=n()) %>% .kable()
+gwwc_vid_results %>% group_by(Gender) %>% summarise(n=n())  %>% .kable()
+#print(gwwc_vid_results %>% group_by(Gender,Age) %>% summarise(n=n(),cost=mean(ave.cost.impr)),n=40)
+#print(gwwc_vid_results %>% group_by(Ad.Set.Name) %>% summarise(n=n(),cost=mean(ave.cost.impr)),n=41)
+#print(gwwc_vid_results %>% group_by(Campaign.name,Ad.Set.Name) %>% summarise(n=n(),cost=mean(ave.cost.impr)),n=100)
+gwwc_vid_results %>% group_by(audience) %>% summarise(n=n(),cost=mean(ave.cost.impr)*100) %>% .kable(digits=2)
+gwwc_vid_results %>% group_by(message) %>% summarise(n=n(),cost=mean(ave.cost.impr)*100) %>% .kable(digits=2)
 
 ```
+
 
 
 
@@ -129,7 +155,7 @@ gwwc_vid_results %>% group_by(message) %>% summarise(n=n(),cost=mean(ave.cost.im
 
 ```{r}
 
-print(gwwc_vid_results %>% group_by(audience,media) %>% summarise(results=mean(DV)*100,SE=std.error(DV)*100,n=n(),cost=mean(ave.cost.impr),CPR=cost/results),n=50)
+#print(gwwc_vid_results %>% group_by(audience,media) %>% #summarise(results=mean(DV)*100,SE=std.error(DV)*100,n=n(),cost=mean(ave.cost.impr),CPR=cost/results),n=50)
 
 
 ```
@@ -176,7 +202,7 @@ grpsumgg <- function(df, gvar, var) {
 
 ```{r}
 
-print(gwwc_vid_results %>% filter(ave.cost.impr>0) %>% group_by(media) %>% summarise(results=mean(DV_costadj),SE=std.error(DV_costadj),n=n()),n=50)
+print(gwwc_vid_results %>% filter(ave.cost.impr>0) %>% group_by(media) %>% summarise(results=mean(DV_costadj),SE=std.error(DV_costadj),n=n()),n=50) %>% .kable(digits=2)
 
 
 gwwc_vid_results %>%
@@ -197,7 +223,7 @@ gwwc_vid_results %>%
 
 
 ```{r}
-print(gwwc_vid_results %>% filter(ave.cost.impr>0) %>% group_by(media) %>% summarise(results=100*mean(DV),SE=100*std.error(DV),n=n()),n=50)
+print(gwwc_vid_results %>% filter(ave.cost.impr>0) %>% group_by(media) %>% summarise(results=100*mean(DV),SE=100*std.error(DV),n=n()),n=50) %>% .kable(digits=2)
 
 gwwc_vid_results %>%
    grpsumgg(media, DV) %>%
@@ -219,7 +245,7 @@ Questions/Notes: Removed the retargeting audience
 
 ```{r}
 
-print(gwwc_vid_results %>% filter(ave.cost.impr>0 & audience !="retargeting") %>% group_by(media,audience) %>% summarise(results=mean(DV_costadj),SE=std.error(DV_costadj),n=n()),n=50)
+#print(gwwc_vid_results %>% filter(ave.cost.impr>0 & audience !="retargeting") %>% group_by(media,audience) %>% #summarise(results=mean(DV_costadj),SE=std.error(DV_costadj),n=n()),n=50) %>% .kable(digits=2)
 
 
 gwwc_vid_results %>% filter(ave.cost.impr>0 & audience !="retargeting") %>%
@@ -248,7 +274,7 @@ Questions/Notes: Removed the retargeting audience
 
 
 ```{r}
-print(gwwc_vid_results %>% filter(ave.cost.impr>0 & audience !="retargeting") %>% group_by(media,audience) %>% summarise(results=100*mean(DV),SE=100*std.error(DV),n=n()),n=50)
+print(gwwc_vid_results %>% filter(ave.cost.impr>0 & audience !="retargeting") %>% group_by(media,audience) %>% summarise(results=100*mean(DV),SE=100*std.error(DV),n=n()),n=10) %>% .kable(digits=2)
 
 
 gwwc_vid_results %>% filter(ave.cost.impr>0 & audience !="retargeting") %>%
@@ -275,7 +301,7 @@ gwwc_vid_results %>% filter(ave.cost.impr>0 & audience !="retargeting") %>%
 
 
 ```{r}
-print(gwwc_vid_results %>% filter(ave.cost.impr>0 & audience !="retargeting") %>% group_by(audience) %>% summarise(results=mean(DV_costadj),SE=std.error(DV_costadj),n=n()),n=50)
+#pirint(gwwc_vid_results %>% filter(ave.cost.impr>0 & audience !="retargeting") %>% group_by(audience) %>% summarise(results=mean(DV_costadj),SE=std.error(DV_costadj),n=n()),n=50)
 
 ```
 
@@ -302,7 +328,7 @@ summarise(mean_dv = mean(DV_costadj, na.rm=TRUE),
 
 
 ```{r}
-print(gwwc_vid_results %>% filter(ave.cost.impr>0 & audience !="retargeting") %>% group_by(audience) %>% summarise(results=100*mean(DV),SE=100*std.error(DV),n=n()),n=50)
+#print(gwwc_vid_results %>% filter(ave.cost.impr>0 & audience !="retargeting") %>% group_by(audience) %>% summarise(results=100*mean(DV),SE=100*std.error(DV),n=n()),n=50)
 
 
 gwwc_vid_results %>% filter(ave.cost.impr>0 & audience !="retargeting") %>%
@@ -332,7 +358,7 @@ gwwc_vid_results$Age <- relevel(gwwc_vid_results$Age, ref="18-24")
 gwwc_vid_results$Age <- relevel(gwwc_vid_results$Age, ref="13-17")
 levels(gwwc_vid_results$Age)
 
-print(gwwc_vid_results %>% filter(ave.cost.impr>0) %>% group_by(Age,Gender) %>% summarise(results=mean(DV_costadj),SE=std.error(DV_costadj),n=n()),n=50)
+#print(gwwc_vid_results %>% filter(ave.cost.impr>0) %>% group_by(Age,Gender) %>% summarise(results=mean(DV_costadj),SE=std.error(DV_costadj),n=n()),n=50)
 
 
 gwwc_vid_results %>% filter(ave.cost.impr>0 & Age!="13-17") %>%
@@ -364,7 +390,7 @@ gwwc_vid_results$Age <- relevel(gwwc_vid_results$Age, ref="18-24")
 gwwc_vid_results$Age <- relevel(gwwc_vid_results$Age, ref="13-17")
 levels(gwwc_vid_results$Age)
 
-print(gwwc_vid_results %>% filter(ave.cost.impr>0) %>% group_by(Age,Gender) %>% summarise(results=100*mean(DV),SE=std.error(100*DV),n=n()),n=50)
+#print(gwwc_vid_results %>% filter(ave.cost.impr>0) %>% group_by(Age,Gender) %>% summarise(results=100*mean(DV),SE=std.error(100*DV),n=n()),n=50)
 
 
 gwwc_vid_results %>% filter(ave.cost.impr>0 & Age!="13-17") %>%
@@ -393,7 +419,7 @@ gwwc_vid_results$Age <- relevel(gwwc_vid_results$Age, ref="18-24")
 gwwc_vid_results$Age <- relevel(gwwc_vid_results$Age, ref="13-17")
 levels(gwwc_vid_results$Age)
 
-print(gwwc_vid_results %>% filter(ave.cost.impr>0) %>% group_by(Age,media) %>% summarise(results=mean(DV_costadj),SE=std.error(DV_costadj),n=n()),n=50)
+#print(gwwc_vid_results %>% filter(ave.cost.impr>0) %>% group_by(Age,media) %>% summarise(results=mean(DV_costadj),SE=std.error(DV_costadj),n=n()),n=50)
 
 
 gwwc_vid_results %>% filter(ave.cost.impr>0 & Age!="13-17") %>%
@@ -423,7 +449,7 @@ gwwc_vid_results$Age <- relevel(gwwc_vid_results$Age, ref="18-24")
 gwwc_vid_results$Age <- relevel(gwwc_vid_results$Age, ref="13-17")
 levels(gwwc_vid_results$Age)
 
-print(gwwc_vid_results %>% filter(ave.cost.impr>0) %>% group_by(Age,media) %>% summarise(results=100*mean(DV),SE=100*std.error(DV),n=n()),n=50)
+print(gwwc_vid_results %>% filter(ave.cost.impr>0) %>% group_by(Age,media) %>% summarise(results=100*mean(DV),SE=100*std.error(DV),n=n()),n=5) %>% .kable(digits=2)
 
 ```
 
@@ -450,7 +476,7 @@ gwwc_vid_results %>% filter(ave.cost.impr>0 & Age !="13-17") %>%
 
 ```
 
-## Statistics and mi-- needs to be made into table
+## Statistics and models -- needs to be made into tables
 
 
 ### Regressions with interactions
@@ -458,7 +484,6 @@ gwwc_vid_results %>% filter(ave.cost.impr>0 & Age !="13-17") %>%
 ```{r}
 summary(lm(data = gwwc_vid_results, DV~Gender*Age+ave.cost.impr))
 summary(lm(data = gwwc_vid_results,DV~Gender*Age))
-
 
 ```
 

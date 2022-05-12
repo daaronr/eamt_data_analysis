@@ -1,6 +1,5 @@
 # Clean GWWC giving guides data
 
-
 clean_gwwc_gg <- function(df) {
 data <- df
 data$Age <- factor( data$Age , ordered = FALSE )

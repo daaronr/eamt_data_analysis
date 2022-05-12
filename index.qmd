@@ -11,16 +11,25 @@ description: "Description and analysis of EAMT trials"
 -->
 
 
-The present web book aims to present all of the trials and experiments that we are able to share. We aim to present the setup, results, and analysis as concisely and transparently as possible. This dynamic document combines data, code, visualization, tests, and limited narrative. It is a complement to the 'Gitbook' linked above, and each refer to each other.
+The present 'web book' aims to present all of the trials and experiments that we are able to share. We will try to present the setup, results, and analysis as concisely and transparently as possible. This dynamic document combines data, code, visualization, tests, and limited narrative. It is a complement to the 'Gitbook' linked above, and each refer to each other.
+
+## Trials reported elsewhere
+
+Some trials are currently only reported in the [gitbook](https://effective-giving-marketing.gitbook.io/untitled/) or have not yet been reported. We aim to integrate these in here as well. In particular:
+
+1. [The GWWC 'Giving Pledge Page' trial](https://effective-giving-marketing.gitbook.io/untitled/contexts-partner-organizations-trials/gwwc/pledge-page-options-trial)
+
+2. [GWWC 'YouTube remarketing trial'](https://effective-giving-marketing.gitbook.io/untitled/contexts-partner-organizations-trials/gwwc/youtube-remarketing)
+
+3. Trials with The Life You Can Save
 
 
 ## Tech and collophon
 
-This is styled with Quatro. See my template repo  [here](https://github.com/daaronr/dr_quarto_template), hosted [here](https://daaronr.github.io/dr_quarto_template/),
+This is styled with Quarto. See my template repo  [here](https://github.com/daaronr/dr_quarto_template), hosted [here](https://daaronr.github.io/dr_quarto_template/),
 
-However, we're not sure yet if and how it can be integrated with the `https://app.gitbook.com/` content.
-
-Note: as this is Quarto and not Rmd, packages need to be loaded in every chapter. I'll put these in `code/shared_packages_code.R`.
+^[However, we're not sure yet if and how it can be integrated with the `https://app.gitbook.com/` content.]
+^[Note: as this is Quarto and not Rmd, packages need to be loaded in every chapter. I'll put these in `code/shared_packages_code.R`.]
 
 
 

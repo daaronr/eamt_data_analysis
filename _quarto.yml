@@ -14,10 +14,10 @@ book:
   repo-actions: [edit, issue]
   chapters:
     - index.qmd
-    - chapters/oftw_upsell_input_first_analysis.qmd
-    - chapters/tlycs_placeholder.qmd
     - chapters/gwwc_gg.qmd
     - chapters/gwwc_fb.qmd
+    - chapters/oftw_upsell_input_first_analysis.qmd
+    - chapters/tlycs_placeholder.qmd
     - references.qmd
   reader-mode: true
 

@@ -115,6 +115,36 @@ The code above inputs and builds 2-4 related data frames (tibbles), which were c
 
 ::: 
 
+
+### Defining the 'outcomes of interest' (as objects)
+
+```{r targets, echo=FALSE, warning=FALSE}
+
+#targets:
+#bin_out <- c("d_don_1k", "d_don_10pct")
+
+#num_out <- c('donation_c', 'don_av2_yr', 'l_don_c', "l_don_av_2yr", "don_share_inc_imp_bc5k", "donation_plan_c")
+#targets <- c(bin_out, num_out)
+#targets_short <- c("don_av2_yr", "don_share_inc_imp_bc5k", "d_don_1k") 
+
+#Note -- don_av2_yr is the right one for qpoisson as it already expresses things in exponents. l_don_av2_yr was the one to use in the loglinear model, which we are not emphasizing
+
+#targets_short_names <- c("Log (Avg don +1)", "Don/Income", "Donated 1k+")
+```
+
+
+Next, we define  the 'features of interest' and the 'controls'
+
+```{r}
+
+#features and controls
+#geog <- c("where_live_cat", "city_cat")
+#key_demog <- c("ln_age", "not_male_cat", "student_cat", "race_cat", geog)
+#key_demog_n <- c("age_d2sd", "not_male_cat", "student_cat", "race_cat", geog)
+
+```
+
+
 ## Analysis and visuals (moved from Erin's work)
 
 
@@ -128,13 +158,11 @@ The code above inputs and builds 2-4 related data frames (tibbles), which were c
 
 Data summary
 
-
 ::: {.alert .alert-secondary}
 
 Below, a few data summary bits (from Erin). I commented most of it out and will redo it using an automated and formatted 'key summary statistics' package.
 
 :::
- 
 
 ```{r}
 

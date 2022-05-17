@@ -10,14 +10,13 @@ execute:
 
 ## The trial
 
+"**Effective Giving Guide Lead Generation campaign** ... ran late November 2021 - January 2022. The objective of this campaign was to see whether a factual or cause-led approach was more cost effective at getting people to fill out a form and give us their email in order to download our Effective Giving Guide."
 
-> our Effective Giving Guide Lead Generation campaign ... ran late November 2021 - January 2022. The objective of this campaign was to see whether a factual or cause led approach was more cost effective at getting people to fill out a form and give us their email in order to download our Effective Giving Guide.
+"In the original version of our test, we had 1 video for the factual appeal and 3 videos for the cause led approach - 1 for global health and development, 1 for animal welfare and 1 for climate change."
 
-> In the original version of our test, we had 1 video for the factual appeal and 3 videos for the cause led approach - 1 for global health and development, 1 for animal welfare and 1 for climate change.
+"We targeted our ads to audiences we thought were likely to engage based on their interests and demographics, and targeted the cause led videos to a relevant audience, i.e. climate change message to climate change audience."
 
-> We targeted our ads to audiences we thought were likely to engage based on their interests and demographics, and targeted the cause led videos to a relevant audience, i.e. climate change message to climate change audience.
-
-> We also had various text above the videos that were displayed and optimised too.
+"We also had various text above the videos that were displayed and optimised."
 
 
 ```{r, include=FALSE}
@@ -25,38 +24,35 @@ library(here)
 source(here("code", "shared_packages_code.R"))
 ```
 
-
 Details in Gitbook [HERE](https://effective-giving-marketing.gitbook.io/untitled/partner-organizations-and-trials/gwwc/giving-guides-+) and Gdoc [here](https://docs.google.com/document/d/1FfrXhD1YAIjrATy9PR6ScP20NMQa82sd80YvMb62iUQ/edit)
 
 ```{r wppage}
 
-knitr::include_url("https://effective-giving-marketing.gitbook.io/untitled/partner-organizations-and-trials/gwwc/giving-guides-+s")
+knitr::include_url("https://effective-giving-marketing.gitbook.io/untitled/partner-organizations-and-trials/gwwc/giving-guides-+")
 
 ```
 
 
 ## Build: Source data input and cleaning code
 
-
-
 ::: {.callout-note collapse="true"}
 ## **Update:** The discussion below does not pertain to the actual raw data. 
 
 The actual original/raw data is collapsed (breakdowns) by demography and ad set, into 2 files:
 
-
 `video breakdown.csv`
 
 `text breakdown.csv`
 
-
 That data is clearly not identifying individuals; it involves aggregates based on real or assumed characteristics ... and, as the other data is derived from it, there is clearly nothing that needs to be hidden there
 
+We input the 'actual raw data' (the statistics in a minimal format) below.
 
-We input the actual raw data below.
 :::
 
 ```{r real_raw}
+
+raw_data_path <- list("gwwc", "gg_raw_data_shareable")
 
 raw_gwwc_gg_vid <-  read.csv(here(raw_data_path, "video breakdown.csv")) %>% as_tibble()
 
@@ -64,11 +60,10 @@ raw_gwwc_gg_text <-  read.csv(here(raw_data_path, "text breakdown.csv")) %>% as_
 ```
 
 
-
 ::: {.callout-note collapse="true"}
 ## Access to data
 
-Note: You must have access to the gwwc raw data to run this. This includes data that was constructed (with what code?) by expanding Facebook's aggregate reporting.
+Note: You must have access to the GWWC raw data to run this. This includes data that was constructed (with what code?) by expanding Facebook's aggregate reporting.
 
 The files:
 
@@ -83,24 +78,19 @@ are gitignored because of size
 
 ```{r input_build_gwwc_gg_data}
 
-raw_data_path <- list("gwwc", "gg_raw_data_shareable")
-
 source(here("gwwc", "giving_guides", "input_build_gwwc_gg_data_results.R"))
 
 #source(here("gwwc", "giving_guides", "input_build_gwwc_gg_data_clicks.R"))
 
 ```
 
-The code above inputs and builds 2-4 related data frames (tibbles), which were constructed from the collapsed (aggregated) data
+The code above inputs and builds 2-4 related data frames (tibbles), which were constructed from the collapsed (aggregated) data by multiplying rows according to observation counts.^[I am not sure where this was done.]
 
 `gwwc_text_clicks`: Observations of link clicks ...  by texts above video
-`gwwc_vid_clicks`:  ...  by video content
-
-(I ignore the 'click data' results for now because I don't think it is particularly meaningful.)
+`gwwc_vid_clicks`:  ...  by video content^[I ignore the 'click data' results for now because I don't think it is particularly meaningful.]
 
 `gwwc_text_results`: Observations of emails provided ... by texts above video
 `gwwc_vid_results`: ...  by video content
-
 
 
 ## Asking and answering questions 
@@ -114,7 +104,6 @@ The code above inputs and builds 2-4 related data frames (tibbles), which were c
      - And everything will be automatically adjusted if we bring in new data or adjust/correct features
 
 ::: 
-
 
 ### Defining the 'outcomes of interest' (as objects)
 
@@ -145,7 +134,9 @@ Next, we define  the 'features of interest' and the 'controls'
 ```
 
 
-## Analysis and visuals (moved from Erin's work)
+## Analysis and visuals 
+
+^[Moved from Erin's work]
 
 
 ```{r}
@@ -161,6 +152,8 @@ Data summary
 ::: {.alert .alert-secondary}
 
 Below, a few data summary bits (from Erin). I commented most of it out and will redo it using an automated and formatted 'key summary statistics' package.
+
+I may also present the data in a dashboard for self-service.
 
 :::
 
@@ -179,12 +172,12 @@ gwwc_vid_results %>% group_by(message) %>% summarise(n=n(),cost=mean(ave.cost.im
 
 
 
-### CHART DATA
 
 ```{r}
 
-#print(gwwc_vid_results %>% group_by(audience,media) %>% #summarise(results=mean(DV)*100,SE=std.error(DV)*100,n=n(),cost=mean(ave.cost.impr),CPR=cost/results),n=50)
+### CHART DATA
 
+#print(gwwc_vid_results %>% group_by(audience,media) %>% #summarise(results=mean(DV)*100,SE=std.error(DV)*100,n=n(),cost=mean(ave.cost.impr),CPR=cost/results),n=50)
 
 ```
 
@@ -222,16 +215,26 @@ grpsumgg <- function(df, gvar, var) {
             se_dv = sd({{var}}, na.rm=TRUE)/sqrt(n())) 
 }
 
-
 ```
 
 ### PLOT: Cost adjusted DV (results) by video
 
+```{r gwwc_vid_results_tab}
 
-```{r}
+gwwc_vid_results %>% 
+    filter(ave.cost.impr > 0) %>%
+    group_by(media) %>% 
+    summarise(
+    `Results per $ (adjusted)` = mean(DV_costadj),
+    SE = std.error(DV_costadj),
+    n = n()
+  ) %>% 
+  arrange(-`Results per $ (adjusted)`) %>% 
+  .kable(digits = 3) %>% 
+  .kable_styling()
 
-print(gwwc_vid_results %>% filter(ave.cost.impr>0) %>% group_by(media) %>% summarise(results=mean(DV_costadj),SE=std.error(DV_costadj),n=n()),n=50) %>% .kable(digits=2)
-
+```
+```{r gwwc_vid_results_plot}
 
 gwwc_vid_results %>%
   grpsumgg(media, DV_costadj) %>%
@@ -244,8 +247,9 @@ gwwc_vid_results %>%
   scale_y_continuous(limits = c(0,.2),  breaks=seq(0,.2, by=.05)) +
   scale_x_discrete(labels=vid_types)
 
-
 ```
+
+
 
 ### PLOT: DV (Results) by video
 

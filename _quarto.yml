@@ -16,6 +16,7 @@ book:
     - index.qmd
     - chapters/gwwc_gg.qmd
     - chapters/gwwc_fb.qmd
+    - chapters/gwwc_pledge_wip.qmd
     - chapters/oftw_upsell_input_first_analysis.qmd
     - chapters/tlycs_placeholder.qmd
     - references.qmd

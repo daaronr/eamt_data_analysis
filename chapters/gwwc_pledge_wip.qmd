@@ -1,0 +1,20 @@
+---
+execute:
+    freeze: auto # re-render only when source changes
+    warning: false
+    message: false
+    error: true
+---
+
+# (GWWC: Pledge page trial) {#gwwc_pp}
+
+
+
+::: {.alert .alert-secondary}
+
+
+This trial is reported in the [gitbook here](https://effective-giving-marketing.gitbook.io/untitled/contexts-partner-organizations-trials/gwwc/pledge-page-options-trial).
+
+The present chapter is given as a placeholder, and for putting any supplementary analysis.
+:::
+

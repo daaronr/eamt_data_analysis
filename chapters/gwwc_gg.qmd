@@ -51,7 +51,6 @@ execute:
 :::
 
 
-
 ::: {.callout-note collapse="true"}
 
 ## Arguments, rich content from "Hypercube"
@@ -59,7 +58,7 @@ execute:
 6. [Hypercube](https://www.youtube.com/watch?v=CiFoHm7HD94) (1 min 22 seconds): Animated and voiceover video that explains how GWWC can help maximize charitable impact (support, community, and information) and the problems GWWC addresses (good intentions don't always produce the desired outcomes, there are millions of charities that have varying degrees of impact and some can even cause harm). CTA: Check out givingwhatwecan.org to learn how you can become an effective giver.
 
 :::
-
+    
 
 ::: {.callout-note collapse="true"}
 
@@ -70,6 +69,8 @@ execute:
 "We targeted our ads to audiences we thought were likely to engage based on their interests and demographics, and targeted the cause led videos to a relevant audience, i.e. climate change message to climate change audience."
 
 "We also had various text above the videos that were displayed and optimised."
+:::
+
 
 
 ```{r, include=FALSE}
@@ -139,8 +140,7 @@ The code above inputs and builds 2-4 related data frames (tibbles), which were c
 [^gwwc_gg-1]: I am not sure where this was done.
 
 `gwwc_text_clicks`: Observations of link clicks ...  by texts above video
-
-`gwwc_vid_clicks`: ... by video content[^gwwc_gg-2]
+gwwc_vid_clicks`: ... by video content[^gwwc_gg-2]
 
 [^gwwc_gg-2]: I ignore the 'click data' results for now because I don't think it is particularly meaningful.
 
@@ -156,6 +156,50 @@ The code above inputs and builds 2-4 related data frames (tibbles), which were c
 - Using the data and statistics directly and automatically in the narrative
      - And everything will be automatically adjusted if we bring in new data or adjust/correct features
 :::
+
+
+### In this context, how much does it cost to get a 'Result", i.e., to get a person to give their email to recieve a Giving Guide? {-}
+
+^[Followup of interest: What do the 'diminishing returns to scale' look like here?] 
+
+
+### Which pre-defined audience yields a Result at the lowest cost? How does this cost vary by audience? {-}
+
+### Which pre-defined audience yields the highest 'rate of Result'? How does this vary by audience? {-}
+
+Note, this is not the same as the previous question because some audiences are more *costly* to target on Facebook.
+
+### Which *video* yields a Result at the highest rate/lowest cost?  {-}
+^[Check: is this the same as 'which yields the highest rate of results, or is there a cost difference?']
+
+
+**Sub-questions**
+ 
+#### How does the 'best video' vary by audience? {-}
+
+#### Aggregating: Which *category* of videos yields a result at the highest rate/lowest cost?  ("Facts", "Cause focus", or "Arguments, rich content") {-}
+
+
+### Which *message* yields a Result at the highest rate/lowest cost?  {-}
+^[Check: is this the same as 'which yields the highest rate of results, or is there a cost difference?']
+
+**Sub-questions**
+ 
+#### How does the 'best message' vary by audience? {-}
+
+
+::: {.callout-note collapse="true"}
+## Other questions (less interest or less feasible)
+
+- Do the message treatments 'interact' with the video treatments (i.e., are their synergies and better pairings)?
+
+- Do some videos lead to higher click rates? 
+
+- Do some videos lead to higher watch rates? 
+
+
+::: 
+
 
 ### Defining the 'outcomes of interest' (as objects)
 
@@ -1009,7 +1053,7 @@ data %>% group_by(Gender,media) %>% summarise(results=mean(DV)*100,SE=std.error(
 
 ```
 
-with Age (emotional much worse with ages 65+)
+with Age (emotional much worse     with ages 65+)
 
 don't see the effect of emotional being much worse with ages 65+
 

@@ -1,7 +1,6 @@
 #### INPUT DATA ####
 
 
-
 source(here("gwwc", "giving_guides", "clean_gg_data.R")) #a function for some specific cleaning s
 
 # 3. textdata_dv_results.csv ####

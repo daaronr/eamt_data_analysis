@@ -1,0 +1,9 @@
+"Reporting starts","Reporting ends","Campaign name","Campaign Delivery","Attribution setting",Results,"Result indicator",Reach,Impressions,"Cost per results","Amount spent (USD)",Ends,Frequency,"Unique link clicks","Ad set budget","Ad set budget type"
+2021-11-15,2022-01-31,,0,"7-day click or 1-day view",,,393476,770113,,15978.28,,1.957205,,0,0
+2021-11-15,2022-01-31,"Giving Guide 2021 - Emotional",completed,"7-day click or 1-day view",457,actions:onsite_conversion.lead_grouped,98774,149670,10.940919037199,5000,2021-12-20,1.515277,1230,5000,Lifetime
+2021-11-15,2022-01-31,"Giving Guide 2021 – Factual",inactive,"7-day click or 1-day view",54,actions:onsite_conversion.lead_grouped,24220,32818,22.546111111111,1217.49,2021-12-08,1.354996,198,1356.66,Lifetime
+2021-11-15,2022-01-31,"Giving Guide 2021 – Factual V2",completed,"7-day click or 1-day view",471,actions:onsite_conversion.lead_grouped,87581,120530,8.0308067940552,3782.51,2021-12-20,1.376212,1439,3782.51,Lifetime
+2021-11-15,2022-01-31,"Giving Guide 2021 – Emotional V3",completed,"7-day click or 1-day view",181,actions:onsite_conversion.lead_grouped,73873,125048,8.3797790055249,1516.74,2022-01-04,1.692743,439,140,Daily
+2021-11-15,2022-01-31,"Giving Guide 2021 – Factual V3",completed,"7-day click or 1-day view",187,actions:onsite_conversion.lead_grouped,83073,137679,8.1123529411765,1517.01,2022-01-04,1.657325,517,140,Daily
+2021-11-15,2022-01-31,"Giving Guide 2021 – PPCo Creatives",completed,"7-day click or 1-day view",152,actions:onsite_conversion.lead_grouped,76063,128578,10.587105263158,1609.24,2022-01-18,1.690415,470,140,Daily
+2021-11-15,2022-01-31,"Giving Guide 2021 – Hypercube Brand Video",completed,"7-day click or 1-day view",79,actions:onsite_conversion.lead_grouped,43280,75790,16.902405063291,1335.29,2022-01-17,1.751155,257,140,Daily

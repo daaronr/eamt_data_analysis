@@ -1,6 +1,6 @@
 
 library(pacman)
-p_load(dplyr, knitr, ggplot2, here, bookdown, janitor, powerjoin, install = FALSE)
+p_load(dplyr, knitr, ggplot2, here, bookdown, janitor, powerjoin, DT,  install = FALSE)
 p_load(readxl, readr, pryr, stringr, kableExtra, install = FALSE)
 p_load(magrittr, install = FALSE)
 p_load(devtools, googledrive,  googlesheets4, install = FALSE)
@@ -60,5 +60,7 @@ p_load(data.table,
   plotrix,
   scales
 )
+
+
 
 

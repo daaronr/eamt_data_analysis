@@ -8,6 +8,12 @@ execute:
 
 # Giving What We Can: Giving guides {#gwwc_gg}
 
+::: {.callout-note}
+
+Note: this presentation should align with a (forthcoming) EA Forum post, which will be linked here (and vice-versa). 
+
+:::
+
 
 ```{r, include=FALSE}
 library(here)
@@ -97,6 +103,27 @@ Details in Gitbook [HERE (and embedded below)](https://effective-giving-marketin
 
 knitr::include_url("https://effective-giving-marketing.gitbook.io/untitled/partner-organizations-and-trials/gwwc/giving-guides-+") 
 ```
+
+## Implementation and treatment assignment: key details
+
+
+::: {.callout-note collapse="true"}
+## Treatment assignment order, dates
+
+The treatment assignment was determined by Facebook's algorithm. Video content was manipulated across three split tests. 
+Test 1 (Nov 30, 2021 – Dec 8, 2021) displayed either the long factual video or a cause focus video. In the cause focus condition, cause-specific audiences for animal rights, climate change, and poverty (based on their behavior on Facebook) were shown the relevant cause video.
+
+Test 2 (add dates) was the same as Test 1 but used the short factual video instead of the cause-focus videos. 
+
+Test 3 (add dates) was the same as Test 2 but had a new version of the videos (with Luke just holding up signs with the words). This test was also restricted to 18-35 year olds. 
+
+Test 4: The Hypercube video was displayed in a separate “Hypercube” campaign which was tested against another campaign that allowed the algorithm to optimize between the short factual and cause focus videos (although not allowing each cause specific audience to see the ads for other cause areas). 
+
+In all tests, the text content displayed above the video was determined by Facebook’s algorithm. Balance across variations was determined to equate budgets across split tests; otherwise, according to Facebook’s algorithm. All variation was done at the level of the impression.
+
+The videos were adapted across the trials as we learned. First, we updated the factual video to be shorter for Trial 2, and then we tried videos of Luke holding up signs spelling out the voiceover in Trial 3 for all videos. 
+
+:::
 
 ## Build: Source data input and cleaning code
 
@@ -190,11 +217,6 @@ gg_campaign_by_ad_by_text <- gg_campaign_by_ad_by_text %>%
   )
   
 
-
-
-
-
-
 ```
 
 
@@ -249,7 +271,7 @@ Note: You must have access to the GWWC raw data to run this. This includes data 
 
 The files:
 
-textdata_dv_linkclicks.csv, videodata_dv_results.csv, textdata_dv_results.csv , and videodata_dv_linkclicks.csv
+`textdata_dv_linkclicks.csv`, `videodata_dv_results.csv`, `textdata_dv_results.csv` , and `videodata_dv_linkclicks.csv`
 
 are gitignored because of size
 :::
@@ -378,7 +400,7 @@ I may also present the data in a dashboard for self-service.
 
 ```{r}
 
-datatable(gwwc_vid_results)
+#datatable(gwwc_vid_results)
 ```
 
 

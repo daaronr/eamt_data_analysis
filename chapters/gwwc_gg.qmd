@@ -10,7 +10,7 @@ execute:
 
 ::: {.callout-note}
 
-Note: this presentation should align with a (forthcoming) EA Forum post, which will be linked here (and vice-versa). 
+This chapter should align with a (forthcoming) EA Forum post, which will be linked here (and vice-versa). 
 
 :::
 
@@ -20,6 +20,19 @@ library(here)
 source(here("code", "shared_packages_code.R"))
 library(dplyr, janitor)
 ```
+
+```{r import_raw_0}
+#importing for dynamic input of descriptions below
+
+raw_data_path <- list("gwwc", "gg_raw_data_shareable")
+
+gg_campaign_by_ad_by_text <- read_csv(here(raw_data_path, "gg_campaign_by_ad_by_text.csv"), show_col_types=FALSE) %>%
+  dplyr::select(-"Campaign name...4") %>% #duplicate columns?
+  as_tibble() %>% 
+  janitor::clean_names() %>% 
+  janitor::remove_empty() # removes empty rows and columns, here `unique_link_clicks`
+```
+
 
 ## The trial
 
@@ -38,6 +51,7 @@ See full description in the gitbook [here](https://effective-giving-marketing.gi
 ::: {.callout-note collapse="true"}
 ## Texts
 
+
 **Bigger difference next year:** Want to make a bigger difference next year? Start with our Effective Giving Guide and learn how to make a remarkable impact just by carefully choosing the charities you give to.
 
 **100x impact:** Did you know that the best charities can have a 100x greater impact? Download our free Effective Giving Guide for the best tips on doing the most good this holiday season.
@@ -52,6 +66,13 @@ See full description in the gitbook [here](https://effective-giving-marketing.gi
 
 **Overwhelming**: It can be overwhelming with so many problems in the world. Fortunately, we can do *a lot* to help, if we give effectively. Check out the Effective Giving Guide 2021. It'll help you find the most impactful charities across a range of causes.
 :::
+
+::: {.callout-note collapse="true"}
+## Check against data export of texts
+
+
+`r  unique(gg_campaign_by_ad_by_text$text)`
+::: 
 
 2.  **The Video ads theme and content**
 
@@ -111,13 +132,14 @@ knitr::include_url("https://effective-giving-marketing.gitbook.io/untitled/partn
 ## Treatment assignment order, dates
 
 The treatment assignment was determined by Facebook's algorithm. Video content was manipulated across three split tests. 
+
 Test 1 (Nov 30, 2021 – Dec 8, 2021) displayed either the long factual video or a cause focus video. In the cause focus condition, cause-specific audiences for animal rights, climate change, and poverty (based on their behavior on Facebook) were shown the relevant cause video.
 
 Test 2 (add dates) was the same as Test 1 but used the short factual video instead of the cause-focus videos. 
 
 Test 3 (add dates) was the same as Test 2 but had a new version of the videos (with Luke just holding up signs with the words). This test was also restricted to 18-35 year olds. 
 
-Test 4: The Hypercube video was displayed in a separate “Hypercube” campaign which was tested against another campaign that allowed the algorithm to optimize between the short factual and cause focus videos (although not allowing each cause specific audience to see the ads for other cause areas). 
+Test 4: The Hypercube video was displayed in a separate “Hypercube” campaign which was tested against another campaign that allowed the algorithm to optimize between the 'short factual' and 'cause focus' videos (although not allowing each cause-specific audience to see the ads for other cause areas). 
 
 In all tests, the text content displayed above the video was determined by Facebook’s algorithm. Balance across variations was determined to equate budgets across split tests; otherwise, according to Facebook’s algorithm. All variation was done at the level of the impression.
 
@@ -127,26 +149,42 @@ The videos were adapted across the trials as we learned. First, we updated the f
 
 ## Build: Source data input and cleaning code
 
-*Update 10 Jun 2022*: I am re-doing the 'bringing down and inputting of data. 
+::: {.callout-note collapse="true"}
+## Accesing, downloading, inputting data
+
+
 
 See:
 
 [Accessing and bringing down simple results HERE](https://app.gitbook.com/o/-MfFk4CTSGwVOPkwnRgx/s/-Mf8cHxdwePMZXRTKnEE/core-knowledge-base/marketing-implementation-and-practical-tips/collecting-data-trial-outcomes/facebook-meta-ads-interface); (Public access version [here](https://effective-giving-marketing.gitbook.io/untitled/marketing-and-testing-opportunities-tools-tips/collecting-data-trial-outcomes/facebook-meta-ads-interface))
 
+We import the exported 'pivot table' `gg_campaign_by_ad_by_text` below, as well as the more detailed version, broken down by age range and gender: `gg-campaign-by-ad-set-text-age-gender.csv`.^[We use the latter going forward as it subsumes the former; the former is just kept as a check.]
+
+::: 
+
 <!-- [Most relevant breakdowns as pivot tables](https://app.gitbook.com/o/-MfFk4CTSGwVOPkwnRgx/s/-Mf8cHxdwePMZXRTKnEE/core-knowledge-base/marketing-implementation-and-practical-tips/collecting-data-trial-outcomes/facebook-meta-ads-interface/...-pivot-tables) -->
 
-We import this exported 'pivot table' `gg_campaign_by_ad_by_text` below, as well as the more detailed version, broken down by age range and gender: `gg-campaign-by-ad-set-text-age-gender.csv`.^[We use the latter going forward as it subsumes the former; the former is just kept as a check.]
+::: {.callout-note collapse="true"}
+## Data structure
 
 
-Each row represents a combination of^[However, for the Hypercube campaign these are further broken up; I am not sure how.]
+
+The data frame `gg_campaign_by_ad_by_text_age_gender` has one row per combination of 'campaign, ad, text, age group, gender'. 
+
+Each row represents a combination of the below (with different numbers of 'impressions' for each row)^[However, for the Hypercube campaign these are further broken up; I am not sure how.]
 
 - `campaign_name`: When and and with what funds the ad was launched, I think (?) 
-- `ad_set`: An ad set can specifically tie an ad_name to an audience (I think)
+- `ad_set`: An ad set can specifically tie an `ad_name` to an audience (I think)
 - `ad_name`: Which video/media (or collection of optimized videos/media) was shown; note this is paired with 'which audience' in it's label, as there were specific 'global poverty', 'animal welfare',  'climate change', 'philanthropy' and 'retargeting' audiences
     - Caveat: The `ad_name` seems to select from a different set of media for optimization  depending on which `ad_set` it is in.^[In particular, it seems that for the `Giving Guide 2021 – PPCo Creatives` the `Emotional + Factual (Animated)` draws from a different set of ads for (e.g.) `Global Poverty + Lookalikes (18-39)` versus `Philanthropy + Lookalikes (18-39)`. I assume it draws from *all causes* for non-cause-linked audiences, but for the cause-linked audiences it draws only from the cause-of-interest, as well as the general 'factual' videos.]
  
 - `text`: Which text was shown along with the video
 
+- `age` (a range of ages)
+
+- `gender` (female, male, unknown)
+
+::: 
 
 ```{r import_real_raw_data}
 
@@ -157,7 +195,6 @@ gg_campaign_by_ad_by_text <- read_csv(here(raw_data_path, "gg_campaign_by_ad_by_
   as_tibble() %>% 
   janitor::clean_names() %>% 
   janitor::remove_empty() # removes empty rows and columns, here `unique_link_clicks`
-
 
 gg_campaign_by_ad_by_text_age_gender <- read_csv(here(raw_data_path, "gg-campaign-by-ad-set-text-age-gender.csv"), show_col_types=FALSE) %>%
   #dplyr::select(-"Campaign name...4") %>% #duplicate columns?
@@ -179,7 +216,8 @@ gg_campaign_by_ad_by_text_age_gender  %<>%
 # renaming, relabeling etc
 gg_campaign_by_ad_by_text_age_gender  %<>%
   mutate(
-    campaign_name = str_replace(campaign_name_1, "Giving Guide 2021", "GG21")
+    campaign_name = str_replace(campaign_name_1, "Giving Guide 2021 . ", ""),
+    campaign_name = str_replace(campaign_name, "Emotional", "Cause-led")
     ) %>% 
   dplyr::select(campaign_name, everything(), -campaign_name_1)
 
@@ -226,7 +264,8 @@ gg_campaign_by_ad_by_text_age_gender %<>%
       str_detect(ad_name, "Animated") ~ "Animated",
       TRUE ~ "Factual or optimized mix")
   )
-  
+
+#gg_campaign_by_ad_by_text_age_gender %>% collapse::descr()
 
 ```
 
@@ -241,39 +280,33 @@ Overwhelming: It can be overwhelming with so many problems in the world. Fortuna
 -->
   
 
-The data frame `gg_campaign_by_ad_by_text_age_gender` has one row per combination of 'campaign, ad, text, age group, gender'. 
 
+::: {.callout-note collapse="true"}
+## This data should be publicly shareable.
 
+This data is clearly not identifying individuals; it involves aggregates based on real or assumed characteristics ... there is likely nothing that needs to be hidden here. We aim to share and integrate all the data in this repo, for a complete pipeline.
+
+::: 
 
 ::: {.callout-note collapse="true"}
 ## Previous version used (updating) 
 
-
 We previously used data collapsed (breakdowns) by demography and ad set, into 2 files, which duplicated rows to represent  the number of impressions:  `video breakdown`, and  `text breakdown.csv`. We now use the more 'raw' minimal version of the data, avoiding duplicating rows where possible. 
 
-Below, we also input the 'old version' of the data, with the duplicated rows, to accomodate the old-format of analysis. Once we update the rest we will get rid of this. 
+Below, we also input the 'old version' of the data, with the duplicated rows, to accomodate the old-format of analysis.  The code above inputs and builds 2-4 related data frames (tibbles), which were constructed from the collapsed (aggregated) data by multiplying rows according to observation counts. I am not sure where this was done. Once we update the rest we will get rid of this. 
 
-:::
-
-::: {.callout-note collapse="true"}
-## This data should be publicy shareable.
-
-This data is clearly not identifying individuals; it involves aggregates based on real or assumed characteristics ... there is likely nothing that needs to be hidden here.
-
-::: 
+`gwwc_text_clicks`: Observations of link clicks ... by texts above video `gwwc_vid_clicks`: ... by video content
 
 
-::: {.callout-note collapse="true"}
+(We focus on the email results because we expect the 'clicks' are less meaningful.)
 
-## Access to 'old version of' data
-
-Note: You must have access to GWWC raw data to run this; we are adapting to permit this. The code sourced below, uses data that was constructed (with what code?) by expanding Facebook's aggregate reporting. We are phasing this out.
+`gwwc_text_results`: Observations of emails provided ... by texts above video `gwwc_vid_results`: ... by video content
 
 The files:
 
 `textdata_dv_linkclicks.csv`, `videodata_dv_results.csv`, `textdata_dv_results.csv` , and `videodata_dv_linkclicks.csv`
 
-are gitignored because of size
+are gitignored because of size.
 :::
 
 ```{r input_build_gwwc_gg_data}
@@ -284,15 +317,68 @@ source(here("gwwc", "giving_guides", "input_build_gwwc_gg_data_results.R"))
 
 ```
 
-The code above inputs and builds 2-4 related data frames (tibbles), which were constructed from the collapsed (aggregated) data by multiplying rows according to observation counts.[^gwwc_gg-1]
+## Descriptives
 
-[^gwwc_gg-1]: I am not sure where this was done.
+```{r}
+( 
+  campaign_date_impressions <- gg_campaign_by_ad_by_text_age_gender %>%   
+    group_by(campaign_name, starts) %>%
+    filter(impressions>200) %>% 
+    summarize(
+      cost = sum(round(amount_spent_usd,0)),
+      impressions=sum(impressions), 
+      `link clicks`=sum(link_clicks, na.rm = TRUE),
+      results=sum(results, na.rm = TRUE),
+      `cost per result` = round(cost/results,1)
+      ) %>% 
+    arrange(starts) %>% 
+    .kable(caption = "Results by Campaign and start date") %>% 
+    .kable_styling() %>% 
+    add_footnote("'False start' campaign dates with less than 200 impressions are excluded")
 
-`gwwc_text_clicks`: Observations of link clicks ... by texts above video `gwwc_vid_clicks`: ... by video content[^gwwc_gg-2]
+)
 
-[^gwwc_gg-2]: I ignore the 'click data' results for now because I don't think it is particularly meaningful.
+```
 
-`gwwc_text_results`: Observations of emails provided ... by texts above video `gwwc_vid_results`: ... by video content
+
+
+
+To do: 
+- Impressions by age and gender
+- Cost per click by age and gender
+- Cost per click by audience (non-cause treatments)
+- Clicks per impression, Results per impression by ad text and by video
+- Cost per result by ad text and by video 
+
+```{r}
+
+gg_campaign_by_ad_by_text_age_gender %>% 
+  group_by(campaign_name)
+
+(
+  demo_tab_engagement <- eas_20 %>%
+       mutate(engage_cats_1 = as.factor(engage_cats_1),
+                  engage_cats_1= fct_drop(engage_cats_1)
+              ) %>%
+    select(all_of(key_outcomes), engage_cats_1, -engagement_num) %>%
+    tbl_summary(
+      by = engage_cats_1,
+       type = c(all_continuous(), mn_priority_lt_rating, don_share_inc_19_imp) ~ "continuous2",
+      statistic = list(all_continuous() ~ c("{median}",
+                                            "{p10}-{p90}",
+                                            "{mean} ({sd})"),
+                       all_dichotomous() ~ "{p}%"),
+      label = label_list[1:11],
+      missing = c("no"),
+          digits = list(mn_priority_lt_rating ~1)
+    ) %>%
+    modify_spanning_header(c("stat_1", "stat_2", "stat_3", "stat_4") ~ "**Self-reported engagement**") %>%
+ modify_footnote(
+    update = all_stat_cols() ~ "*See notes in text.") %>%
+   bold_labels() %>% add_n() %>% add_overall()
+)
+```
+
 
 ## Asking and answering questions
 

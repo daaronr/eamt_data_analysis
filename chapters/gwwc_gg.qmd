@@ -131,13 +131,11 @@ The videos were adapted across the trials as we learned. First, we updated the f
 
 See:
 
-[Accessing and bringing down simple results HERE](https://app.gitbook.com/o/-MfFk4CTSGwVOPkwnRgx/s/-Mf8cHxdwePMZXRTKnEE/core-knowledge-base/marketing-implementation-and-practical-tips/collecting-data-trial-outcomes/facebook-meta-ads-interface); (Public access brief version [here](https://effective-giving-marketing.gitbook.io/untitled/marketing-and-testing-opportunities-tools-tips/collecting-data-trial-outcomes/facebook-meta-ads-interface))
+[Accessing and bringing down simple results HERE](https://app.gitbook.com/o/-MfFk4CTSGwVOPkwnRgx/s/-Mf8cHxdwePMZXRTKnEE/core-knowledge-base/marketing-implementation-and-practical-tips/collecting-data-trial-outcomes/facebook-meta-ads-interface); (Public access version [here](https://effective-giving-marketing.gitbook.io/untitled/marketing-and-testing-opportunities-tools-tips/collecting-data-trial-outcomes/facebook-meta-ads-interface))
 
-[Most relevant breakdowns as pivot tables](https://app.gitbook.com/o/-MfFk4CTSGwVOPkwnRgx/s/-Mf8cHxdwePMZXRTKnEE/core-knowledge-base/marketing-implementation-and-practical-tips/collecting-data-trial-outcomes/facebook-meta-ads-interface/...-pivot-tables)
+<!-- [Most relevant breakdowns as pivot tables](https://app.gitbook.com/o/-MfFk4CTSGwVOPkwnRgx/s/-Mf8cHxdwePMZXRTKnEE/core-knowledge-base/marketing-implementation-and-practical-tips/collecting-data-trial-outcomes/facebook-meta-ads-interface/...-pivot-tables) -->
 
-We import this exported 'pivot table' `gg_campaign_by_ad_by_text` below. 
-
-15 Jun 2022 - Replacing with more detailed version: `gg-campaign-by-ad-set-text-age-gender.csv`
+We import this exported 'pivot table' `gg_campaign_by_ad_by_text` below, as well as the more detailed version, broken down by age range and gender: `gg-campaign-by-ad-set-text-age-gender.csv`.^[We use the latter going forward as it subsumes the former; the former is just kept as a check.]
 
 
 Each row represents a combination of^[However, for the Hypercube campaign these are further broken up; I am not sure how.]
@@ -150,30 +148,43 @@ Each row represents a combination of^[However, for the Hypercube campaign these 
 - `text`: Which text was shown along with the video
 
 
-```{r}
+```{r import_real_raw_data}
 
-gg_campaign_by_ad_by_text <- read_csv(here("gwwc", "gg_raw_data_shareable", "gg_campaign_by_ad_by_text.csv"), show_col_types=FALSE) %>%
-  dplyr::select(-"Campaign name...4") %>% #duplicate column
+raw_data_path <- list("gwwc", "gg_raw_data_shareable")
+
+gg_campaign_by_ad_by_text <- read_csv(here(raw_data_path, "gg_campaign_by_ad_by_text.csv"), show_col_types=FALSE) %>%
+  dplyr::select(-"Campaign name...4") %>% #duplicate columns?
   as_tibble() %>% 
   janitor::clean_names() %>% 
   janitor::remove_empty() # removes empty rows and columns, here `unique_link_clicks`
 
+
+gg_campaign_by_ad_by_text_age_gender <- read_csv(here(raw_data_path, "gg-campaign-by-ad-set-text-age-gender.csv"), show_col_types=FALSE) %>%
+  #dplyr::select(-"Campaign name...4") %>% #duplicate columns?
+  as_tibble() %>% 
+  janitor::clean_names() %>% 
+  janitor::remove_empty() # removes empty rows and columns, here `unique_link_clicks`
+
+#capture and remove columns that are the same everywhere
 attribution_setting <- gg_campaign_by_ad_by_text$attribution_setting %>% .[1]
 reporting_starts <- gg_campaign_by_ad_by_text$reporting_starts %>% .[1]
 reporting_ends <- gg_campaign_by_ad_by_text$reporting_ends %>% .[1]
 
-gg_campaign_by_ad_by_text <- gg_campaign_by_ad_by_text %>%
+gg_campaign_by_ad_by_text %<>%
+  dplyr::select(-attribution_setting, -reporting_starts, -reporting_ends) #take out columns with all the same
+
+gg_campaign_by_ad_by_text_age_gender  %<>%
   dplyr::select(-attribution_setting, -reporting_starts, -reporting_ends) #take out columns with all the same
 
 # renaming, relabeling etc
-gg_campaign_by_ad_by_text <- gg_campaign_by_ad_by_text %>% 
+gg_campaign_by_ad_by_text_age_gender  %<>%
   mutate(
     campaign_name = str_replace(campaign_name_1, "Giving Guide 2021", "GG21")
     ) %>% 
   dplyr::select(campaign_name, everything(), -campaign_name_1)
 
 # Shorter 'text treatment' column
-gg_campaign_by_ad_by_text <- gg_campaign_by_ad_by_text %>% 
+gg_campaign_by_ad_by_text_age_gender %<>% 
   mutate(
     text_treat = case_when(
       str_detect(text, "^Want to make a bigger difference next year?") ~ "Bigger difference",
@@ -220,8 +231,6 @@ gg_campaign_by_ad_by_text <- gg_campaign_by_ad_by_text %>%
 ```
 
 
-
-
 <!-- Bigger difference next year: Want to make a bigger difference next year? Start with our Effective Giving Guide and learn how to make a remarkable impact just by carefully choosing the charities you give to.
 100x impact: Did you know that the best charities can have a 100x greater impact? Download our free Effective Giving Guide for the best tips on doing the most good this holiday season.
 6000 people: Giving What We Can has helped 6,000+ people make a bigger impact on the causes they care about most. Download our free guide and learn how you can do the same.
@@ -232,42 +241,33 @@ Overwhelming: It can be overwhelming with so many problems in the world. Fortuna
 -->
   
 
-This data frame has one row per combination of 'campaign, ad, and text'. 
+The data frame `gg_campaign_by_ad_by_text_age_gender` has one row per combination of 'campaign, ad, text, age group, gender'. 
 
 
 
 ::: {.callout-note collapse="true"}
-## **Update:** The discussion below does not pertain to the actual raw data.
+## Previous version used (updating) 
 
-The actual original/raw data is collapsed (breakdowns) by demography and ad set, into 2 files:
 
-`video breakdown.csv`
+We previously used data collapsed (breakdowns) by demography and ad set, into 2 files, which duplicated rows to represent  the number of impressions:  `video breakdown`, and  `text breakdown.csv`. We now use the more 'raw' minimal version of the data, avoiding duplicating rows where possible. 
 
-`text breakdown.csv`
+Below, we also input the 'old version' of the data, with the duplicated rows, to accomodate the old-format of analysis. Once we update the rest we will get rid of this. 
 
-That data is clearly not identifying individuals; it involves aggregates based on real or assumed characteristics ... and, as the other data is derived from it, there is clearly nothing that needs to be hidden there.
-
-We input the 'actual raw data' (the statistics in a minimal format) below.
 :::
 
-```{r real_raw}
+::: {.callout-note collapse="true"}
+## This data should be publicy shareable.
 
-raw_data_path <- list("gwwc", "gg_raw_data_shareable")
+This data is clearly not identifying individuals; it involves aggregates based on real or assumed characteristics ... there is likely nothing that needs to be hidden here.
 
-raw_gwwc_gg_vid <-  read.csv(here(raw_data_path, "video breakdown.csv")) %>% as_tibble()
+::: 
 
-raw_gwwc_gg_text <-  read.csv(here(raw_data_path, "text breakdown.csv")) %>% as_tibble()
-```
-
-```{r}
-#raw_gwwc_gg_vid %>% group_by(Campaign.name) %>% summarise(impressions = sum(Impressions))
-```
 
 ::: {.callout-note collapse="true"}
 
-## Access to data
+## Access to 'old version of' data
 
-Note: You must have access to the GWWC raw data to run this. This includes data that was constructed (with what code?) by expanding Facebook's aggregate reporting.
+Note: You must have access to GWWC raw data to run this; we are adapting to permit this. The code sourced below, uses data that was constructed (with what code?) by expanding Facebook's aggregate reporting. We are phasing this out.
 
 The files:
 

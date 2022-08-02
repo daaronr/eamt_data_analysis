@@ -656,45 +656,34 @@ model_data <- gg_campaign_by_ad_by_text_age_gender %>%
     )
 
 
-Rp100usd_vid_text_audience0_rep <- model_data_0_rep %>%  
-  lm(
-    results_per_100usd ~ 1 + video_theme + text_treat + audience,
-    data = ., 
-    weight = impressions) 
-  
-
 Rp100usd_vid_text_audience0 <- model_data_0 %>%  
   lm(
     results_per_100usd ~ 1 + video_theme + text_treat + audience,
     data = ., 
-    weight = impressions) 
+    weights = impressions) 
   
 
 Rp100usd_vid_text_audience_starts <- model_data_start %>%  
   lm(
     results_per_100usd ~ 1 + starts + video_theme + text_treat + audience,
     data = ., 
-    weight = impressions) 
+    weights = impressions) 
   
 
 Rp100usd_vid_text_audience_demo <- model_data %>%  
   lm(
     results_per_100usd ~ 1 + video_theme + text_treat + audience + gender + agetrin,
     data = ., 
-    weight = impressions) 
+    weights = impressions) 
 
-Rp100usd_vid_text_audience0$df.residual <- sum(model_data_0$impressions) - length(coef(Rp100usd_vid_text_audience0))
+#Do NOT do this: Rp100usd_vid_text_audience0$df.residual <- sum(model_data_0$impressions) - length(coef(Rp100usd_vid_text_audience0))
 
-Rp100usd_vid_text_audience_startsdf.residual <- sum(model_data_start$impressions) - length(coef(Rp100usd_vid_text_audience_starts))
-
-Rp100usd_vid_text_audience_demo$df.residual <- sum(model_data$impressions) - length(coef(Rp100usd_vid_text_audience_demo))
-
-huxtable::huxreg(Rp100usd_vid_text_audience0, Rp100usd_vid_text_audience0_rep, Rp100usd_vid_text_audience_starts, Rp100usd_vid_text_audience_demo)
+huxtable::huxreg(Rp100usd_vid_text_audience0, Rp100usd_vid_text_audience_starts, Rp100usd_vid_text_audience_demo)
 
 
 ```
  
- Note: the N and R-sq values above are incorrect; this needs to account for the frequency  regression ne
+ Note: the N (and R-sq?) values above are incorrect; these are the number of *groups* not the number of baseline observations.   
  
 [^gwwc_gg-3]
 

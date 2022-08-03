@@ -1,10 +1,35 @@
 # Clean GWWC giving guides data
 
-clean_gwwc_gg_raw <- function(df) {
-data <- df
-data$age <- factor( data$age , ordered = FALSE )
-data$age <- relevel( data$age, ref="25-34") ### Question: Why make 25-34 the ref
-data <- data %>%
+rename_gg <- function(df) {
+  data <- df
+  
+  if("campaign_name_1" %in% names(data)){
+    data <- data %>%
+    mutate(campaign_name = str_replace(campaign_name_1, "Giving Guide 2021 . ", "")) 
+  }
+  
+  data <- data %>%
+mutate(
+  campaign_name = str_replace(campaign_name, "Emotional", "Cause-led"),
+  ad_name = str_replace(ad_name, "Emotional", "Cause-led"),
+) 
+  
+  if("ad_set_name" %in% names(data)){
+  data <- data %>%
+mutate(
+    ad_set_name = str_replace(ad_set_name, "Emotional", "Cause-led"))
+  }    
+   
+  
+return(data)
+
+}
+
+gg_make_cols <- function(df) {
+    data <- df
+    
+  if("ad_set_name" %in% names(data)){
+    data <- data %>% 
   mutate(
     audience = case_when(
       str_detect(ad_set_name, "Animal") ~ "Animal",
@@ -13,20 +38,32 @@ data <- data %>%
       str_detect(ad_set_name, "Philanthropy") ~ "Philanthropy",
       str_detect(ad_set_name, "Retargeting") ~ "Retargeting",
       str_detect(ad_set_name, "Lookalikes") ~ "Lookalikes",
-      str_detect(ad_set_name, "General") ~ "General audience"),
+      str_detect(ad_set_name, "General") ~ "General audience"
+      ),
+restriction18_39 =
+        case_when(grepl("18-39", ad_set_name)|grepl("V3", ad_set_name)~1,
+          TRUE~0)
+  )
+  }
 
+  if("ad_name" %in% names(data)){
+    data <- data %>% 
+  mutate(
     video_theme = case_when( # Cause category aggregation
-      str_detect(ad_name, "Animal") & str_detect(ad_name, "Cause")  ~ "Animal",
-      str_detect(ad_name, "Climate") & str_detect(ad_name, "Cause")  ~ "Climate",
-      str_detect(ad_name, "Poverty") & str_detect(ad_name, "Cause")  ~ "Poverty",
-      str_detect(ad_name, "Animated") ~ "Animated",
+      str_detect(ad_name, "Animal") & str_detect(ad_name, "Cause-led V3|Cause-led")  ~ "Animal" ,
+      str_detect(ad_name, "Climate") & str_detect(ad_name, "Cause-led V3|Cause-led") ~ "Climate",
+      str_detect(ad_name, "Poverty") & str_detect(ad_name, "Cause-led V3|Cause-led")  ~ "Poverty",
+      #str_detect(ad_name, "Animated") ~ "Animated",
       str_detect(ad_name, "Cause-led") ~ "Cause-led (any)",
-      str_detect(ad_name, "Factual") ~ "Factual",
+      str_detect(ad_name, "\\(Factual\\)|\\(Factual V") ~ "Factual",
       TRUE ~ "Factual or optimized mix")
   )
+}
 
-data <- data %>%
-  mutate(campaign_theme =
+  if("campaign_name" %in% names(data)){
+    data <- data %>% 
+  mutate(
+    campaign_theme =
            case_when(grepl("Cause-led",campaign_name)~"Cause-led",
                      grepl("Factual",campaign_name)~"Factual",
                      grepl("Hypercube",campaign_name)~"Hypercube",
@@ -41,29 +78,19 @@ data <- data %>%
                               str_detect(campaign_name, "PPCo ") ~ "Video/creatives",
                               TRUE ~ "V1"),
   )
-
-data$audience <- factor( data$audience , ordered = FALSE )
-data$audience <- relevel( data$audience, ref="Philanthropy")
-
-#data$message <- factor( data$message , ordered = FALSE )
-#data$message <- relevel( data$message, ref="Factual")
-
-#age restriction
-data <- data %>%
-  mutate(restriction18_39=
-           case_when(grepl("18-39", ad_set_name)|grepl("V3", ad_set_name)~1,
-                     TRUE~0))
-#age trinary
-data <- data %>%
-  mutate(agetrin =
+  }
+  
+  if("age" %in% names(data)){
+    data <- data %>% 
+      mutate(
+        agetrin =
            case_when(age=="18-24"|age=="13-17"|age=="25-34"~1,
-                     age=="35-44"~0,TRUE~-1))
-
-data <- data %>% as_tibble()
-
+                     age=="35-44"~0, TRUE~-1)
+        )
+  }
+    
 return(data)
 }
-
 
 # Video rename and stuff
 
@@ -71,8 +98,9 @@ vid_clean <- function(df) {
     df <- df %>%
   dplyr::mutate(
     media=
-           case_when(grepl("Hypercube",ad_name)~"Hypercube",
-                     grepl("factual short",version) ~"Factual short",
+           case_when(
+             grepl("Hypercube",ad_name)~"Hypercube",
+                     grepl("factual short", version) ~"Factual short",
                      grepl("Factual", campaign_theme) & grepl("V1", version) ~"Factual long",
                      grepl("Glob", ad_name) & grepl("Cause", ad_name) ~ "Poverty",
                      grepl("Climate", ad_name) & grepl("Cause", ad_name) ~ "Climate",
@@ -97,6 +125,16 @@ text_clean <- function(df) {
                 TRUE ~ ""
                 )
   )
+}
+
+relevel_gwwc_gg_raw <- function(df) {
+  data <- df
+  data$age <- factor( data$age , ordered = FALSE )
+  data$age <- relevel( data$age, ref="25-34") ### Question: Why make 25-34 the ref
+  data$audience <- factor( data$audience , ordered = FALSE )
+  data$audience <- relevel( data$audience, ref="Philanthropy")
+  data <- data %>% as_tibble()
+  return(data)
 }
 
 

@@ -30,11 +30,17 @@ library(GDAtools, include.only = 'wtable', 'dichotom')
 
 raw_data_path <- list("gwwc", "gg_raw_data_shareable")
 
+mini_clean <- function(df){
+  df %>%
+    as_tibble() %>%
+  janitor::clean_names() %>%
+  janitor::remove_empty() %>% # removes empty rows and columns, here `unique_link_clicks`
+    janitor::remove_constant()
+    }
+
 gg_campaign_by_ad_by_text <- read_csv(here(raw_data_path, "gg_campaign_by_ad_by_text.csv"), show_col_types=FALSE) %>%
   dplyr::select(-"Campaign name...4") %>% #duplicate columns?
-  as_tibble() %>%
-  janitor::clean_names() %>%
-  janitor::remove_empty() # removes empty rows and columns, here `unique_link_clicks`
+ mini_clean
 ```
 
 
@@ -192,57 +198,42 @@ Each row represents a combination of the below (with different numbers of 'impre
 
 raw_data_path <- list("gwwc", "gg_raw_data_shareable")
 
-gg_campaign_by_ad_by_text <- read_csv(here(raw_data_path, "gg_campaign_by_ad_by_text.csv"), show_col_types=FALSE) %>%
-  dplyr::select(-"Campaign name...4") %>% #duplicate columns?
-  as_tibble() %>%
-  janitor::clean_names() %>%
-  janitor::remove_empty() # removes empty rows and columns, here `unique_link_clicks`
+#already input above: gg_campaign_by_ad_by_text
 
+#Version allowing demographic breakdown:
 gg_campaign_by_ad_by_text_age_gender <- read_csv(here(raw_data_path, "gg-campaign-by-ad-set-text-age-gender.csv"), show_col_types=FALSE) %>%
   #dplyr::select(-"Campaign name...4") %>% #duplicate columns?
-  as_tibble() %>%
-  janitor::clean_names() %>%
-  janitor::remove_empty() # removes empty rows and columns, here `unique_link_clicks`
+ mini_clean()
 
+#Version with information on cause videos shown (even to those in 'general' groups):
+
+gg_video_breakdowns <- read_csv(here(raw_data_path, "gg-image-video-breakdowns.csv"), show_col_types=FALSE)
 
 #capture and remove columns that are the same everywhere
 attribution_setting_c <- gg_campaign_by_ad_by_text_age_gender$attribution_setting %>% .[1]
 reporting_starts_c <- gg_campaign_by_ad_by_text_age_gender$reporting_starts %>% .[1]
 reporting_ends_c <- gg_campaign_by_ad_by_text_age_gender$reporting_ends %>% .[1]
 
-gg_campaign_by_ad_by_text %<>%
-  dplyr::select(-attribution_setting, -reporting_starts, -reporting_ends) #take out columns with all the same
 
-gg_campaign_by_ad_by_text_age_gender  %<>%
-  dplyr::select(-attribution_setting, -reporting_starts, -reporting_ends) #take out columns with all the same
-
-
-
-# renaming, relabeling etc
-gg_campaign_by_ad_by_text_age_gender  %<>%
-  mutate(
-    campaign_name = str_replace(campaign_name_1, "Giving Guide 2021 . ", ""),
-    campaign_name = str_replace(campaign_name, "Emotional", "Cause-led"),
-    ad_name = str_replace(ad_name, "Emotional", "Cause-led"),
-    ad_set_name = str_replace(ad_set_name, "ad_name", "Cause-led")
-    ) %>%
-  dplyr::select(campaign_name, everything(), -campaign_name_1, -campaign_name_7) #campaign_name_7 was the same as campaign_name_1
+gg_campaign_by_ad_by_text_age_gender  %<>% mini_clean()
+gg_video_breakdowns  %<>% mini_clean()
 
 #functions to clean these specific data sets 'gg_campaign_by_ad_by_text_age_gender' and 'gg_campaign_by_ad_by_text':
 source(here("gwwc", "giving_guides", "clean_gg_raw_data.R")) 
 
-
 #Many cleaning steps: audience, video_theme, campaign_theme, agetrin; releveling
 gg_campaign_by_ad_by_text_age_gender %<>%
-clean_gwwc_gg_raw()
+  rename_gg() %>%
+gg_make_cols() %>% 
+  vid_clean() %>%  # Video rename and stuff
+  text_clean() %>%  # Shorter 'text treatment' column
+  relevel_gwwc_gg_raw() %>% 
+  dplyr::select(campaign_name, everything(), -campaign_name_1, -campaign_name_7) #campaign_name_7 was the same as campaign_name_1
 
-# Shorter 'text treatment' column
-gg_campaign_by_ad_by_text_age_gender %<>%
-  text_clean()
-
-# Video rename and stuff
-gg_campaign_by_ad_by_text_age_gender %<>%
-  vid_clean()
+gg_video_breakdowns %<>%
+  rename_gg() %>%
+gg_make_cols()  %>% 
+    vid_clean()  # Video rename and stuff
 
 
 #gg_campaign_by_ad_by_text_age_gender %>% collapse::descr()
@@ -250,6 +241,23 @@ gg_campaign_by_ad_by_text_age_gender %<>%
 ```
 
 
+```{r video_general_encoding}
+
+gg_video_breakdowns %<>%
+  mutate(
+    video_theme = case_when(
+      str_det(image_video_and_slideshow, "set_1|Animals") ~ "Animal",
+      str_det(image_video_and_slideshow, "set_2|Climate") ~ "Climate",
+      str_det(image_video_and_slideshow, "set_3|Poverty|Free Effective") ~ "Poverty",
+      str_det(image_video_and_slideshow, "factual") ~ "Factual",
+      TRUE ~ video_theme
+    ),
+    video_theme =  factor(video_theme), 
+    video_theme = fct_relevel(video_theme, c("Animal", "Climate", "Poverty", "Factual", "Factual or optimized mix")) 
+  )
+
+
+```
 
 ::: {.callout-note collapse="true"}
 ## This data should be publicly shareable.
@@ -298,11 +306,12 @@ The sequential campaigns involved different sets of videos, and these videos had
 ```{r impressions_count}
 
 (
-  impressions_campaign_theme <- gg_campaign_by_ad_by_text_age_gender %>%
+  impressions_campaign_theme <- gg_video_breakdowns %>%
   dplyr::select(campaign_name, video_theme, impressions) %>%
    uncount(weights = .$impressions) %>%
     dplyr::select(-impressions) %>%
-   table %>%
+   tabyl(campaign_name, video_theme) %>%
+    dplyr::select(campaign_name, Animal, Climate, Poverty, everything()) %>% 
   .kable(caption = "Campaign names and video themes: Impressions") %>%
   .kable_styling()
 )
@@ -311,10 +320,9 @@ impressions_campaign_audience <- gg_campaign_by_ad_by_text_age_gender %>% #creat
   dplyr::select(campaign_name, audience, impressions) %>%
    uncount(weights = .$impressions) %>%
     dplyr::select(-impressions) %>%
-   table %>%
+   tabyl(campaign_name, audience) %>%
   .kable(caption = "Campaign names and audiences: Impressions") %>%
   .kable_styling()
-
 
 
 (
@@ -334,15 +342,21 @@ Audience not åssociated with a cause included the 'General' audience, the Phila
 
 ```{r impressions_video_audience}
 
+video_levels <- c("Animal", "Climate", "Poverty", "Cause-led (any)", "Factual", "Factual or optimized mix", "Total")
+  
 (
-  impressions_video_audience <- gg_campaign_by_ad_by_text_age_gender %>%
+impressions_video_audience <- gg_video_breakdowns %>%
     dplyr::select(video_theme, audience, impressions) %>%
-   uncount(weights = .$impressions) %>%
+    uncount(weights = .$impressions) %>%
     dplyr::select(-impressions) %>%
-   table %>%
-    prop.table() %>%
-    addmargins() %>% 
-  .kable(caption = "Video themes by audience: share of impressions", digits=3) %>%
+    tabyl(video_theme, audience) %>% 
+    adorn_percentages("all") %>%
+    adorn_totals(where = c("row", "col")) %>% 
+    adorn_pct_formatting(digits = 2) %>% 
+    dplyr::select(video_theme, Animal, Climate, `Global Poverty`, `Philanthropy`, everything()) %>% 
+   mutate(video_theme =  factor(video_theme, levels = video_levels)) %>%
+  arrange(video_theme)  %>% 
+    .kable(caption = "Video themes by audience: share of impressions", digits=3) %>%
   .kable_styling()
 )
 
@@ -378,6 +392,8 @@ The second treatment dimension -- text presented along with the video -- was all
 )
 
 ```
+(Note, above that we cannot identify all of the video treatments in the same dataset with text treatments; this is a limitation of the Facebook interface)
+
 However, note that treatment shares are not equal.  In fact, as the second table above shows, they are not even equal within each campaign. This is because Facebook optimizes to show videos and text more, the more successful they are.^[This also may lead FB to particularly combine certain message presentations more with certain video presentations. However we cannot check this in our current setup: it is confounded with 'audience profile' (at least in the data we can observe).]
 
 
@@ -459,16 +475,17 @@ Cost per click by audience (non-cause treatments):
 
 ```{r audience_outcomes}
 (
-  audience_outcomes <- gg_campaign_by_ad_by_text_age_gender %>%
+  video_outcomes_phil <- gg_video_breakdowns %>%
     filter(audience=="Philanthropy") %>%
     group_by(video_theme) %>% 
     base_results_sum() %>%
+    arrange(video_theme) %>% 
     .kable(caption = "Results by Video theme for 'Philanthropy' audience") %>%
     .kable_styling()
 )
 
 (
-  audience_outcomes <- gg_campaign_by_ad_by_text_age_gender %>%
+  outcomes_by_text <- gg_campaign_by_ad_by_text_age_gender %>%
     filter(str_det(campaign_name, "factual|hyper")) %>%
     group_by(text_treat) %>% 
     base_results_sum() %>%
@@ -488,7 +505,7 @@ By ad text and by video:
 
   
 (
-  audience_outcomes <- gg_campaign_by_ad_by_text_age_gender %>%
+  audience_outcomes <- gg_video_breakdowns %>%
     group_by(audience) %>%
     filter(video_theme== "Animated" | video_theme== "Factual" ) %>%
     base_results_sum() %>%
@@ -538,7 +555,7 @@ Alternatively, we could think of the CpR for a segment as just a 'base outcome t
 
 ## CpR as the average of a lot of black boxes... 
 
-We can do something intermediate -- taking the aggregation into account, without fully building a structural model of the factors above.  Within each segment, we can consider the 'average cost per result' outcome for each individual as the expected value of a random draw. Each individual has some 'cost per impression', and some 'probability of a result'. The ratio of these is the individual's 'expected cost per result ... which we can also abstract as just some random draw. This may be considered as a function of 'all the characteristics of the segment the individual is in'. The CpR for the segment is thus an average of the CpR for all the individuals in the segment, and we can use 'regression weights' (technically 'inverse variance weights'; see discussion in [Huntington-Klien's book here](https://theeffectbook.net/ch-StatisticalAdjustment.html#sample-weights)) in our model to reflect this.
+We can do something intermediate -- taking the aggregation into account, without fully building a structural model of the factors above.  Within each segment, we can consider the 'average cost per result' outcome for each individual as the expected value of a random draw. Each individual has some 'cost per impression', and some 'probability of a result'. The ratio of these is the individual's 'expected cost per result ... which we can also abstract as just some random draw. This may be considered as a function of 'all the characteristics of the segment the individual is in'. The CpR for the segment is thus an average of the CpR for all the individuals in the segment, and we can use 'regression weights' (technically 'inverse variance weights'; see discussion in [Huntington-Klein's book here](https://theeffectbook.net/ch-StatisticalAdjustment.html#sample-weights)) in our model to reflect this.
 
 :::
 
@@ -556,8 +573,8 @@ this is seen as a mean across observations, thus ~weighted by the size of the se
 possibly a mixed model, allowing for some random effects? (But I’m not great at that).
 
 -->
-
-
+::: {.callout-note collapse="true"}
+## Modeling goals/discussion/todo
 
 1. Present mean/Bayesian updating: 
 
@@ -582,15 +599,15 @@ Linear and log-linear
 Random effects (how?)
 
 Present a set of estimates for the mean and 80% CI for cost/result for key groups
- 
+
+::: 
+
+
  
 ```{r}
 
-model_data_0 <- gg_campaign_by_ad_by_text_age_gender %>%
-  filter(audience!="Retargeting") %>%
-  ungroup() %>%
-    group_by(video_theme, text_treat, audience) %>% #starts, 
-    #filter(impressions>200) %>%
+summarise_stuff <- function(df) {
+  df %>%
      summarise(
       amount_spent_usd = sum(amount_spent_usd), 
       impressions=sum(impressions),
@@ -600,7 +617,15 @@ model_data_0 <- gg_campaign_by_ad_by_text_age_gender %>%
       cost_per_click = amount_spent_usd/link_clicks,
       results = ifelse(is.na(results), 0, results ),
       results_per_100usd = results/(amount_spent_usd/100),
-      results_per_1k_impressions = results*1000/impressions) %>%
+      results_per_1k_impressions = results*1000/impressions) 
+}
+
+model_data_0 <- gg_campaign_by_ad_by_text_age_gender %>%
+  filter(audience!="Retargeting") %>%
+  ungroup() %>%
+    group_by(video_theme, text_treat, audience) %>% #starts, 
+    #filter(impressions>200) %>%
+    summarise_stuff() %>%
   ungroup() %>% 
   as.tibble() %>% 
   mutate(
@@ -608,24 +633,12 @@ model_data_0 <- gg_campaign_by_ad_by_text_age_gender %>%
       as.factor )
     )
 
-model_data_0_rep <- model_data_0[rep(row.names(model_data_0), model_data_0$impressions), 1:ncol(model_data_0)]
-
-
 model_data_start <- gg_campaign_by_ad_by_text_age_gender %>%
   filter(audience!="Retargeting") %>%
   ungroup() %>%
     group_by(video_theme, text_treat, audience, starts) %>% #starts, 
     #filter(impressions>200) %>%
-     summarise(
-      amount_spent_usd = sum(amount_spent_usd), 
-      impressions=sum(impressions),
-      link_clicks = sum(link_clicks, na.rm = TRUE),
-      results = sum(results, na.rm = TRUE),
-      cost_per_impression = amount_spent_usd/impressions,
-      cost_per_click = amount_spent_usd/link_clicks,
-      results = ifelse(is.na(results), 0, results ),
-      results_per_100usd = results/(amount_spent_usd/100),
-      results_per_1k_impressions = results*1000/impressions) %>%
+        summarise_stuff() %>%
   ungroup() %>% 
   as.tibble() %>% 
   mutate(
@@ -638,23 +651,13 @@ model_data <- gg_campaign_by_ad_by_text_age_gender %>%
   ungroup() %>%
     group_by(video_theme, text_treat, audience, gender, agetrin) %>% #starts, 
     #filter(impressions>200) %>%
-     summarise(
-      amount_spent_usd = sum(amount_spent_usd), 
-      impressions=sum(impressions),
-      link_clicks = sum(link_clicks, na.rm = TRUE),
-      results = sum(results, na.rm = TRUE),
-      cost_per_impression = amount_spent_usd/impressions,
-      cost_per_click = amount_spent_usd/link_clicks,
-      results = ifelse(is.na(results), 0, results ),
-      results_per_100usd = results/(amount_spent_usd/100),
-      results_per_1k_impressions = results*1000/impressions) %>%
+        summarise_stuff() %>%
   ungroup() %>% 
   as.tibble() %>% 
   mutate(
     across(c(video_theme, text_treat, audience, gender, agetrin), #starts, 
       as.factor )
     )
-
 
 Rp100usd_vid_text_audience0 <- model_data_0 %>%  
   lm(

@@ -14,7 +14,6 @@ This chapter should align with a (forthcoming) EA Forum post, which will be link
 
 :::
 
-
 ```{r, include=FALSE}
 library(here)
 source(here("code", "shared_packages_code.R"))
@@ -143,13 +142,13 @@ knitr::include_url("https://effective-giving-marketing.gitbook.io/untitled/partn
 
 The treatment assignment was determined by Facebook's algorithm. Video content was manipulated across three split tests.
 
-Test 1 (Nov 30, 2021 – Dec 8, 2021) displayed either the long factual video or a cause focus video. In the cause focus condition, cause-specific audiences for animal rights, climate change, and poverty (based on their behavior on Facebook) were shown the relevant cause video.
+Test 1 (Nov 30, 2021 – Dec 8, 2021, campaigns: "Cause-Led" and "Factual") displayed either the long factual video or a cause focus video. In the cause focus condition, cause-specific audiences for animal rights, climate change, and poverty (based on their behavior on Facebook) were shown the relevant cause video.
 
-Test 2 (add dates) was the same as Test 1 but used the short factual video instead of the cause-focus videos.
+Test 2 (Starting December 8, campaign "Factual V2"?) was the same as Test 1 but used the short factual video instead of the cause-focus videos.
 
-Test 3 (add dates) was the same as Test 2 but had a new version of the videos (with Luke just holding up signs with the words). This test was also restricted to 18-35 year olds.
+Test 3 (Starting December 23, campaign "Cause-led V3" and "Factual V3" (?)): was the same as Test 2 but had a new version of the videos (with Luke just holding up signs with the words). This test was also restricted to 18-35 (or 18-44) year olds.^[We see 'no individuals over 45' in the data for all experiments starting after mid-December]
 
-Test 4: The Hypercube video was displayed in a separate “Hypercube” campaign which was tested against another campaign that allowed the algorithm to optimize between the 'short factual' and 'cause focus' videos (although not allowing each cause-specific audience to see the ads for other cause areas).
+Test 4:  (Starting December 23, "Hypercube" and "PPCo") The Hypercube video was displayed in a separate “Hypercube” campaign which was tested against another campaign that allowed the algorithm to optimize between the 'short factual' and 'cause focus' videos (although not allowing each cause-specific audience to see the ads for other cause areas).
 
 In all tests, the text content displayed above the video was determined by Facebook’s algorithm. Balance across variations was determined to equate budgets across split tests; otherwise, according to Facebook’s algorithm. All variation was done at the level of the impression.
 
@@ -225,16 +224,12 @@ source(here("gwwc", "giving_guides", "clean_gg_raw_data.R"))
 gg_campaign_by_ad_by_text_age_gender %<>%
   rename_gg() %>%
 gg_make_cols() %>% 
-  vid_clean() %>%  # Video rename and stuff
   text_clean() %>%  # Shorter 'text treatment' column
-  relevel_gwwc_gg_raw() %>% 
   dplyr::select(campaign_name, everything(), -campaign_name_1, -campaign_name_7) #campaign_name_7 was the same as campaign_name_1
 
 gg_video_breakdowns %<>%
   rename_gg() %>%
-gg_make_cols()  %>% 
-    vid_clean()  # Video rename and stuff
-
+gg_make_cols() 
 
 #gg_campaign_by_ad_by_text_age_gender %>% collapse::descr()
 
@@ -249,13 +244,12 @@ gg_video_breakdowns %<>%
       str_det(image_video_and_slideshow, "set_1|Animals") ~ "Animal",
       str_det(image_video_and_slideshow, "set_2|Climate") ~ "Climate",
       str_det(image_video_and_slideshow, "set_3|Poverty|Free Effective") ~ "Poverty",
-      str_det(image_video_and_slideshow, "factual") ~ "Factual",
-      TRUE ~ video_theme
+      str_det(image_video_and_slideshow, "factual_short|Factual Short") ~ "Factual short",
+    TRUE ~   video_theme
     ),
     video_theme =  factor(video_theme), 
-    video_theme = fct_relevel(video_theme, c("Animal", "Climate", "Poverty", "Factual", "Factual or optimized mix")) 
+    video_theme = fct_relevel(video_theme, c("Animal", "Climate", "Poverty", "Factual short", "Factual long", "Hypercube (factual)")) 
   )
-
 
 ```
 
@@ -325,6 +319,13 @@ impressions_campaign_audience <- gg_campaign_by_ad_by_text_age_gender %>% #creat
   .kable_styling()
 
 
+
+```
+
+::: {.callout-note collapse="true"}
+## Versions of videos: impressions
+
+```{r}
 (
   versions_of_videos <- gg_campaign_by_ad_by_text_age_gender %>%
   dplyr::select(video_theme, version, impressions) %>%
@@ -336,13 +337,18 @@ impressions_campaign_audience <- gg_campaign_by_ad_by_text_age_gender %>% #creat
 )
 ```
 
+::: 
+
 Some audiences were profiled as associated with a certain cause (through their Facebook interests or activities): in 'cause-focused' campaigns they were shown videos  for their profiled cause. In campaigns that were not cause-focused, they were shown general interest videos. However, those associated with one cause were never shown videos for other causes.
 
-Audience not åssociated with a cause included the 'General' audience, the Philanthropy (interested in charity) audience, a GWWC 'Lookalike' audience, and a Retargeted (?) audience: these were shown either the more general-interest videos or particular cause videos. Unfortunately, for these groups, when they were shown a cause-related video, we have not been able to extract the data on *which* cause-specific video they saw. This is illustrated in the table below.
+Audiences not associated with a cause included the 'General' audience, the Philanthropy (interested in charity) audience, a GWWC 'Lookalike' audience, and a Retargeted (?) audience: these were shown either the more general-interest videos or particular cause videos. ^[Unfortunately, for these groups, when they were shown a cause-related video, we cannot extract the data on *which* cause-specific video they saw, at least not in our data extracts that include certain other categories, like 'which text' or demographics]. This is illustrated in the table below.
+
+:::{.column-body-outset}
+
 
 ```{r impressions_video_audience}
 
-video_levels <- c("Animal", "Climate", "Poverty", "Cause-led (any)", "Factual", "Factual or optimized mix", "Total")
+video_levels <- c("Animal", "Climate", "Poverty", "Factual short",  "Factual long", "Hypercube (factual)", "Total")
   
 (
 impressions_video_audience <- gg_video_breakdowns %>%
@@ -353,7 +359,7 @@ impressions_video_audience <- gg_video_breakdowns %>%
     adorn_percentages("all") %>%
     adorn_totals(where = c("row", "col")) %>% 
     adorn_pct_formatting(digits = 2) %>% 
-    dplyr::select(video_theme, Animal, Climate, `Global Poverty`, `Philanthropy`, everything()) %>% 
+    dplyr::select(video_theme, Animal, Climate, `Global Poverty`, everything()) %>% 
    mutate(video_theme =  factor(video_theme, levels = video_levels)) %>%
   arrange(video_theme)  %>% 
     .kable(caption = "Video themes by audience: share of impressions", digits=3) %>%
@@ -361,26 +367,52 @@ impressions_video_audience <- gg_video_breakdowns %>%
 )
 
 ```
+:::
 
-The second treatment dimension -- text presented along with the video -- was allowed to vary independently of the video:
+:::{.column-body-outset}
+
+Below, we see that the second treatment dimension -- text presented along with the video -- was allowed to vary independently of the video (but these are probably not 'statistically independent').
 
 ```{r impressions_video_text}
+
+video_levels_gg <- c("Animal", "Climate", "Poverty", "Cause-led (any)", "Factual short",  "Factual long", "Hypercube (factual)", "Total")
 
 (
   impressions_video_text <- gg_campaign_by_ad_by_text_age_gender %>%
   dplyr::select(video_theme, text_treat, impressions) %>%
    uncount(weights = .$impressions) %>%
     dplyr::select(-impressions) %>%
-   table %>%
-        prop.table() %>% 
-        addmargins() %>% 
+        tabyl(video_theme, text_treat) %>% 
+    adorn_percentages("all") %>%
+    adorn_totals(where = c("row", "col")) %>% 
+    adorn_pct_formatting(digits = 2) %>% 
+   mutate(video_theme =  factor(video_theme, levels = video_levels_gg)) %>%
+  arrange(video_theme)  %>% 
   .kable(caption = "Video themes by text treatment: Impressions", digits=3) %>%
   .kable_styling()
 )
 
 
+```
+
+:::
+
+
+^[Again, note, above that we cannot identify all of the video treatments in the same dataset with text treatments; this is a limitation of the Facebook interface.]
+
+However, note that treatment shares are not equal.  In fact, as the first table in this section  shows, they are not even equal within each campaign. This is because Facebook optimizes to show videos and text more, the more successful they are.^[This also may lead FB to particularly combine certain message presentations more with certain video presentations. However we cannot check this in our current setup: it is confounded with 'audience profile' (at least in the data we can observe).]
+
+
+As shown in the fold below, the set of text treatments varied across campaigns: 
+
+
+::: {.callout-note collapse="true"}
+## Text treatments by campaign
+
+
+```{r}
 (
-  impressions_video_text <- gg_campaign_by_ad_by_text_age_gender %>%
+  impressions_text_campaign <- gg_campaign_by_ad_by_text_age_gender %>%
   dplyr::select(campaign_name, text_treat, impressions) %>%
    uncount(weights = .$impressions) %>%
     dplyr::select(-impressions) %>%
@@ -390,11 +422,9 @@ The second treatment dimension -- text presented along with the video -- was all
   .kable(caption = "Text treatments by campaign: Impressions", digits=3) %>%
   .kable_styling()
 )
-
 ```
-(Note, above that we cannot identify all of the video treatments in the same dataset with text treatments; this is a limitation of the Facebook interface)
 
-However, note that treatment shares are not equal.  In fact, as the second table above shows, they are not even equal within each campaign. This is because Facebook optimizes to show videos and text more, the more successful they are.^[This also may lead FB to particularly combine certain message presentations more with certain video presentations. However we cannot check this in our current setup: it is confounded with 'audience profile' (at least in the data we can observe).]
+:::
 
 
 ### Demographics 
@@ -419,19 +449,25 @@ As can be clearly seen above, within all age groups, the ad was disproportionall
 
 ### Outcomes 
 
+
+Below, we present the dates of each campaign, along with start dates and results:
+
+:::{.column-body-outset}
+
+
 ```{r campaign_date_outcomes}
 
 base_results_sum <- function(df) {
     df %>%
      dplyr::summarize(
   Cost = sum(round(amount_spent_usd,0)),
-      Impressions=sum(impressions),
+      `Impressions`=sum(impressions),
       `Link clicks`=sum(link_clicks, na.rm = TRUE),
       Results=sum(results, na.rm = TRUE),
-      `$/impr.` = round(Cost/Impressions,3),
-      `$/click` = round(Cost/ `Link clicks`,1),
-      `$/result` = round(Cost/Results,1),
-      `Results/1k impr.` = round(Results*1000/Impressions,1)
+      `$/ impr.` = round(Cost/Impressions,3),
+      `$/ click` = round(Cost/ `Link clicks`,1),
+      `$/ result` = round(Cost/Results,1),
+      `Results/ 1k impr.` = round(Results*1000/Impressions,1)
 )
      }
 
@@ -448,18 +484,53 @@ base_results_sum <- function(df) {
 )
 
 ```
+:::
 
-
+Next, the results by age and gender. As our age filters changed over time, we do this first for the earlier trials, when all age groups were included:
 
 ```{r age_gender_outcomes}
 (
-  age_outcomes <- gg_campaign_by_ad_by_text_age_gender %>%
+  age_outcomes_pre_12_09 <- gg_campaign_by_ad_by_text_age_gender %>%
     group_by(age) %>%
-        filter(impressions>500) %>%
+        filter(impressions>500, starts<= "2021-12-08") %>%
     base_results_sum() %>%
-    .kable(caption = "Results by Age") %>%
+    .kable(caption = "Results by Age: Campaigns starting on or before Dec 8 2021") %>%
     .kable_styling()
 )
+
+```
+
+
+While ^[this text is 'hard-coded' on 4 Aug 2022 ... if data changes we need to change the text] older age groups yield more results per impression, they are also more expensive. This approximately balances out, although the age 18-24 group are particular costly per result!
+
+
+In later trials we only targeted the younger age groups; the cost per results were similar to earlier trials , and fairly clsoe among the younger age groups (see fold).
+
+::: {.callout-note collapse="true"}
+
+## By age, later trials
+ 
+
+```{r age_outcomes_post_12_09}
+
+(
+  age_outcomes_post_12_09 <- gg_campaign_by_ad_by_text_age_gender %>%
+    group_by(age) %>%
+        filter(impressions>500, starts > "2021-12-08") %>%
+    base_results_sum() %>%
+    .kable(caption = "Results by Age: Campaigns starting on or after Dec 23 2021") %>%
+    .kable_styling()
+)
+
+
+
+```
+
+:::
+
+Results were similar by gender. Women converted at a somewhat higher rate overall, but their impressions were a bit more costly, thus cost per result roughly balanced out. Nonetheless, this might be somewhat informative for other contexts; women might be a particular promising audience, all else equal.  
+
+```{r}
 
 (
   gender_outcomes <- gg_campaign_by_ad_by_text_age_gender %>%
@@ -468,10 +539,12 @@ base_results_sum <- function(df) {
     .kable(caption = "Results by Gender") %>%
     .kable_styling()
 )
+
 ```
 
 
-Cost per click by audience (non-cause treatments):
+
+Next we describe the outcomes by our 'video' treatments,  focusing on the 'Philanthropy-interested' audience only, for comparability:
 
 ```{r audience_outcomes}
 (
@@ -498,25 +571,34 @@ Cost per click by audience (non-cause treatments):
 Above, we compare the text treatments for the later campaigns only. The earlier and later campaigns had a slightly different set of texts; combining across these risks confounding.
 By ad text and by video:
 
+We next consider results by audience, focusing on non-cause treatments for comparability. The overall (across all treatments, not fully comparable) by audience is given in the right margin. 
+
+
+
+
+
+:::{.column-body-outset}
 
 
 ```{r}
-
 
   
 (
   audience_outcomes <- gg_video_breakdowns %>%
     group_by(audience) %>%
-    filter(video_theme== "Animated" | video_theme== "Factual" ) %>%
+    filter(str_det(video_theme, "Factual|factual")) %>%
     base_results_sum() %>%
     DT::datatable(caption = "Results by audience for non-cause videos") 
 )
 
 ```
+:::
 
-Above, we look at the performance of different audiences. As cause-specific audiences tend to be presented particular cause videos, we focus only on non-cause-related videos here for greater comparability. 
+Above, we look at the performance of different audiences. As cause-specific audiences tend to be presented particular cause videos, we focus only on non-cause-related videos here for greater comparability across audiences. 
 
-*Format note:* The table above is presented with the `Datatables` package/function. This allows sorting, filtering, etc. We can present more tables in this format if it is preferrable.
+*Format note:* The final table above is presented with the `Datatables` package/function. This allows sorting, filtering, etc. We can present more tables in this format if it is preferable.
+
+
 
 ## Asking and answering questions
 
@@ -573,6 +655,94 @@ this is seen as a mean across observations, thus ~weighted by the size of the se
 possibly a mixed model, allowing for some random effects? (But I’m not great at that).
 
 -->
+
+
+## Building a set of models (to do)
+
+
+
+
+```{r targets, eval=FALSE}
+
+#targets:
+bin_out <- c("d_don_1k", "d_don_10pct")
+
+num_out <- c('donation_usd', 'don_av2_yr', 'l_don_usd', "l_don_av_2yr", "don_share_inc_imp_bc5k", "donation_plan_usd")
+targets <- c(bin_out, num_out)
+targets_short <- c("don_av2_yr", "don_share_inc_imp_bc5k", "d_don_1k") 
+
+#Note -- don_av2_yr is the right one for qpoisson as it already expresses things in exponents. l_don_av2_yr was the one to use in the loglinear model, which we are not emphasizing
+
+targets_short_names <- c("Log (Avg don +1)", "Don/Income", "Donated 1k+")
+```
+
+
+```{r impute_norm_features, warning=FALSE}
+#imputing and normalization
+```
+
+```{r key_labels, eval=FALSE}
+
+#labeling for model output 
+
+key_eas_all_labels <- c( #note these are converted to a list with as.list before assigning them
+    donation_usd = "Donation (USD)",
+    l_don_usd = "Log Don. (USD)",
+    l_don_av_2yr = "Log Don. 'avg.'",
+    ln_age = "Log age",
+    don_av2_yr = "Don. 'avg'",
+    donation_plan_usd = "Don. plan (USD)")
+```
+
+
+```{r features, eval = FALSE}
+
+feat_list = list(
+  c(key_demog, feat_income_employ, controls),
+  c(key_demog, feat_income_employ, controls, robust_controls),
+  c(key_demog, feat_income_employ, feat_gwwc_etg, controls) )
+
+feat_names = c("Baseline", "Robust controls",  "Base + EtG & GWWC")
+
+```
+
+
+```{r vars_list, eval = FALSE}
+
+rhs_vars_list <- rep(feat_list, length(targets_short))
+  
+outcome_vars_list <- rep(as.list(targets_short), each=length(feat_list))
+
+dfs <- rep(list(eas_all_s_rl_imp), length(outcome_vars_list))
+
+```
+
+```{r model-prep-linear, warning=FALSE, eval = FALSE}
+
+## Create dataframe for modeling
+(linear_models <- make_model_df(rhs_vars_list, outcome_vars_list, dfs))
+
+```
+
+
+
+
+```{r fit_linear_models, eval=FALSE}
+
+linear_models <- linear_models %>%
+  mutate(
+    lm_fit = fit_models(
+      linear_models, "formulas", "dfs", fun = fit_lm)
+    )
+
+# Extract coefficients, fitted and residuals
+model_feat_names <- rep(c(feat_names), times= length(targets_short))
+model_oc_names <- rep(c(targets_short_names), each= length(feat_names))
+model_names <- paste(model_oc_names, model_feat_names, sep = ": ")
+
+```
+
+
 ::: {.callout-note collapse="true"}
 ## Modeling goals/discussion/todo
 
@@ -602,6 +772,22 @@ Present a set of estimates for the mean and 80% CI for cost/result for key group
 
 ::: 
 
+```{r set_base_levels}
+#set base levels before doing modeling
+
+gg_campaign_by_ad_by_text_age_gender$age <- factor( gg_campaign_by_ad_by_text_age_gender$age,
+  ordered = FALSE )
+
+gg_campaign_by_ad_by_text_age_gender$age <- relevel( gg_campaign_by_ad_by_text_age_gender$age,
+  ref="18-24") 
+
+gg_campaign_by_ad_by_text_age_gender$audience <- factor( gg_campaign_by_ad_by_text_age_gender$audience,
+  ordered = FALSE )
+
+gg_campaign_by_ad_by_text_age_gender$audience <- relevel( gg_campaign_by_ad_by_text_age_gender$audience,
+  ref="Philanthropy")
+ 
+```
 
  
 ```{r}
@@ -709,6 +895,57 @@ Interactions/separate models for 'vary by audience'.
 
 ### Which *video* yields a Result at the highest rate/lowest cost? {.unnumbered}
 
+
+```{r common_plot_options}
+
+#Plot options in common
+
+limits <- aes(ymax = mean_dv + (se_dv), ymin = mean_dv - (se_dv))
+dodge <- position_dodge(width = 0.9)
+
+vid_types <-
+  c("factual short",
+    "animal",
+    "climate",
+    "factual long",
+    "hypercube",
+    "poverty")
+
+gg_gg_options <- list(geom_bar(stat = 'identity', position=dodge),
+  geom_errorbar(limits, position=dodge,  width=0.05),
+  jtools::theme_apa(),
+  theme(legend.position="none"),
+  geom_text(aes(label = paste("$",mean_dv %>% round(.,2)), y=5), position = position_dodge(.9), size=4, color="white"),
+  theme(text=element_text(size=10))
+)
+
+grpsumgg <- function(df, gvar, var) {
+  df %>%
+  group_by({{gvar}}) %>%
+  summarise(mean_dv = mean({{var}}, na.rm=TRUE),
+            se_dv = sd({{var}}, na.rm=TRUE)/sqrt(n()))
+}
+
+```
+
+
+```{r}
+
+gwwc_vid_results %>%
+  grpsumgg(media, DV_costadj) %>%
+  ggplot(aes(x=media, y=mean_dv)) +
+  gg_gg_options +
+  geom_bar(stat='identity',fill="#0072B2", position=dodge) +
+  ylab('Results/$ spent') +
+  xlab('Video') +
+  ggtitle('Results/$ spent by Video') +
+  scale_y_continuous(limits = c(0,.2),  breaks=seq(0,.2, by=.05)) +
+  scale_x_discrete(labels=vid_types)
+
+
+```
+
+
 - Refer to models/estimates above, coefficient on 'video'
 
 
@@ -805,16 +1042,16 @@ I may also present the data in a dashboard for self-service.
 
 ```{r}
 
-gwwc_vid_results %>% group_by(Age) %>% summarise(n=n()) %>% .kable() %>%  .kable_styling()
-gwwc_vid_results %>% group_by(Gender) %>% summarise(n=n())  %>% .kable() %>%  .kable_styling()
+#gwwc_vid_results %>% group_by(Age) %>% summarise(n=n()) %>% .kable() %>%  .kable_styling()
+#gwwc_vid_results %>% group_by(Gender) %>% summarise(n=n())  %>% .kable() %>%  .kable_styling()
 
 #print(gwwc_vid_results %>% group_by(Gender,Age) %>% summarise(n=n(),cost=mean(ave.cost.impr)),n=40)
 #print(gwwc_vid_results %>% group_by(Ad.Set.Name) %>% summarise(n=n(),cost=mean(ave.cost.impr)),n=41)
 #print(gwwc_vid_results %>% group_by(Campaign.name,Ad.Set.Name) %>% summarise(n=n(),cost=mean(ave.cost.impr)),n=100)
 
-gwwc_vid_results %>% group_by(audience) %>% summarise(n=n(), cost=mean(ave.cost.impr)*100) %>% .kable(digits=2, caption="Average cost per impression (in pennies)") %>%  .kable_styling()
+#gwwc_vid_results %>% group_by(audience) %>% summarise(n=n(), cost=mean(ave.cost.impr)*100) %>% .kable(digits=2, caption="Average cost per impression (in pennies)") %>%  .kable_styling()
 
-gwwc_vid_results %>% group_by(message) %>% summarise(n=n(),cost=mean(ave.cost.impr)*100) %>% .kable(digits=2, caption="Average cost per impression (in pennies)") %>%  .kable_styling()
+#gwwc_vid_results %>% group_by(message) %>% summarise(n=n(),cost=mean(ave.cost.impr)*100) %>% .kable(digits=2, caption="Average cost per impression (in pennies)") %>%  .kable_styling()
 
 ```
 
@@ -827,38 +1064,6 @@ gwwc_vid_results %>% group_by(message) %>% summarise(n=n(),cost=mean(ave.cost.im
 ```
 
 ## PLOTS
-
-```{r common_plot_options}
-
-#Plot options in common
-
-limits <- aes(ymax = mean_dv + (se_dv), ymin = mean_dv - (se_dv))
-dodge <- position_dodge(width = 0.9)
-
-vid_types <-
-  c("factual short",
-    "animal",
-    "climate",
-    "factual long",
-    "hypercube",
-    "poverty")
-
-gg_gg_options <- list(geom_bar(stat = 'identity', position=dodge),
-  geom_errorbar(limits, position=dodge,  width=0.05),
-  jtools::theme_apa(),
-  theme(legend.position="none"),
-  geom_text(aes(label = paste("$",mean_dv %>% round(.,2)), y=5), position = position_dodge(.9), size=4, color="white"),
-  theme(text=element_text(size=10))
-)
-
-grpsumgg <- function(df, gvar, var) {
-  df %>%
-  group_by({{gvar}}) %>%
-  summarise(mean_dv = mean({{var}}, na.rm=TRUE),
-            se_dv = sd({{var}}, na.rm=TRUE)/sqrt(n()))
-}
-
-```
 
 ### PLOT: Cost adjusted DV (results) by video
 
@@ -921,7 +1126,7 @@ gwwc_vid_results %>%
 
 ### PLOT: Cost adjusted DV (results) by video and audience
 
-Questions/Notes: Removed the retargeting audience
+^Questions/Notes: Removed the retargeting audience]
 
 ```{r}
 
@@ -1038,7 +1243,6 @@ gwwc_vid_results$Gender <- as.factor(gwwc_vid_results$Gender)
 
 class(gwwc_vid_results$Age)
 gwwc_vid_results$Age <- relevel(gwwc_vid_results$Age, ref="18-24")
-gwwc_vid_results$Age <- relevel(gwwc_vid_results$Age, ref="13-17")
 #levels(gwwc_vid_results$Age)
 
 #print(gwwc_vid_results %>% filter(ave.cost.impr>0) %>% group_by(Age,Gender) %>% summarise(results=mean(DV_costadj),SE=std.error(DV_costadj),n=n()),n=50)
@@ -1647,3 +1851,9 @@ gwwc_vid_results %>% filter(restriction18_39 == 0) %>% group_by(Age, media) %>% 
 
 
 ```
+
+
+## Modeling 'cost per result' and 'results per dollar': possible reference literature 
+
+[Sodomka, Eric, Sébastien Lahaie, and Dustin Hillard. "A predictive model for advertiser value-per-click in sponsored search." Proceedings of the 22nd international conference on World Wide Web. 2013.](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.448.8462&rep=rep1&type=pdf)
+

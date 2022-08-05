@@ -760,12 +760,16 @@ model_names <- paste(model_oc_names, model_feat_names, sep = ": ")
 ::: {.callout-note collapse="true"}
 ## Modeling goals/discussion/todo
 
+*Rethinking (5 Aug 2022): Cost per result may not be the best outcome to model as a first pass. We might better model results per impression and put in a cost adjustment later. See 
+
 1. Present mean/Bayesian updating: 
 
 - Overall cost/result 
    - and for different audiences
     - random effects?
 - present posterior distribution and intervals 
+
+Or a stripped down 'simulation approach'?
 
 2. Model (multivariable regression): 
 
@@ -914,7 +918,7 @@ Interactions/separate models for 'vary by audience'.
 
 #Plot options in common
 
-limits <- aes(ymax = mean_dv + (se_dv), ymin = mean_dv - (se_dv))
+limits <- aes(ymax = mean_dv + (ci_spread), ymin = mean_dv - (ci_spread))
 dodge <- position_dodge(width = 0.9)
 
 vid_types <-
@@ -926,38 +930,52 @@ vid_types <-
     "poverty")
 
 gg_gg_options <- list(geom_bar(stat = 'identity', position=dodge),
-  geom_errorbar(limits, position=dodge,  width=0.05),
+  geom_errorbar(limits, position=dodge,  width=0.25, color="red"),
   jtools::theme_apa(),
   theme(legend.position="none"),
-  geom_text(aes(label = paste("$",mean_dv %>% round(.,2)), y=5), position = position_dodge(.9), size=4, color="white"),
+  geom_text(aes(label = paste("$", mean_dv %>% round(.,2)), y=5), position = position_dodge(.9), size=4, color="white"),
   theme(text=element_text(size=10))
 )
 
-grpsumgg <- function(df, gvar, var) {
+grpsumgg <- function(df, gvar, var, ci_ends) {
   df %>%
   group_by({{gvar}}) %>%
   summarise(mean_dv = mean({{var}}, na.rm=TRUE),
-            se_dv = sd({{var}}, na.rm=TRUE)/sqrt(n()))
+            se_dv = sd({{var}}, na.rm=TRUE)/sqrt(n()),
+            ci_spread = qt(1 - (ci_ends / 2), n() - 1) * se_dv)
 }
 
 ```
 
 
-```{r}
+```{r gwwc_vid_results_plot}
 
-gwwc_vid_results %>%
-  grpsumgg(media, DV_costadj) %>%
-  ggplot(aes(x=media, y=mean_dv)) +
-  gg_gg_options +
+gg_video_breakdowns %>%
+        mutate(results_per_100usd = results/(amount_spent_usd/100)) %>% 
+     uncount(weights = .$impressions) %>%
+  grpsumgg(video_theme, results_per_100usd, 0.1) %>%
+  ggplot(aes(x=video_theme, mean_dv)) +
   geom_bar(stat='identity',fill="#0072B2", position=dodge) +
+  gg_gg_options +
   ylab('Results/$ spent') +
   xlab('Video') +
-  ggtitle('Results/$ spent by Video') +
-  scale_y_continuous(limits = c(0,.2),  breaks=seq(0,.2, by=.05)) +
+  ggtitle('Results/$ spent by Video, 90% CIs') +
   scale_x_discrete(labels=vid_types)
 
 
+gwwc_vid_results %>%
+  grpsumgg(media, DV_costadj, 0.1) %>%
+  ggplot(aes(x=media, y=mean_dv)) +
+  geom_bar(stat='identity',fill="#0072B2", position=dodge) +
+  gg_gg_options +
+  ylab('Results/$ spent') +
+  xlab('Video') +
+  ggtitle('Results/$ spent by Video, 90% CIs') +
+  scale_y_continuous(limits = c(0,.2),  breaks=seq(0,.2, by=.05)) +
+  scale_x_discrete(labels=vid_types)
+
 ```
+
 
 
 - Refer to models/estimates above, coefficient on 'video'
@@ -1054,52 +1072,14 @@ I may also present the data in a dashboard for self-service.
 
 ### PLOT: Cost adjusted DV (results) by video
 
-```{r gwwc_vid_results_tab}
-
-gwwc_vid_results %>%
-    filter(ave.cost.impr > 0) %>%
-    group_by(media) %>%
-    summarise(
-    `Results per $ (adjusted)` = mean(DV_costadj),
-    SE = std.error(DV_costadj),
-    n = n()
-  ) %>%
-  arrange(-`Results per $ (adjusted)`) %>%
-  .kable(digits = 3) %>%
-  .kable_styling()
-
-```
-
-```{r gwwc_vid_results_plot}
-
-gwwc_vid_results %>%
-  grpsumgg(media, DV_costadj) %>%
-  ggplot(aes(x=media, y=mean_dv)) +
-  gg_gg_options +
-  geom_bar(stat='identity',fill="#0072B2", position=dodge) +
-  ylab('Results/$ spent') +
-  xlab('Video') +
-  ggtitle('Results/$ spent by Video') +
-  scale_y_continuous(limits = c(0,.2),  breaks=seq(0,.2, by=.05)) +
-  scale_x_discrete(labels=vid_types)
-
-```
 
 ### PLOT: DV (Results) by video
 
 ```{r}
-gwwc_vid_results %>% filter(ave.cost.impr > 0) %>%
-  group_by(media) %>%
-  summarise(
-  results = 100 * mean(DV),
-  SE = 100 * std.error(DV),
-  n = n()
-) %>%
-  .kable(digits = 2) %>%
-  .kable_styling()
+
 
 gwwc_vid_results %>%
-   grpsumgg(media, DV) %>%
+   grpsumgg(media, DV, .1) %>%
   ggplot(aes(x=media, y=mean_dv)) +
   geom_bar(stat='identity', fill="#0072B2",position=dodge) +
   ylab('Results (%)')+
@@ -1113,7 +1093,7 @@ gwwc_vid_results %>%
 
 ### PLOT: Cost adjusted DV (results) by video and audience
 
-^Questions/Notes: Removed the retargeting audience]
+^[Questions/Notes: Removed the retargeting audience]
 
 ```{r}
 
@@ -1133,9 +1113,7 @@ gwwc_vid_results %>% filter(ave.cost.impr>0 & audience !="retargeting") %>%
   ggtitle('Results/$ spent by Video and Audience')+
   theme_apa(legend.font.size = 8,legend.use.title = TRUE)+
   scale_y_continuous(limits = c(0,.25), oob = rescale_none, breaks=seq(0,.75, by=.25)) +
-  scale_x_discrete(labels=c("philanthropy","animal","climate","general","lookalike","poverty","retargeting")) %>%
-  DT::datatable()
-
+  scale_x_discrete(labels=c("philanthropy","animal","climate","general","lookalike","poverty","retargeting")) 
 #levels(gwwc_vid_results$audience)
 
 
@@ -1222,7 +1200,7 @@ gwwc_vid_results %>% filter(ave.cost.impr>0 & audience !="retargeting") %>%
 
 ### PLOT: Cost adjusted DV (results) by age and gender
 
-Did not filter out the retargeting audience like i did for the other charts
+^[Did not filter out the retargeting audience like i did for the other charts]
 
 ```{r}
 gwwc_vid_results$Gender <- as.factor(gwwc_vid_results$Gender)
@@ -1839,6 +1817,33 @@ gwwc_vid_results %>% filter(restriction18_39 == 0) %>% group_by(Age, media) %>% 
 
 ```
 
+
+## Modeling/simulating CIs for results by group
+
+**Sketched proposal**
+
+1. Assume the 'cost per impression' (CpI) is fixed for each group or segment -- take that as exogenous and something we adjust for at the end^[Although I am not sure if this is the case; the costs and number of impressions served are determined in a complicated way.]
+
+2.  Make some assumptions about the distribution of the probability of a result from an impression for each individual in each group $g$; call this $P_{ig}$. 
+E.g., each outcome $r_i \in \{0,1\}$ is drawn with probability  $P_{ig}$.
+We see the average of these draws. 
+
+A close-to-correct simplification might yield that the group-specific results per impression (RpI) is the average value of $P_{ig}$ for the group, call this $P_g$. We can make some intuitive assumptions about the variance of $P_{ig}$ around $P_g$ within each group.
+
+So we would have something like:
+$P_{ig} \sim  \beta$ distribution with a mean of RpI (results per impression for the group), and some reasonable variation. 
+
+3. Let $N_g$  be the number of impressions we see per group. 
+
+In each simulation replication, simulate $N_g$ draws of $P_{ig}$ for each individual in each group $g$.
+
+Next 'flip an unfair coin for each individual', where the coin has probability $P_{ig}$ of a result.  This yields $N_g$ draws of the 0/1 outcome $r_i(g)$ for each group
+
+4. Look at the distribution of results for each group across many simulations.  This can easily be converted to the distribution of RpI for each group, or, assuming CpI is fixed, the distribution of 'cost per result' (or results per cost) for each group. 
+
+This gives us our confidence intervals. 
+
+The above is a bit ad-hoc (but less than our previous work). I suspect the procedure comes close to something that could give us something Bayesian. 
 
 ## Modeling 'cost per result' and 'results per dollar': possible reference literature 
 

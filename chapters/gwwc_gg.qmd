@@ -253,10 +253,28 @@ gg_video_breakdowns %<>%
 
 ```
 
+
+```{r export}
+
+cleaned_data_path <- list("gwwc", "gg_processed_data")
+
+
+#export 'cleaned' data for others to play with immediately
+write.csv(gg_video_breakdowns, here(cleaned_data_path, "gg_video_breakdowns.csv"))
+write.csv(gg_campaign_by_ad_by_text_age_gender, here(cleaned_data_path, "gg_campaign_by_ad_by_text_age_gender.csv"))
+
+write_rds(gg_video_breakdowns, here(cleaned_data_path, "gg_video_breakdowns.Rdata"))
+write_rds(gg_campaign_by_ad_by_text_age_gender, here(cleaned_data_path, "gg_campaign_by_ad_by_text_age_gender.Rdata"))
+
+```
+
+
 ::: {.callout-note collapse="true"}
-## This data should be publicly shareable.
+## This data should be publicly shareable; above, we 'export'
 
 This data is clearly not identifying individuals; it involves aggregates based on real or assumed characteristics ... there is likely nothing that needs to be hidden here. We aim to share and integrate all the data in this repo, for a complete pipeline.
+
+In the code above, we create several 'cleaned data' files for others to access in the Github repo
 
 :::
 

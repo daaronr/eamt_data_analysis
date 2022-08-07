@@ -6,7 +6,7 @@ source(here("gwwc", "giving_guides", "clean_gg_data.R")) #a function for some sp
 # 1. textdata_dv_linkclicks.csv ####
 
 
-gwwc_text_clicks <- read.csv(here(raw_data_path, "textdata_dv_linkclicks.csv"))
+#gwwc_text_clicks <- read.csv(here(raw_data_path, "textdata_dv_linkclicks.csv"))
 
 
 gwwc_text_clicks <- clean_gwwc_gg(gwwc_text_clicks)

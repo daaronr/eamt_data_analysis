@@ -32,16 +32,6 @@ More self-service/interaction ^[May want to build  [Flexdashboards](https://pkgs
 `DT::datatable` where possible, style as appropriate] 
 
 
-```{r}
-library(pacman)
-p_load(leaflet)
-library(leaflet)
-leaflet() |>
-  setView(174.764, -36.877, zoom = 16) |> 
-  addTiles() |>
-  addMarkers(174.764, -36.877, popup = "Maungawhau") 
-```
-
 ## Tech and collophon
 
 This is styled with Quarto. See my template repo  [here](https://github.com/daaronr/dr_quarto_template), hosted [here](https://daaronr.github.io/dr_quarto_template/),

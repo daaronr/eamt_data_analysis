@@ -63,6 +63,11 @@ See full description in the gitbook [here](https://effective-giving-marketing.gi
 
 > **Effective Giving Guide Lead Generation campaign** ... ran late November 2021 - January 2022. The objective of this campaign was to see whether a factual ['who researches giving' or 'magnitude of impact differences'] or cause-led approach was more cost-effective at getting people to fill out a form and give us their email in order to download our Effective Giving Guide.
 
+The page they were directed to <!-- (DR: probably the one linked below ) --> 
+
+[Learn how to give more effectively](https://www.givingwhatwecan.org/giving-guide) allowed you to download the guide only after leaving your email.
+
+
 ### Treatments (text $\times$ video)
 
 *There were two dimensions of treatment content:*
@@ -266,14 +271,14 @@ gg_video_breakdowns %<>%
 ```
 
 
+
 ```{r export}
 
 cleaned_data_path <- list("gwwc", "gg_processed_data")
 
-
 #export 'cleaned' data for others to play with immediately
-write.csv(gg_video_breakdowns, here(cleaned_data_path, "gg_video_breakdowns.csv"))
-write.csv(gg_campaign_by_ad_by_text_age_gender, here(cleaned_data_path, "gg_campaign_by_ad_by_text_age_gender.csv"))
+write.csv(gg_video_breakdowns, here(cleaned_data_path, "gg_video_breakdowns.csv"), row.names = FALSE)
+write.csv(gg_campaign_by_ad_by_text_age_gender, here(cleaned_data_path, "gg_campaign_by_ad_by_text_age_gender.csv"), row.names = FALSE)
 
 write_rds(gg_video_breakdowns, here(cleaned_data_path, "gg_video_breakdowns.Rdata"))
 write_rds(gg_campaign_by_ad_by_text_age_gender, here(cleaned_data_path, "gg_campaign_by_ad_by_text_age_gender.Rdata"))
@@ -378,6 +383,9 @@ Audiences not associated with a cause included the 'General' audience, the Phila
 ```{r reach_video_audience}
 
 video_levels <- c("Animal", "Climate", "Poverty", "Factual short",  "Factual long", "Hypercube (factual)", "Total")
+
+audience_levels <- c("Animal", "Climate", "Global Poverty", "Philanthropy", "General audience", "Lookalikes", "Retargeting")
+
 
 adorn_opts <- function(df) {
   df %>% 
@@ -1174,7 +1182,7 @@ I may also present the data in a dashboard for self-service.
 
 ```
 
-## Erin's work (moved) 
+<!--  Erin's work  has been (moved) 
 
 ### PLOTS (Erin)
 
@@ -1184,10 +1192,12 @@ Moved to archive: `eamt_data_analysis/gwwc/giving_guides/archive_erin/erin_plots
 
 Moved to archive: `../erin_plots_stats_gg.qmd`
 
+--> 
 
 ## Modeling/simulating CIs for results by group
 
-**Sketched proposal**
+::: {.callout-note collapse="true"}
+##  Simulation-based: Sketched proposal
 
 1. Assume the 'cost per impression' (CpI) is fixed for each group or segment -- take that as exogenous and something we adjust for at the end^[Although I am not sure if this is the case; the costs and number of impressions served are determined in a complicated way.]
 
@@ -1211,9 +1221,12 @@ Next 'flip an unfair coin for each individual', where the coin has probability $
 This gives us our confidence intervals.
 
 The above is a bit ad-hoc (but less than our previous work). I suspect the procedure comes close to something that could give us something Bayesian.
+:::
 
 
-### Adjusting to Jamie's suggestions ... for a 2 step simulation
+::: {.callout-note collapse="true"}
+
+## Adjusting the above to Jamie's suggestions ... for a 2 step simulation
 
 
 1. Draw $P_{gci}$ — the probability of a click for person $i$ in group $g$ for each individual (impression) in each group which might have a mean at the empirical click rate for this group, $C_g/N_g$, where $N_g$ is the number of impressions in group $g$
@@ -1234,20 +1247,26 @@ But I don’t think that the simulation posed above itself suffers from this pro
 
 As long as we don’t try to make (overly strong inferences) from the differences in $P_{gr|c}$ by group $g$ itself, I think we are OK. So the ‘two step’ simulation could indeed be better here.
 
+:::
 
-## Bayesian Logistic regressions and CIs -- from Jamie's work in `fb ad analysis.R`
+## Bayesian Logistic regressions and CIs 
+
+This comes from Jamie's work in `fb ad analysis.R`
 
 [google drive link](https://drive.google.com/file/d/1t_dySvC-GIQcSY2hJw7rfofuv15Qlg0s/view?usp=sharing)
 
-```{r}
+```{r packages}
 library(pacman)
 p_load(brms, install=FALSE)
 library(brms)
 p_load(tidybayes, install=FALSE)
 library(tidybayes)
+
+
+
 ```
 
-```{r}
+```{r sum_results_collapse}
 
 sum_results <- function(df) {
     df %>%
@@ -1270,11 +1289,96 @@ sum_results
 
 ```
 
-... checking some reasonable priors by looking at percentage conversion rate with different numbers
+In the chunk below, we compute and set minimally informative priors for the click rates model.
+
+```{r priors_clicks}
+
+#helper function to 'make priors'
+make_prior_normal <- function(mean, sd, ...) {
+  prior_string(paste0("normal(", mean, ",", sd, ")"), ...)
+}
+
+prior_click_per_reach <- 0.028
+
+prior_intercept_click <-  logit(prior_click_per_reach)
+
+prior_intercept_click_ub <- 0.15
+se_prior_click <- (logit(prior_intercept_click_ub) - prior_intercept_click)/1.96
+
+prior_slope_click_ub <- 0.25
+se_prior_slope_click <- (logit(prior_slope_click_ub) - prior_intercept_click)/1.96
+
+prior_click <- c(
+  make_prior_normal(prior_intercept_click, se_prior_click, class = "Intercept"),
+make_prior_normal(0, se_prior_slope_click, class = "b")
+)
+
+#DR @Jamie: This is a log ratio of probabilities, iirc. Why are we assuming it is normally distributed? 
+
+```
 
 
-<!-- plogis(-3.5)... DR: what was this doing? -->
+::: {.callout-note collapse="true"}
+## Determining appropriate priors for click rates - intercept
 
+In the code chunk just above, we define the priors which we use below.
+
+Where did this come from? It is somewhat casual, but given the very large dataset, we don't expect our results to be very sensitive to the priors.
+
+A `r prior_click_per_reach`  click rate (as a share of 'reach') seemed like a reasonable mean. This is approximately the rate GWWC saw in all of its trials before February 2021, when this trial started. `logit(prior_click_per_reach)` gives us the intercept associated with this prior expected outcome rate.  
+
+The prior on the standard error for the intercept is not based on prior data. We considered 'what baseline rate would we consider to be extremely unlikely?', and set the standard deviations to be about half of this (recalling that 95% of the area of a normal distribution is within 1.96 sd's of the mean) . In the positive direction, a rate of 15% or more would be truly shocking. This would yield a logit intercept of `logit(prior_intercept_click_ub)` = `r logit(prior_intercept_click_ub)`. Differencing this from the prior mean and dividing by two yields our chosen prior intercept standard error: `r op(se_prior_click)`; note this gives a 95 percent lower-bound of a `r op(plogis(prior_intercept_click - 1.96*se_prior_click)*100)`% click rate.   
+
+:::
+
+::: {.callout-note collapse="true"}
+## Determining appropriate priors for click rates - coefficients 
+
+In determining priors for the slopes (adjustments for different groups), we start with a mean expected slope of 0; this is consistent with a sort of 'unbiased' prior, not loading the dice in either direction, and also most adaptable to a range of groups we might consider. We again considered 'what mean click rates would be very surprising'. A click rate of 25% of more for any targeted subgroup or treatment would be very unexpected -- this seems conservative. By similar calculations above, this yields  `se_prior_slope_click` =  `r se_prior_slope_click`.
+
+Could we instead do this considering reasonable 'proportional differences in rates'? We will consider this for future work (possible challenge: it may interact with the intercepts).
+
+:::  
+
+In the chunk below, we compute and set minimally informative priors for the results model. Again, some notes follow.
+
+
+```{r priors_results}
+
+prior_results_per_click <- 0.20
+
+prior_intercept_results <-  logit(prior_results_per_click)
+
+prior_intercept_results_ub <- 0.75
+se_prior_results <- (logit(prior_intercept_results_ub) - prior_intercept_results)/1.96
+
+prior_slope_results_ub <- 0.85
+se_prior_slope_results <- (logit(prior_slope_results_ub) - prior_intercept_results)/1.96
+
+prior_results <- c(
+  make_prior_normal(prior_intercept_results, se_prior_results, class = "Intercept"),
+make_prior_normal(0, se_prior_slope_results, class = "b")
+)
+
+
+```
+
+:: {.callout-note collapse="true"}
+## Determining appropriate priors for results (per click)
+
+See the above discussion folds on priors for clicks for our general approach.  
+
+For results per click (RpC), we had very little data or experience to go on. The little prior data GWWC had on results per click were from very different contexts, e.g., RSVPs for attending events rather than simply leaving an email. In those cases results per click are (as we expect, are results per click for Facebook ads are in general). However, here people are clicking on a call to action like 'Download the Effective Giving Guide', directing them to a site where they merely need to leave their email to download this guide.  Thus, if the clicks are intentional, a much higher rate of 'result' seems reasonable. Thus we compromised on a `r prior_results_per_click*100`% 'results per click' rate as our overall prior mean.
+
+We would be 'very surprised' (seems 5% likely or less) with an RpC of over `r prior_intercept_results_ub*100`% overall or `r prior_slope_results_ub*100`% for any subgroup -- we derive the standard errors of the intercept and slope from these, as for clicks.  
+
+(Note: this implies a 95% CI lower-bound of a 
+`r op(plogis(prior_intercept_results - 1.96*se_prior_results)*100)`% overall RpC rate.)  
+
+:::
+
+
+### Estimating the models 
 
 ```{r clicks_reg2}
 
@@ -1286,65 +1390,69 @@ results_per_click_video_aud <- as.formula("results | trials(clicks) ~ video_them
 ## passing a list
 arg.list <- list(init = 0, chains = 4, cores = 4, iter = 2500, warmup = 500, backend = "cmdstanr", seed = 1010, silent=2,  refresh = 0) 
 
-clicks_logit_vid <-  do.call("brm", c(list(data =gg_video_breakdowns_col, 
+clicks_logit_vid <-  do.call("brm", c(list(
+  data =gg_video_breakdowns_col, 
   formula = clicks_per_reach_video_aud,
                   family = binomial("logit"),
                   control = list(adapt_delta = 0.99, max_treedepth = 15),
-                  prior = c(prior(normal(-3.5, 2), #DR: where do the priors come from?  
-                    class = Intercept),
-                            prior(normal(0, 1), class = b))),
+                   prior = prior_click),
                   arg.list,                  
   list(threads = threading(8)))
 )
 
 
-results_logit_vid <-  do.call("brm", c(list(data = gg_video_breakdowns_col, 
+results_logit_vid <-  do.call("brm", c(list(
+  data = gg_video_breakdowns_col, 
   formula = results_per_click_video_aud,
                   family = binomial("logit"),
                   control = list(adapt_delta = 0.99, max_treedepth = 15),
-                  prior = c(prior(normal(-3.5, 2), #DR: where do the priors come from?  
-                    class = Intercept),
-                            prior(normal(0, 1), class = b))),
+                  prior = prior_results),
                   arg.list,                  
   list(threads = threading(8)))
 )
 
 ```
+### (To do) Summarize the model results/coefficients in clean tables here
+
+### Forest plots
+
 ```{r full_crossing}
 
 # posterior expectations:
 full_crossing <- expand_grid(
   "video_theme" = unique(gg_video_breakdowns_col$video_theme),
   "audience" = unique(gg_video_breakdowns_col$audience)) %>% 
-  mutate(reach = 1,
+  mutate(reach = 1, #it is estimating the number of clicks based on the reach
          clicks = 1) %>% 
 filter(!(audience=="Animal" & (video_theme == "Climate" | video_theme == "Poverty")))  %>%
     filter(!(audience=="Climate" & (video_theme == "Animal" | video_theme == "Poverty")))  %>%
-    filter(!(audience=="Global Poverty" & (video_theme == "Animal" | video_theme == "Climate")))
+    filter(!(audience=="Global Poverty" & (video_theme == "Animal" | video_theme == "Climate"))) #remove combinations where we don't have data ... at least for now
 
-# setting reach/clicks = 1 will give us proportion of conversions (DR: why?)
+# setting reach and clicks = 1 will give us proportion of conversions (because it makes a prediction for total outcomes per unit )
 
-click_post <- posterior_epred(clicks_logit_vid, ndraws = 1000, newdata = full_crossing)
-results_post <- posterior_epred(results_logit_vid, ndraws = 1000, full_crossing)
+click_post <- posterior_epred(clicks_logit_vid, newdata = full_crossing) #ndraws = 1000, 
+results_post <- posterior_epred(results_logit_vid, full_crossing)
 
-combined_post <- click_post * results_post #DR: I guess we are multiplying the predicted probabilities of click and conversion here?
+combined_post <- click_post * results_post #DR: multiplying the predicted probabilities of click and conversion here?
 
 ```
 
 ```{r tib_post}
 #make tibbles of the stuff above, put it together s
 
-post_tib_clean <- function(df, name) {
-  df %>% 
+full_crossing <- function(df, name) {
+  data <- df %>% 
     as.tibble() %>% 
     pivot_longer(cols = everything(),
     names_to = "identifier",
-    values_to = "probability") %>%
+    values_to = "probability") 
+  data <- data %>% 
      mutate(level = name,
-       theme = rep(full_crossing$video_theme, 1000),
-       audience = rep(full_crossing$audience, 1000)
-       #     starts = rep(full_crossing$starts, 1000) #ÎR: I think I want starts (start date as a factor) in the model, because the audience may be systematically different on those days, and other things change we leave out here. However, I don't want to see it in the graphs. How to do that? 
+       theme = rep(full_crossing$video_theme, dim(data)[1]/dim(full_crossing)[1]),
+       audience = rep(full_crossing$audience,  dim(data)[1]/dim(full_crossing)[1])
+       #     starts = rep(full_crossing$starts, 1000) #DR: I think I want starts (start date as a factor) in the model, because the audience may be systematically different on those days, and other things change we leave out here. However, I don't want to see it in the graphs. How to do that? 
      )
+  return(data)
 }
 
 # make tibbles
@@ -1364,29 +1472,51 @@ full_post <- bind_rows(tib_click_post,
 ```
 
 
+
 ```{r post_summary}
+
 hdi <- HDInterval::hdi
 
-CI_choice_narrow <- 0.6
-CI_choice_wide <- 0.9
+CI_choice_n <- 0.6
+CI_choice_w <- 0.9
 
-sum_mean_hdi <- function(df) {
+sum_mean_hdi <- function(
+    df, 
+  var = probability, scaleme=100, CI_choice_n=CI_choice_narrow, CI_choice_w = CI_choice_wide) {
   df %>% 
-    summarise(mean = mean(probability) * 100,
-            lower_n = hdi(probability, credMass = CI_choice_narrow)[1] * 100,
-            upper_n = hdi(probability, credMass = CI_choice_narrow)[2] * 100,
-              lower_w = hdi(probability, credMass = CI_choice_wide)[1] * 100,
-            upper_w = hdi(probability, credMass = CI_choice_wide)[2] * 100)
+    summarise(
+      mean = mean({{var}}) * scaleme,
+            lower_n = hdi({{var}}, credMass = CI_choice_n)[1] * scaleme,
+            upper_n = hdi({{var}}, credMass = CI_choice_n)[2] * scaleme,
+              lower_w = hdi({{var}}, credMass = CI_choice_wide)[1] * scaleme,
+            upper_w = hdi({{var}}, credMass = CI_choice_wide)[2] * scaleme,
+          lower_eti = quantile({{var}}, (1-CI_choice_wide)/2) * scaleme,
+    upper_eti = quantile({{var}}, 1-(1-CI_choice_wide)/2) * scaleme,
+      check = length(hdi({{var}}))
+    )
 } 
-  
 
-post_summary <- full_post %>% 
-  group_by(level, theme, audience) %>% #, starts
-  sum_mean_hdi
+
+mutate_mean_hdi <- function(
+    df, 
+  var = probability, scaleme=100, CI_choice_n=CI_choice_narrow, CI_choice_w = CI_choice_wide) {
+  df %>% 
+    dplyr::mutate(
+      mean = mean({{var}}) * scaleme,
+            lower_n = hdi({{var}}, credMass = CI_choice_n)[1] * scaleme,
+            upper_n = hdi({{var}}, credMass = CI_choice_n)[2] * scaleme,
+              lower_w = hdi({{var}}, credMass = CI_choice_wide)[1] * scaleme,
+            upper_w = hdi({{var}}, credMass = CI_choice_wide)[2] * scaleme,
+          lower_eti = quantile({{var}}, (1-CI_choice_wide)/2) * scaleme,
+    upper_eti = quantile({{var}}, 1-(1-CI_choice_wide)/2) * scaleme,
+      check = length(hdi({{var}}))
+    )
+} 
+
 
 ```
 
-### Results by audience
+#### Results by audience {-}
 
 We ran two Bayesian Logit models, presented above. Results come out of a two-stage process: some people who see the ad click on it. Some of those who click on the ad leave their email (asking for a Giving Guide). We model clicks as a share of unique impressions ('reach') and results as a share of clicks, allowing each to vary by video theme and by audience. (Later: by text and by demographics.)  The product of these shares (probabilities) yields results as a share of impressions, the main outcome of interest. 
 
@@ -1402,6 +1532,7 @@ Below, we plot the point means (aka 'coefficients') and 'highest density interva
 
 
 ```{r aud_plots}
+
 aud_plots <- function(df) {
   df %>% 
        filter(audience!="Retargeting")  %>%
@@ -1436,7 +1567,7 @@ reach_to_clicks_aud_plot_no_cause <-  full_post  %>%
 
 (
 reach_to_clicks_aud_plot_cause <-  full_post  %>%
-    filter(!str_det(theme, "Animal|Climate|Poverty"))  %>%
+    filter(str_det(theme, "Animal|Climate|Poverty"))  %>%
         aud_plots() +
  labs(title = "By audience, Cause videos only",
        x = "Estimated % 'converting' with 60% and 90% HDI")  +
@@ -1446,8 +1577,35 @@ reach_to_clicks_aud_plot_cause <-  full_post  %>%
 
 ```
 
+::: {.callout-note}
 
-### Results by Video
+Note: the 'pooled' graphs in this section may not be correctly weighted across subcategories. We need to reexamine this. 
+
+::: 
+
+
+For the 'cause videos only' we see (todo: doublecheck after final estimates) that the philanthropy audience, across all causes, seems to perform at least as well as the climate and 'global poverty' audiences (when the latter are presented videos for the causes they are said to care about). However, the animal audiences seems to perform substantially better. 
+
+For example, focusing on climate-cause videos (and removing 'lookalikes') below, we see that the philanthropy audience performs substantially better than the climate audience.
+
+```{r}
+(
+reach_to_clicks_aud_plot_climate <-  full_post  %>%
+    filter(str_det(theme, "Climate"))  %>%
+    filter(audience!="Lookalikes") %>% 
+        aud_plots() +
+ labs(title = "By audience, Climate videos only",
+       x = "Estimated % 'converting' with 60% and 90% HDI")  +
+      facet_grid(~level, scales = "free")
+
+)
+
+```
+
+
+
+### Results by Video   (todo: fix weighting)
+
 ```{r}
 
 vid_plots <- function(df) {
@@ -1463,7 +1621,6 @@ vid_plots <- function(df) {
     y = theme))
     } 
 
-
 (
 reach_to_clicks_vid_plot <-  full_post  %>%
     vid_plots() +
@@ -1472,9 +1629,8 @@ reach_to_clicks_vid_plot <-  full_post  %>%
       facet_grid(~level, scales = "free")
 )
 
-
 (
-reach_to_clicks_vid_plot <-  full_post  %>%
+reach_to_clicks_vid_plot_phil <-  full_post  %>%
             filter(audience == "Philanthropy")  %>%
     vid_plots() +
   labs(title = "By theme, 'philanthropy' audience only",
@@ -1483,37 +1639,174 @@ reach_to_clicks_vid_plot <-  full_post  %>%
 )
 
 
-
 ```
 
 
 ```{r full_plots}
 
+(
 reach_to_clicks_plot <-  full_post  %>%
-    group_by(level, theme) %>% #, starts
+      filter(grepl("1", level)) %>% 
+    group_by(theme, audience) %>% #, starts
     sum_mean_hdi %>% 
-    filter(grepl("1", level)) %>% 
+      mutate(theme = reorder(as.factor(theme), `mean`)) %>% 
+      filter(audience!="Retargeting")  %>%
     ggplot() + 
-  geom_errorbarh(aes(xmin = lower_n, xmax = upper_n, y = theme)) +
+  geom_errorbarh(aes(xmin = lower_n, xmax = upper_n, y = theme), height = .7, color = "red") +
+  geom_errorbarh(aes(xmin = lower_w, xmax = upper_w, y = theme),  height=.25, color = "blue") +
   geom_point(aes(x = mean, y = theme)) +
+  coord_cartesian(xlim=c(0, 1.75)) +
   facet_wrap(~audience, scales = "fixed") +
-  labs(title = "Conversions by video theme",
-       x = "Estimated % clicking with 80% HDI") +
+  labs(title = "Clicks by video theme and audience",
+       x = "Estimated % clicking with 60% and 90% HDIs") +
   facet_wrap(~audience, scales = "fixed")
+)
 
-
-reach_to_clicks_plot_phil_audience <-  post_summary %>% 
-    filter(grepl("1", level)) %>% 
-    filter(audience!="Retargeting")  %>%
+(
+reach_to_results_plot <-  full_post %>% 
+      filter(grepl("3", level)) %>% 
+      group_by(theme, audience) %>% #, startslevel, 
+      sum_mean_hdi %>% 
+        mutate(theme = reorder(as.factor(theme), `mean`)) %>% 
+      filter(audience!="Retargeting")  %>%
     ggplot() + 
-  geom_errorbarh(aes(xmin = lower_n, xmax = upper_n, y = theme)) +
-  geom_point(aes(x = mean, y = theme)) +
+  geom_errorbarh(aes(xmin = lower_n, xmax = upper_n, y = theme), height = .7, color = "red") +
+  geom_errorbarh(aes(xmin = lower_w, xmax = upper_w, y = theme),  height=.25, color = "blue") +  geom_point(aes(x = mean, y = theme)) +
   facet_wrap(~audience, scales = "fixed") +
-  labs(title = "Reach to clicks",
-       x = "Estimated % clicking with 80% HDI") +
-  facet_wrap(~audience, scales = "fixed")
+    coord_cartesian(xlim=c(0, 0.8)) +
+  labs(title = "Reach to results (total)",
+       x = "Estimated % results with 60% and 90% HDIs") +
+  facet_wrap(~factor(audience, levels=audience_levels), scales = "fixed")
+)
+
+(
+reach_to_results_plot_flip <-  full_post %>% 
+      filter(grepl("3", level)) %>% 
+      group_by(audience, theme) %>% #, startslevel, 
+      sum_mean_hdi %>% 
+        mutate(audience = reorder(as.factor(audience), `mean`)) %>% 
+      filter(audience!="Retargeting")  %>%
+    ggplot() + 
+  geom_errorbarh(aes(xmin = lower_n, xmax = upper_n, y = audience), height = .7, color = "red") +
+  geom_errorbarh(aes(xmin = lower_w, xmax = upper_w, y = audience),  height=.25, color = "blue") +  geom_point(aes(x = mean, y = audience)) +
+  facet_wrap(~audience, scales = "fixed") +
+    coord_cartesian(xlim=c(0, 0.8)) +
+  labs(title = "Reach to results (total)",
+       x = "Estimated % results with 60% and 90% HDIs") +
+  facet_wrap(~theme, scales = "fixed")
+)
+
 
 ```
+
+
+
+### Outcomes by cost
+
+
+```{r}
+
+# Joining spending and conversion ####
+
+cost_tibble <- 
+  left_join(tib_combined_post,
+    rename(gg_video_breakdowns_col, theme=video_theme)) %>% 
+  mutate(
+    reach_per_dollar = reach / spend,
+    sign_per_dollar = reach_per_dollar * probability,
+    #NOTE this uses the simulated distribution of probabilities, not just averages! 
+    sign_per_100d = 100*sign_per_dollar,
+    cost_per_signup = 1/sign_per_dollar
+    ) %>% 
+  filter(is.na(spend) == FALSE)  
+
+cost_summary <- cost_tibble %>% 
+  group_by(theme, audience) %>% 
+  sum_mean_hdi(var= sign_per_100d, scaleme=1)
+
+#dim(filter(cost_summary, check > 2))[1] ... where HDI is not continuous, I guess... this doesn't happen here atm
+
+```
+
+
+
+```{r sign_per_100d_plot_vid_by_aud}
+
+(
+  sign_per_100d_plot_vid_by_aud <- cost_tibble %>%
+      filter(audience!="Retargeting")  %>%
+ggplot() +
+  scale_x_continuous(limits = c(0, 20)) +
+  ggridges::geom_density_ridges(
+    aes(
+      x = sign_per_100d, 
+      y = theme
+      )
+    ) +
+  geom_point(data = cost_summary %>% filter(audience!="Retargeting"), 
+    aes(x = mean, y = theme)) +
+  labs(title = "Signups per $100: Comparing videos by audience",
+    x = "Density plots, means") +
+  facet_wrap(~factor(audience, levels = audience_levels), scales = "free_x"  )
+)
+
+# 
+# ggplot(filter(cost_tibble, upper_eti < 100)) +
+#   geom_errorbarh(aes(xmin = lower_eti, xmax = upper_eti, y = audience)) +
+#   geom_point(aes(x = mean, y = audience)) +
+#   labs(title = "Cost per signup ($)",
+#     x = "Estimated cost per signup (USD) with 95% ETI") +
+#   facet_wrap(~theme, scales = "free_x")
+
+```
+
+Above we consider the cost effectiveness of each video by audience. 
+
+**'Factual short'**: ^[Hard-coded, may need recoding after fixes] This video seems to perform as good or better than any other video for each of the cause audiences as well as for the Lookalike audience (but see cav eat). It performs nearly as good as other videos for the other audiences. 
+
+**Climate video**: This seems to have performed best for the Philanthropy and General audiences, although the distribution is diffuse. Surprisingly, it does *not* perform best for the climate audience. 
+
+**Hypercube, Factual Long**: These seemed to have performed worst or near-worst for most audiences. 'Factual long' seems to have clearly performed worse than 'Factual short' version. (But see caveat below.)
+
+
+
+::: {.callout-note collapse="true"}
+
+## Caveat/todo -- Video/campaign date imbalance
+
+There is substantial imbalance in dates the administration of treatments in the pooled data. E.g., the 'Factual short' video was the only one shown for the 2021-12-08 trial, which may confound the above result. The Hypercube video was *only* shown in a single trial, where it was the only video shown. The 'Factual long' video was dropped in later trials (?possibly after poor performance in an explicit A/B test?). Again, confounds are certainly possible.  We may want to either remove trials from dates that only ran a single trial (at a first pass), or include start date/campaign into our modeling.
+
+:::
+
+
+
+```{r sign_per_100d_plot_aud_by_vid}
+(
+  sign_per_100d_plot_aud_by_vid <- cost_tibble %>%
+      filter(audience!="Retargeting" & audience!="General audience")  %>%
+ggplot() +
+  scale_x_continuous(limits = c(0, 20)) +
+  ggridges::geom_density_ridges(
+    aes(
+      x = sign_per_100d, 
+      y = audience
+      )
+    ) +
+  geom_point(data = cost_summary %>% filter(audience!="Retargeting" & audience!="General audience"), 
+    aes(x = mean, y = audience)) +
+  labs(title = "Signups per $100: Comparing audiences for each video",
+    x = "Density plots, means") +
+  facet_wrap(~theme, scales = "free_x")
+)
+
+
+```
+
+Flipping the previous plot, we compare the cost-effectiveness of each audience for each video.^[Again hard-coding here...]^[Note that  the audience-imbalance caveat still applies. We removed the 'General Audience' here, as this was only used for the final trial, and this seems particularly non-comparable.] 
+
+The Lookalike audiences are relatively cost-effective for most videos, although the Philanthropy audience seems to do better per dollar for the Climate video. 
+
+The cause audiences are relatively cost-effective  for their 'own' videos, but not overwhelmingly so. They seemed particularly cost-ineffective for the Hypercube video.
 
 
 ## Modeling 'cost per result' and 'results per dollar': possible reference literature

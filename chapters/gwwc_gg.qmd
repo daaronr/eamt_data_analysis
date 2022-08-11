@@ -63,12 +63,10 @@ See full description in the gitbook [here](https://effective-giving-marketing.gi
 
 > **Effective Giving Guide Lead Generation campaign** ... ran late November 2021 - January 2022. The objective of this campaign was to see whether a factual ['who researches giving' or 'magnitude of impact differences'] or cause-led approach was more cost-effective at getting people to fill out a form and give us their email in order to download our Effective Giving Guide.
 
-The page they were directed to <!-- (DR: probably the one linked below ) --> 
-
-[Learn how to give more effectively](https://www.givingwhatwecan.org/giving-guide) allowed you to download the guide only after leaving your email.
+The page they were directed to,  <!-- (DR: probably the one linked below ) --> "[Learn how to give more effectively](https://www.givingwhatwecan.org/giving-guide) allowed you to download the guide only after leaving your email.
 
 
-### Treatments (text $\times$ video)
+### Treatments (text $\times$ video) {-}
 
 *There were two dimensions of treatment content:*
 
@@ -574,7 +572,7 @@ In later trials we only targeted the younger age groups; the cost per results we
 
 :::
 
-Women gave their emails at a somewhat higher rate overall, but their (unique) impressions were a bit more costly. Thus cost per result roughly balanced out. Nonetheless, this might be somewhat informative for other contexts; women might be a particular promising audience, all else equal.
+Women gave their emails at a somewhat higher rate overall, but their (unique) impressions were a bit more costly. Thus cost per result roughly balanced out. Nonetheless, this might be somewhat informative for other contexts; women might be a particularly promising audience, all else equal.
 
 ```{r}
 
@@ -590,7 +588,7 @@ Women gave their emails at a somewhat higher rate overall, but their (unique) im
 
 
 
-Next we describe the outcomes by our 'video' treatments,  focusing on the 'Philanthropy-interested' audience only, for comparability.
+Next we describe the outcomes by our videotreatments,  focusing on the Philanthropy-interested audience only, for comparability.
 
 ```{r audience_outcomes}
 
@@ -700,7 +698,7 @@ Above, we look at the performance of different audiences. As cause-specific audi
 ::: {.callout-note collapse="true"}
 ## Cost per result (CpR) as the result of several processes...
 
-How should we consider this outcome?    At the base level the Cost per Result ('CpR') for a 'segment' (a particular ad version, audience, campaign, etc), comes from several interrelated processes:
+How should we consider this outcome?  At the base level the Cost per Result ('CpR') for a 'segment' (a particular ad version, audience, campaign, etc), comes from several interrelated processes:
 
 1. How much FB charges us for this segment
 2. Who FB serves this segment to (what types of people, how many)
@@ -715,11 +713,11 @@ We could try to model each of these processes, but it could be very involved, an
 ## Rambling about the unit of observation, and a possible multi-equation model
 
 
- I still want to model "cost per result" (or perhaps better "results per cost") as a function of the different levers we can pull (audience filters, video content, message content, etc.). But I'm not quite sure how to model it, in particular, how to think about the unit of observation and the outcome variability, for statistical inference.
+I still want to model "cost per result" (or perhaps better "results per cost") as a function of the different levers we can pull (audience filters, video content, message content, etc.). But there are challenges in consiring the 'unit of observation' and the outcome variability, for statistical inference.
 
-Fundamentally, the data represents a lot of rows of mostly 0's (no result, no email left) with a few 1's. Each of these rows has a set of design features; the 'levers' above, as well as some other features like demographics and calendar date (although FB makes it difficult/impossible to view everything together.)
+Fundamentally, the data represents many rows of mostly 0's (no result, no email left) with a few 1's. Each of these rows has a set of design features; the 'levers' above, as well as some other features like demographics and calendar date (although FB makes it difficult/impossible to view everything together.)
 
-We could examine the relationship between the features and the 'probability an individual yields a result'. I guess 'cost' could be one of those features, in something like a logit model.  A transformation of the function $p(result) = a + b_1 \times cost \times (b_2 \timems AdVersion +b_3 \times audience + b_4 \times AdVersion*audience +... ), perhaps.
+We could examine the relationship between the features and the 'probability an individual yields a result'. I'Cost' could be one of those features, in something like a logit model.  A transformation of the function $p(result) = a + b_1 \times cost \times (b_2 \timems AdVersion + b_3 \times audience + b_4 \times AdVersion*audience +... ), perhaps.
 
 But cost (cost per impression) is also a function of some of these characteristics.  We could examine the relationship between cost and these features in a separate equation and somehow try to simultaneously estimate these ... but it's challenging.
 
@@ -728,7 +726,7 @@ But cost (cost per impression) is also a function of some of these characteristi
 ::: {.callout-note collapse="true"}
 ## CpR as a black box...
 
-Alternatively, we could think of the CpR for a segment as just a 'base outcome to model', and treat it as a sort of black box. This would suggests we have 'only one CpR coutcome per segment', and each segment has different characteristics ('features' or 'variables'), some in common. But that discards some important information: the mean values for segments with more observations (here, 'reach') can be expected to have less variance (lower standard error), all else equal.
+Alternatively, we could think of the CpR for a segment as just a 'base outcome to model', and treat it as a black box. This would suggest we have 'only one CpR outcome per segment', and each segment has different characteristics ('features' or 'variables'), some in common. But that discards some important information: the mean values for segments with more observations (here, 'reach') can be expected to have less variance (lower standard error), all else equal.
 
 :::
 
@@ -758,9 +756,11 @@ possibly a mixed model, allowing for some random effects? (But I’m not great a
 
 ## Building a set of models (to do)
 
+NOTE 11 Aug 2022: adjusting this from another context - WIP
 
 ```{r targets, eval=FALSE}
 
+#THE content belo 
 #targets:
 bin_out <- c("d_don_1k", "d_don_10pct")
 
@@ -1440,7 +1440,7 @@ combined_post <- click_post * results_post #DR: multiplying the predicted probab
 ```{r tib_post}
 #make tibbles of the stuff above, put it together s
 
-full_crossing <- function(df, name) {
+post_tib_clean <- function(df, name) {
   data <- df %>% 
     as.tibble() %>% 
     pivot_longer(cols = everything(),
@@ -1477,8 +1477,8 @@ full_post <- bind_rows(tib_click_post,
 
 hdi <- HDInterval::hdi
 
-CI_choice_n <- 0.6
-CI_choice_w <- 0.9
+CI_choice_narrow <- 0.6
+CI_choice_wide <- 0.9
 
 sum_mean_hdi <- function(
     df, 
@@ -1488,10 +1488,10 @@ sum_mean_hdi <- function(
       mean = mean({{var}}) * scaleme,
             lower_n = hdi({{var}}, credMass = CI_choice_n)[1] * scaleme,
             upper_n = hdi({{var}}, credMass = CI_choice_n)[2] * scaleme,
-              lower_w = hdi({{var}}, credMass = CI_choice_wide)[1] * scaleme,
-            upper_w = hdi({{var}}, credMass = CI_choice_wide)[2] * scaleme,
-          lower_eti = quantile({{var}}, (1-CI_choice_wide)/2) * scaleme,
-    upper_eti = quantile({{var}}, 1-(1-CI_choice_wide)/2) * scaleme,
+              lower_w = hdi({{var}}, credMass = CI_choice_w)[1] * scaleme,
+            upper_w = hdi({{var}}, credMass = CI_choice_w)[2] * scaleme,
+          lower_eti = quantile({{var}}, (1-CI_choice_w)/2) * scaleme,
+    upper_eti = quantile({{var}}, 1-(1-CI_choice_w)/2) * scaleme,
       check = length(hdi({{var}}))
     )
 } 

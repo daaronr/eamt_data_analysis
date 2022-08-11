@@ -309,6 +309,7 @@ e.g.,
 
 This content/input has been moved to `eamt_data_analysis/gwwc/giving_guides/archive_erin/erin_plots_stats_gg.qmd`, at least for now
 
+:::
 
 ## Descriptives
 
@@ -411,7 +412,7 @@ reach_video_audience <- gg_video_breakdowns %>%
 
 :::{.column-body-outset}
 
-Below, we see that the second treatment dimension -- text presented along with the video -- was allowed to vary independently of the video (but these are probably not 'statistically independent').
+Below, we see that the second treatment dimension -- text presented along with the video -- was allowed to vary independently of the video (but these are not 'statistically independent').
 
 ```{r reach_video_text}
 
@@ -434,10 +435,9 @@ video_levels_gg <- c("Animal", "Climate", "Poverty", "Cause-led (any)", "Factual
 
 :::
 
-
 ^[Again, note, above that we cannot identify all of the video treatments in the same dataset with text treatments; this is a limitation of the Facebook interface.]
 
-However, note that treatment shares are not equal.  In fact, as the first table in this section  shows, they are not even equal within each campaign. This is because Facebook optimizes to show more succesful videos and text more than less succesful versions.^[This also may lead FB to particularly combine certain message presentations more with certain video presentations. However we cannot check this in our current setup: it is confounded with 'audience profile' (at least in the data we can observe).]
+Note that treatment shares are not equal.  In fact, as the first table in this section  shows, they are not even equal within each campaign. This is because Facebook optimizes to show more succesful videos and text more than less succesful versions.^[This also may lead FB to particularly combine certain message presentations more with certain video presentations. However we cannot check this in our current setup: it is confounded with 'audience profile' (at least in the data we can observe).]
 
 
 As shown in the fold below, the set of text treatments varied across campaigns:
@@ -1319,6 +1319,7 @@ make_prior_normal(0, se_prior_slope_click, class = "b")
 
 
 ::: {.callout-note collapse="true"}
+
 ## Determining appropriate priors for click rates - intercept
 
 In the code chunk just above, we define the priors which we use below.
@@ -1363,7 +1364,7 @@ make_prior_normal(0, se_prior_slope_results, class = "b")
 
 ```
 
-:: {.callout-note collapse="true"}
+::: {.callout-note collapse="true"}
 ## Determining appropriate priors for results (per click)
 
 See the above discussion folds on priors for clicks for our general approach.  

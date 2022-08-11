@@ -1,0 +1,146 @@
+---
+title: "modeling_fb_per_cost_discussion"
+editor: source
+---
+
+
+## Cost per result (CpR) as the result of several processes...
+
+How should we consider this outcome?  At the base level the Cost per Result ('CpR') for a 'segment' (a particular ad version, audience, campaign, etc), comes from several interrelated processes:
+
+1. How much FB charges us for this segment
+2. Who FB serves this segment to (what types of people, how many)
+3. How many people in that segment click and then 'convert', yielding a result
+
+We could try to model each of these processes, but it could be very involved, and we don't fully observe or understand the second step, FB's optimization algorithm.
+
+
+
+## Rambling about the unit of observation, and a possible multi-equation model
+
+
+I still want to model "cost per result" (or perhaps better "results per cost") as a function of the different levers we can pull (audience filters, video content, message content, etc.). But there are challenges in consiring the 'unit of observation' and the outcome variability, for statistical inference.
+
+Fundamentally, the data represents many rows of mostly 0's (no result, no email left) with a few 1's. Each of these rows has a set of design features; the 'levers' above, as well as some other features like demographics and calendar date (although FB makes it difficult/impossible to view everything together.)
+
+We could examine the relationship between the features and the 'probability an individual yields a result'. I'Cost' could be one of those features, in something like a logit model.  A transformation of the function $p(result) = a + b_1 \times cost \times (b_2 \timems AdVersion + b_3 \times audience + b_4 \times AdVersion*audience +... ), perhaps.
+
+But cost (cost per impression) is also a function of some of these characteristics.  We could examine the relationship between cost and these features in a separate equation and somehow try to simultaneously estimate these ... but it's challenging.
+
+
+## CpR as a black box...
+
+Alternatively, we could think of the CpR for a segment as just a 'base outcome to model', and treat it as a black box. This would suggest we have 'only one CpR outcome per segment', and each segment has different characteristics ('features' or 'variables'), some in common. But that discards some important information: the mean values for segments with more observations (here, 'reach') can be expected to have less variance (lower standard error), all else equal.
+
+
+
+## CpR as the average of a lot of black boxes...
+
+We can do something intermediate -- taking the aggregation into account, without fully building a structural model of the factors above.  Within each segment, we can consider the 'average cost per result' outcome for each individual as the expected value of a random draw. Each individual has some 'cost per impression', and some 'probability of a result'. The ratio of these is the individual's 'expected cost per result ... which we can also abstract as just some random draw. This may be considered as a function of 'all the characteristics of the segment the individual is in'. The CpR for the segment is thus an average of the CpR for all the individuals in the segment, and we can use 'regression weights' (technically 'inverse variance weights'; see discussion in [Huntington-Klein's book here](https://theeffectbook.net/ch-StatisticalAdjustment.html#sample-weights)) in our model to reflect this.
+
+<!-- Each segment has different observable preset characteristics: a particular combination of ad features, audience filter, time the campaign started, etc.
+
+Segments also have different unobserved features: FB selectively chooses how to present the ad features, and to whom, and to how many people,  to maximize some outcome (considering an explore/exploit tradeoff). This makes some inference difficult.
+
+But what I want to know is basically “which observable preset characteristics (the things we can control) yield the lowest CpR?“, and “how confident can I be in the relative differences in the CpR between these features?“.
+
+It’s ~OK that some ad features may be more easily matched to amenable audiences, and thus we are  not learning ‘which performs better on a single group’. I might ~expect that whatever works best now, for whatever reason, will work better in the future.
+
+I am thinking something like a linear (or log-linear) regression where
+the CpR for the segment is the outcome
+this is seen as a mean across observations, thus ~weighted by the size of the segment (number of people reached)
+possibly a mixed model, allowing for some random effects? (But I’m not great at that).
+-->
+---
+
+
+## Modeling goals/discussion/todo
+
+*Rethinking (5 Aug 2022): Cost per result may not be the best outcome to model as a first pass. We might better model results per impression and put in a cost adjustment later. See
+
+1. Present mean/Bayesian updating:
+
+- Overall cost/result
+   - and for different audiences
+    - random effects?
+- present posterior distribution and intervals
+
+Or a stripped down 'simulation approach'?
+
+2. Model (multivariable regression):
+
+Cost/result as a function of
+
+- campaign (i.e., time of launch)
+- message
+- video
+- audience
+- gender
+- age
+
+Linear and log-linear
+
+Random effects (how?)
+
+Present a set of estimates for the mean and 80% CI for cost/result for key groups
+
+
+::: {.callout-note collapse="true"}
+##  Simulation-based: Sketched proposal
+
+1. Assume the 'cost per impression' (CpI) is fixed for each group or segment -- take that as exogenous and something we adjust for at the end^[Although I am not sure if this is the case; the costs and number of impressions served are determined in a complicated way.]
+
+2.  Make some assumptions about the distribution of the probability of a result from an impression for each individual in each group $g$; call this $P_{ig}$.
+E.g., each outcome $r_i \in \{0,1\}$ is drawn with probability  $P_{ig}$.
+We see the average of these draws.
+
+A close-to-correct simplification might yield that the group-specific results per impression (RpI) is the average value of $P_{ig}$ for the group, call this $P_g$. We can make some intuitive assumptions about the variance of $P_{ig}$ around $P_g$ within each group.
+
+So we would have something like:
+$P_{ig} \sim  \beta$ distribution with a mean of RpI (results per impression for the group), and some reasonable variation.
+
+3. Let $N_g$  be the number of impressions we see per group.
+
+In each simulation replication, simulate $N_g$ draws of $P_{ig}$ for each individual in each group $g$.
+
+Next 'flip an unfair coin for each individual', where the coin has probability $P_{ig}$ of a result.  This yields $N_g$ draws of the 0/1 outcome $r_i(g)$ for each group
+
+4. Look at the distribution of results for each group across many simulations.  This can easily be converted to the distribution of RpI for each group, or, assuming CpI is fixed, the distribution of 'cost per result' (or results per cost) for each group.
+
+This gives us our confidence intervals.
+
+The above is a bit ad-hoc (but less than our previous work). I suspect the procedure comes close to something that could give us something Bayesian.
+:::
+
+
+::: {.callout-note collapse="true"}
+
+## Adjusting the above to Jamie's suggestions ... for a 2 step simulation
+
+
+1. Draw $P_{gci}$ — the probability of a click for person $i$ in group $g$ for each individual (impression) in each group which might have a mean at the empirical click rate for this group, $C_g/N_g$, where $N_g$ is the number of impressions in group $g$
+
+2. Simulate clicks by group with $N_g$ coin flips each w/ draws from the $P_{gci}$ probability vector $\rightarrow$   $C^k_g$ simulated clicks for group $g$ in simulation $k$
+
+3. Draw  $P_{gri|c}$: ‘probability of result given click’ for individual $i$ in group $g$
+
+which might have a mean at the empirical results/clicks for this group
+
+4. Simulate results by group with  $C^k_g$ draws with vector of probabilities $P_{gri|c}$ $\rightarrow$  $R^k_g$ simulated results for group $g$ in simulation $k$
+
+My concern in general with these hurdle models is when they make inferences that depended on independence across hurdles. Here, I would be concerned if it depends on the probabilities $P_{gc}$ and $P_{gr|c}$ being independent.
+
+To me it seems plausible that for higher draws of $P_c$ we tend to  have lower values of $P_{r|c}$ … e.g., people (and groups) who click on everything rarely convert when they click.
+
+But I don’t think that the simulation posed above itself suffers from this problem.  If one group has a high click rate and a low ‘conversions per click’ rate, I think this would be reflected in the means of the distributions of $P$’s I use for the simulation above.
+
+As long as we don’t try to make (overly strong inferences) from the differences in $P_{gr|c}$ by group $g$ itself, I think we are OK. So the ‘two step’ simulation could indeed be better here.
+
+:::
+
+
+## Modeling 'cost per result' and 'results per dollar': possible reference literature
+
+[Sodomka, Eric, Sébastien Lahaie, and Dustin Hillard. "A predictive model for advertiser value-per-click in sponsored search." Proceedings of the 22nd international conference on World Wide Web. 2013.](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.448.8462&rep=rep1&type=pdf)
+
+[Chris Bow Kaggle vignette](https://www.kaggle.com/code/chrisbow/an-introduction-to-facebook-ad-analysis-using-r/notebook)

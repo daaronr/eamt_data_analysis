@@ -315,7 +315,7 @@ This content/input has been moved to `eamt_data_analysis/gwwc/giving_guides/arch
 
 ### Implemented treatments, 'reach'
 
-First we illustrate 'where, when, and to whom' the different campaigns and treatments were shown (Facebook 'people reached').
+First we illustrate 'where, when, and to whom' the different campaigns and treatments were shown ('people reached' on Facebook).
 
 ::: {.callout-note collapse="true"}
 ## We use 'reach' as our metric throughout'; essentially 'unique impressions'
@@ -328,7 +328,7 @@ In all of our figures below we use the *reach* outcome rather than the 'impressi
 
 ::: 
 
-The sequential campaigns involved different sets of videos, and these videos had different versions:
+The sequential campaigns involved different sets of videos. 
 
 ```{r reach_count}
 
@@ -356,7 +356,8 @@ reach_campaign_audience <- gg_campaign_by_ad_by_text_age_gender %>% #created but
 ```
 
 ::: {.callout-note collapse="true"}
-## Versions of videos: unique impressions
+## These videos had different versions 
+
 
 ```{r}
 (
@@ -372,9 +373,11 @@ reach_campaign_audience <- gg_campaign_by_ad_by_text_age_gender %>% #created but
 
 :::
 
-Some audiences were profiled as associated with a certain cause (through their Facebook interests or activities): in 'cause-focused' campaigns they were shown videos  for their profiled cause. In campaigns that were not cause-focused, they were shown general interest videos. However, those associated with one cause were never shown videos for other causes.
+**Which videos were shown to which audiences?**
 
-Audiences not associated with a cause included the 'General' audience, the Philanthropy (interested in charity) audience, a GWWC 'Lookalike' audience, and a Retargeted audience: these were shown either the more general-interest videos or particular cause videos. ^[Unfortunately, for these groups, we cannot extract the data on *which* cause-specific video they saw in combination with certain other categories, like 'which text' or demographics. This breaks up our analysis a bit.] This is illustrated in the table below.
+Some audiences were profiled as being associated with a certain cause (through their Facebook interests or activities): in 'cause-focused' campaigns they were shown videos  for their profiled cause. In campaigns that were not cause-focused, they were shown general interest videos. However, those associated with one cause were never shown videos for other causes.
+
+Audiences not associated with a cause included the 'General' audience, the Philanthropy (interested in charity) audience, a GWWC 'Lookalike' audience, and a Retargeted audience: these audiences were shown either the more general-interest videos or particular cause videos.^[Unfortunately, for these groups, we cannot extract the data on *which* cause-specific video they saw in combination with certain other categories, like 'which text' or demographics. This breaks up our analysis a bit.] This is illustrated in the table below.
 
 :::{.column-body-outset}
 
@@ -412,7 +415,12 @@ reach_video_audience <- gg_video_breakdowns %>%
 
 :::{.column-body-outset}
 
-Below, we see that the second treatment dimension -- text presented along with the video -- was allowed to vary independently of the video (but these are not 'statistically independent').
+Below (in fold), we see that the second treatment dimension -- the text presented along with the video -- was allowed to vary independently of the video (but these are not 'statistically independent').
+
+::: {.callout-note collapse="true"}
+
+## Video themes by text treatment
+
 
 ```{r reach_video_text}
 
@@ -433,15 +441,13 @@ video_levels_gg <- c("Animal", "Climate", "Poverty", "Cause-led (any)", "Factual
 
 ```
 
+Note (again) that we cannot identify all of the video treatments in the same dataset with text treatments; thus, some are characterized as 'cause-led (any)'. This is a limitation of the Facebook interface.
 :::
 
-^[Again, note, above that we cannot identify all of the video treatments in the same dataset with text treatments; this is a limitation of the Facebook interface.]
-
-Note that treatment shares are not equal.  In fact, as the first table in this section  shows, they are not even equal within each campaign. This is because Facebook optimizes to show more succesful videos and text more than less succesful versions.^[This also may lead FB to particularly combine certain message presentations more with certain video presentations. However we cannot check this in our current setup: it is confounded with 'audience profile' (at least in the data we can observe).]
+Note that treatment shares are not equal.  In fact, as the first table in this sectionshows, they are not even equal within each campaign. This is because Facebook optimizes to show more succesful videos and text more than less succesful versions.^[This also may lead FB to particularly combine certain message presentations more with certain video presentations. However we cannot check this in our current setup: it is confounded with 'audience profile' (at least in the data we can observe).]
 
 
 As shown in the fold below, the set of text treatments varied across campaigns:
-
 
 ::: {.callout-note collapse="true"}
 ## Text treatments by campaign
@@ -484,8 +490,7 @@ Below, we present the text treatments *as shares of each campaign's unique impre
 )
 
 ```
-As can be clearly seen above, within all age groups, the ad was disproportionally shown to women. Relative to the [overall Facebook population](https://www.statista.com/statistics/187549/facebook-distribution-of-users-age-group-usa/#:~:text=As%20of%20June%202022%2C%2023.5,13%20to%2017%20years%20old) our data skews very slightly younger.^[But we essentially excluded the  13-17 age group.]
-
+As can be clearly seen above, within all age groups, the ads were disproportionally shown to women. Relative to the [overall Facebook population](https://www.statista.com/statistics/187549/facebook-distribution-of-users-age-group-usa/#:~:text=As%20of%20June%202022%2C%2023.5,13%20to%2017%20years%20old) our data skews very slightly younger.^[But we essentially excluded the  13-17 age group, completely excluding it in later.]
 
 ```{r statista, out.width="40%"}
 
@@ -531,7 +536,9 @@ base_results_sum <- function(df) {
 ```
 :::
 
-Next, the results by age and gender. As our age filters changed over time, we do this first for the earlier trials, when all age groups were included.
+The results vary substantially by campaign, but this could be attributed to a range of factors, including different sets of videos and texts in each campaign, different *versions* of videos presented on these dates, and changes in audience filters. As these campaigns were administered on different dates, there  may also be uncontrolled differences in the population seeing our ads. The campaigns run on the same dates are just most comparable, and in some cases, were explicitly set up as A/B tests.
+
+Next, we show the results by age and gender. As our age filters changed over time, we do this first for the earlier trials, when all age groups were included.
 
 ```{r age_gender_outcomes}
 (
@@ -546,7 +553,7 @@ Next, the results by age and gender. As our age filters changed over time, we do
 ```
 
 
-While ^[this text is 'hard-coded' on 4 Aug 2022 ... if data changes we need to change the text] older age groups yield more results per impression, they are also more expensive. This approximately balances out, although the age 18-24 group are particular costly per result!
+While ^[this text is 'hard-coded' on 4 Aug 2022 ... if data changes we need to change the text] older age groups yield more results per impression, they are also more expensive. This approximately balances out, although the age 18-24 group is particularly costly per result!
 
 
 In later trials we only targeted the younger age groups; the cost per results were similar to earlier trials , and fairly close among the younger age groups (see fold).
@@ -572,23 +579,32 @@ In later trials we only targeted the younger age groups; the cost per results we
 
 :::
 
+
+::: {.callout-note collapse="true"}
+##  Note on change in table style
+
+The tables above make it clear how the relevant 'per dollar' and 'per unique impression results are calculated. In the following tables we present slightly fewer columns, for readability.
+ 
+::: 
+
+
 Women gave their emails at a somewhat higher rate overall, but their (unique) impressions were a bit more costly. Thus cost per result roughly balanced out. Nonetheless, this might be somewhat informative for other contexts; women might be a particularly promising audience, all else equal.
 
 ```{r}
+
 
 (
   gender_outcomes <- gg_campaign_by_ad_by_text_age_gender %>%
     group_by(gender) %>%
     base_results_sum() %>%
+ dplyr::select(-Cost, -`Results`, -`Link clicks`) %>%
     .kable(caption = "Results by Gender") %>%
     .kable_styling()
 )
 
 ```
 
-
-
-Next we describe the outcomes by our videotreatments,  focusing on the Philanthropy-interested audience only, for comparability.
+Next we describe the outcomes by our video treatments, focusing on the philanthropy-interested audience only, for comparability.
 
 ```{r audience_outcomes}
 
@@ -599,6 +615,7 @@ video_outcomes_phil_0 <- gg_video_breakdowns %>%
 
 (
 video_outcomes_phil <- video_outcomes_phil_0 %>% 
+     dplyr::select(-Cost, -`Results`, -`Link clicks`) %>%
     arrange(video_theme) %>%
     .kable(caption = "Results by Video theme for 'Philanthropy' audience") %>%
     .kable_styling()
@@ -640,620 +657,67 @@ bot_vid_phil <- video_outcomes_phil_0 %>% top_table( outvar=`$/ result`, outcol=
 
 The `r top_vid_phil` video performed particularly well on the philanthropy-interested audience filter, while `r bot_vid_phil` performed the worst.^[Tech note: the video names in the previous sentence are soft-coded, i.e., inline code; see the previous chunk where we identify the `top_vid_phil` and `bot_vid_phil`.]
 
-Next, we compare the text treatments for the later campaigns only. The earlier and later campaigns had a slightly different set of texts; combining across these risks confounding multiple dimensions.
-
+Next, we compare the text treatments for the later campaigns only. The earlier and later campaigns had a slightly different set of texts; combining across these indeed risks confounding multiple dimensions.
 
 ```{r}
-(
-  outcomes_by_text <- gg_campaign_by_ad_by_text_age_gender %>%
+
+outcomes_by_text <- gg_campaign_by_ad_by_text_age_gender %>%
     filter(str_det(campaign_name, "factual|hyper")) %>%
     group_by(text_treat) %>%
-    base_results_sum() %>%
+    base_results_sum() 
+
+outcomes_by_text %>%   
+   dplyr::select(-Cost, -`Results`, -`Link clicks`) %>%
     .kable(caption = "Results by text; later campaigns") %>%
     .kable_styling()
-)
+
+top_text_later <- outcomes_by_text %>% bot_table( outvar=`$/ result`, outcol=text_treat)
+bot_text_later <- outcomes_by_text %>% top_table( outvar=`$/ result`, outcol=text_treat)
+
 
 ```
 
+The "`r top_text_later`" message performed particularly well on a cost-per-result basis, while `r bot_text_later` performed the worst 
 
 We next consider results by audience, focusing on non-cause treatments for comparability.
 
 :::{.column-body-outset}
 
-
 ```{r}
 
 
-(
-  audience_outcomes <- gg_video_breakdowns %>%
+audience_outcomes <- gg_video_breakdowns %>%
     group_by(audience) %>%
     filter(str_det(video_theme, "Factual|factual")) %>%
-    base_results_sum() %>%
+    base_results_sum
+
+audience_outcomes %>%
     DT::datatable(caption = "Results by audience for non-cause videos")
-)
+
 
 ```
 :::
 
 Above, we look at the performance of different audiences. As cause-specific audiences tend to be presented particular cause videos, we focus only on non-cause-related videos here for greater comparability across audiences.
 
-*Format note:* The final table above is presented with the `Datatables` package/function. This allows sorting, filtering, etc. We can present more tables in this format if it is preferable.
-
-
-
-## Asking and answering questions
-
 ::: {.callout-note collapse="true"}
-## This dynamic document format allows us to ask and answer a series of questions
+## Format note
 
--   Using the data, with all coding steps shown
--   Ideally, following a pre-defined (pre-analysis) plan
--   Using the data and statistics directly and automatically in the narrative
-    -   And everything will be automatically adjusted if we bring in new data or adjust/correct features
-:::
+The final table above is presented with the `Datatables` package/function. This allows sorting, filtering, etc. We can present more tables in this format if it is preferable.
 
-### In this context, how much does it cost to get a 'Result", i.e., to get a person to give their email to receive a Giving Guide? {.unnumbered}
+::: 
 
 
-::: {.callout-note collapse="true"}
-## Cost per result (CpR) as the result of several processes...
+## Modeling and simulation
 
-How should we consider this outcome?  At the base level the Cost per Result ('CpR') for a 'segment' (a particular ad version, audience, campaign, etc), comes from several interrelated processes:
+Discussion moved to separate file `modeling_fb_discussion.qmd`
 
-1. How much FB charges us for this segment
-2. Who FB serves this segment to (what types of people, how many)
-3. How many people in that segment click and then 'convert', yielding a result
 
-We could try to model each of these processes, but it could be very involved, and we don't fully observe or understand the second step, FB's optimization algorithm.
+## Modeling: Bayesian Logistic regressions and CIs 
 
-:::
+^[This comes from Jamie's work in `fb ad analysis.R`
 
-
-::: {.callout-note collapse="true"}
-## Rambling about the unit of observation, and a possible multi-equation model
-
-
-I still want to model "cost per result" (or perhaps better "results per cost") as a function of the different levers we can pull (audience filters, video content, message content, etc.). But there are challenges in consiring the 'unit of observation' and the outcome variability, for statistical inference.
-
-Fundamentally, the data represents many rows of mostly 0's (no result, no email left) with a few 1's. Each of these rows has a set of design features; the 'levers' above, as well as some other features like demographics and calendar date (although FB makes it difficult/impossible to view everything together.)
-
-We could examine the relationship between the features and the 'probability an individual yields a result'. I'Cost' could be one of those features, in something like a logit model.  A transformation of the function $p(result) = a + b_1 \times cost \times (b_2 \timems AdVersion + b_3 \times audience + b_4 \times AdVersion*audience +... ), perhaps.
-
-But cost (cost per impression) is also a function of some of these characteristics.  We could examine the relationship between cost and these features in a separate equation and somehow try to simultaneously estimate these ... but it's challenging.
-
-:::
-
-::: {.callout-note collapse="true"}
-## CpR as a black box...
-
-Alternatively, we could think of the CpR for a segment as just a 'base outcome to model', and treat it as a black box. This would suggest we have 'only one CpR outcome per segment', and each segment has different characteristics ('features' or 'variables'), some in common. But that discards some important information: the mean values for segments with more observations (here, 'reach') can be expected to have less variance (lower standard error), all else equal.
-
-:::
-
-::: {.callout-note collapse="true"}
-
-## CpR as the average of a lot of black boxes...
-
-We can do something intermediate -- taking the aggregation into account, without fully building a structural model of the factors above.  Within each segment, we can consider the 'average cost per result' outcome for each individual as the expected value of a random draw. Each individual has some 'cost per impression', and some 'probability of a result'. The ratio of these is the individual's 'expected cost per result ... which we can also abstract as just some random draw. This may be considered as a function of 'all the characteristics of the segment the individual is in'. The CpR for the segment is thus an average of the CpR for all the individuals in the segment, and we can use 'regression weights' (technically 'inverse variance weights'; see discussion in [Huntington-Klein's book here](https://theeffectbook.net/ch-StatisticalAdjustment.html#sample-weights)) in our model to reflect this.
-
-:::
-
-<!-- Each segment has different observable preset characteristics: a particular combination of ad features, audience filter, time the campaign started, etc.
-
-Segments also have different unobserved features: FB selectively chooses how to present the ad features, and to whom, and to how many people,  to maximize some outcome (considering an explore/exploit tradeoff). This makes some inference difficult.
-
-But what I want to know is basically “which observable preset characteristics (the things we can control) yield the lowest CpR?“, and “how confident can I be in the relative differences in the CpR between these features?“.
-
-It’s ~OK that some ad features may be more easily matched to amenable audiences, and thus we are  not learning ‘which performs better on a single group’. I might ~expect that whatever works best now, for whatever reason, will work better in the future.
-
-I am thinking something like a linear (or log-linear) regression where
-the CpR for the segment is the outcome
-this is seen as a mean across observations, thus ~weighted by the size of the segment (number of people reached)
-possibly a mixed model, allowing for some random effects? (But I’m not great at that).
-
--->
-
-
-## Building a set of models (to do)
-
-NOTE 11 Aug 2022: adjusting this from another context - WIP
-
-```{r targets, eval=FALSE}
-
-#THE content belo 
-#targets:
-bin_out <- c("d_don_1k", "d_don_10pct")
-
-num_out <- c('donation_usd', 'don_av2_yr', 'l_don_usd', "l_don_av_2yr", "don_share_inc_imp_bc5k", "donation_plan_usd")
-targets <- c(bin_out, num_out)
-targets_short <- c("don_av2_yr", "don_share_inc_imp_bc5k", "d_don_1k")
-
-#Note -- don_av2_yr is the right one for qpoisson as it already expresses things in exponents. l_don_av2_yr was the one to use in the loglinear model, which we are not emphasizing
-
-targets_short_names <- c("Log (Avg don +1)", "Don/Income", "Donated 1k+")
-```
-
-
-```{r impute_norm_features, warning=FALSE}
-#imputing and normalization
-```
-
-```{r key_labels, eval=FALSE}
-
-#labeling for model output
-
-key_eas_all_labels <- c( #note these are converted to a list with as.list before assigning them
-    donation_usd = "Donation (USD)",
-    l_don_usd = "Log Don. (USD)",
-    l_don_av_2yr = "Log Don. 'avg.'",
-    ln_age = "Log age",
-    don_av2_yr = "Don. 'avg'",
-    donation_plan_usd = "Don. plan (USD)")
-```
-
-
-```{r features, eval = FALSE}
-
-feat_list = list(
-  c(key_demog, feat_income_employ, controls),
-  c(key_demog, feat_income_employ, controls, robust_controls),
-  c(key_demog, feat_income_employ, feat_gwwc_etg, controls) )
-
-feat_names = c("Baseline", "Robust controls",  "Base + EtG & GWWC")
-
-```
-
-
-```{r vars_list, eval = FALSE}
-
-rhs_vars_list <- rep(feat_list, length(targets_short))
-
-outcome_vars_list <- rep(as.list(targets_short), each=length(feat_list))
-
-dfs <- rep(list(eas_all_s_rl_imp), length(outcome_vars_list))
-
-```
-
-```{r model-prep-linear, warning=FALSE, eval = FALSE}
-
-## Create dataframe for modeling
-(linear_models <- make_model_df(rhs_vars_list, outcome_vars_list, dfs))
-
-```
-
-
-
-
-```{r fit_linear_models, eval=FALSE}
-
-linear_models <- linear_models %>%
-  mutate(
-    lm_fit = fit_models(
-      linear_models, "formulas", "dfs", fun = fit_lm)
-    )
-
-# Extract coefficients, fitted and residuals
-model_feat_names <- rep(c(feat_names), times= length(targets_short))
-model_oc_names <- rep(c(targets_short_names), each= length(feat_names))
-model_names <- paste(model_oc_names, model_feat_names, sep = ": ")
-
-```
-
-
-::: {.callout-note collapse="true"}
-## Modeling goals/discussion/todo
-
-*Rethinking (5 Aug 2022): Cost per result may not be the best outcome to model as a first pass. We might better model results per impression and put in a cost adjustment later. See
-
-1. Present mean/Bayesian updating:
-
-- Overall cost/result
-   - and for different audiences
-    - random effects?
-- present posterior distribution and intervals
-
-Or a stripped down 'simulation approach'?
-
-2. Model (multivariable regression):
-
-Cost/result as a function of
-
-- campaign (i.e., time of launch)
-- message
-- video
-- audience
-- gender
-- age
-
-Linear and log-linear
-
-Random effects (how?)
-
-Present a set of estimates for the mean and 80% CI for cost/result for key groups
-
-:::
-
-```{r set_base_levels}
-#set base levels before doing modeling
-
-gg_campaign_by_ad_by_text_age_gender$age <- factor( gg_campaign_by_ad_by_text_age_gender$age,
-  ordered = FALSE )
-
-gg_campaign_by_ad_by_text_age_gender$age <- relevel( gg_campaign_by_ad_by_text_age_gender$age,
-  ref="18-24")
-
-gg_campaign_by_ad_by_text_age_gender$audience <- factor( gg_campaign_by_ad_by_text_age_gender$audience,
-  ordered = FALSE )
-
-gg_campaign_by_ad_by_text_age_gender$audience <- relevel( gg_campaign_by_ad_by_text_age_gender$audience,
-  ref="Philanthropy")
-
-```
-
-
-```{r}
-
-summarise_stuff <- function(df) {
-  df %>%
-     summarise(
-      amount_spent_usd = sum(amount_spent_usd),
-      reach=sum(reach),
-      link_clicks = sum(link_clicks, na.rm = TRUE),
-      results = sum(results, na.rm = TRUE),
-      cost_per_impression = amount_spent_usd/reach,
-      cost_per_click = amount_spent_usd/link_clicks,
-      results = ifelse(is.na(results), 0, results ),
-      results_per_100usd = results/(amount_spent_usd/100),
-      results_per_1k_reach = results*1000/reach)
-}
-
-model_data_0 <- gg_campaign_by_ad_by_text_age_gender %>%
-  filter(audience!="Retargeting") %>%
-  ungroup() %>%
-    group_by(video_theme, text_treat, audience) %>% #starts,
-    #filter(reach>200) %>%
-    summarise_stuff() %>%
-  ungroup() %>%
-  as.tibble() %>%
-  mutate(
-    across(c(video_theme, text_treat, audience), #starts,
-      as.factor )
-    )
-
-model_data_start <- gg_campaign_by_ad_by_text_age_gender %>%
-  filter(audience!="Retargeting") %>%
-  ungroup() %>%
-    group_by(video_theme, text_treat, audience, starts) %>% #starts,
-    #filter(reach>200) %>%
-        summarise_stuff() %>%
-  ungroup() %>%
-  as.tibble() %>%
-  mutate(
-    across(c(video_theme, text_treat, audience, starts), #starts,
-      as.factor )
-    )
-
-model_data <- gg_campaign_by_ad_by_text_age_gender %>%
-    filter(audience!="Retargeting") %>%
-  ungroup() %>%
-    group_by(video_theme, text_treat, audience, gender, agetrin) %>% #starts,
-    #filter(reach>200) %>%
-        summarise_stuff() %>%
-  ungroup() %>%
-  as.tibble() %>%
-  mutate(
-    across(c(video_theme, text_treat, audience, gender, agetrin), #starts,
-      as.factor )
-    )
-
-Rp100usd_vid_text_audience0 <- model_data_0 %>%
-  lm(
-    results_per_100usd ~ 1 + video_theme + text_treat + audience,
-    data = .,
-    weights = reach)
-
-
-Rp100usd_vid_text_audience_starts <- model_data_start %>%
-  lm(
-    results_per_100usd ~ 1 + starts + video_theme + text_treat + audience,
-    data = .,
-    weights = reach)
-
-
-Rp100usd_vid_text_audience_demo <- model_data %>%
-  lm(
-    results_per_100usd ~ 1 + video_theme + text_treat + audience + gender + agetrin,
-    data = .,
-    weights = reach)
-
-#Do NOT do this: Rp100usd_vid_text_audience0$df.residual <- sum(model_data_0$reach) - length(coef(Rp100usd_vid_text_audience0))
-
-huxtable::huxreg(Rp100usd_vid_text_audience0, Rp100usd_vid_text_audience_starts, Rp100usd_vid_text_audience_demo)
-
-
-```
-
- Note: the N (and R-sq?) values above are incorrect; these are the number of *groups* not the number of baseline observations.
-
-[^gwwc_gg-3]
-
-[^gwwc_gg-3]: Followup of interest: What do the 'diminishing returns to scale' look like here? How to measure? Can we track results over time and see if the cost increased? (But targeting may also improve over time.) Roughly compare 'small' and 'large' campaigns? ...
-
-### Which pre-defined audience yields a Result at the lowest cost? How does this cost vary by audience? {.unnumbered}
-
-- Refer to models/estimates above
-
-
-```{r}
-
-limits <- aes(ymax = mean_dv + (se_dv), ymin = mean_dv - (se_dv))
-dodge <- position_dodge(width = 0.9)
-
-
-gg_gg_options <- list(geom_bar(stat = 'identity', position=dodge),
-  geom_errorbar(limits, position=dodge,  width=0.25, color="red"),
-  jtools::theme_apa(),
-  theme(legend.position="none"),
-  geom_text(aes(label = paste("$", mean_dv %>% round(.,2)), y=5), position = position_dodge(.9), size=4, color="white"),
-  theme(text=element_text(size=10))
-)
-  
-
-limits <- aes(ymax = mean_dv , ymin = mean_dv)
-dodge <- position_dodge(width = 0.9)
-
-
-
-(
-  result_by_age <-  gg_campaign_by_ad_by_text_age_gender %>%
-        mutate(results_per_100usd = results/(amount_spent_usd/100)) %>%
-     uncount(weights = .$reach) %>%
-   group_by(age) %>%
-  summarise(mean_dv = mean(results_per_100usd, na.rm=TRUE)) %>% 
-  ggplot(aes(x=age, mean_dv)) +
-  geom_bar(stat='identity',fill="#0072B2", position=dodge) +
-  ylab('Results/$ spent') +
-  xlab('Video') +
-  ggtitle('Results/$ spent by Age') 
-#+  scale_x_discrete(labels=vid_types)
-)
-
-
-```
-
-
-### Which pre-defined audience yields the highest 'rate of Result'? How does this vary by audience? {.unnumbered}
-
-Note, this is not the same as the previous question because some audiences are more *costly* to target on Facebook.
-
--  Re-run above models for 'results per impression'
-
-Important caveat: this does not tell us the effect 'on a particular group', because of FB's optimization algorithms; [see discussion here](https://effective-giving-marketing.gitbook.io/untitled/methodological-discussion/splits-randomization/facebook-split-testing-etc).
-
-Interactions/separate models for 'vary by audience'.
-
-
-### Which *video* yields a Result at the highest rate/lowest cost? {.unnumbered}
-
-
-```{r common_plot_options}
-
-#Plot options in common
-
-#limits <- aes(ymax = mean_dv + (ci_spread), ymin = mean_dv - (ci_spread))
-dodge <- position_dodge(width = 0.9)
-
-vid_types <-
-  c("factual short",
-    "animal",
-    "climate",
-    "factual long",
-    "hypercube",
-    "poverty")
-
-
-
-grpsumgg <- function(df, gvar, var, ci_ends) {
-  df %>%
-  group_by({{gvar}}) %>%
-  summarise(mean_dv = mean({{var}}, na.rm=TRUE),
-            se_dv = sd({{var}}, na.rm=TRUE)/sqrt(n()),
-            ci_spread = qt(1 - (ci_ends / 2), n() - 1) * se_dv)
-}
-
-```
-
-
-```{r gwwc_vid_results_plot}
-
-gg_video_breakdowns %>%
-        mutate(results_per_100usd = results/(amount_spent_usd/100)) %>%
-     uncount(weights = .$reach) %>%
-   group_by(video_theme) %>%
-  summarise(mean_dv = mean(results_per_100usd, na.rm=TRUE)) %>% 
-  #grpsumgg(video_theme, results_per_100usd, 0.1) %>%
-  ggplot(aes(x=video_theme, mean_dv)) +
-  geom_bar(stat='identity',fill="#0072B2", position=dodge) +
-  #gg_gg_options +
-  ylab('Results/$ spent') +
-  xlab('Video') +
-  #ggtitle('Results/$ spent by Video, 90% CIs') +
-  ggtitle('Results/$ spent by Video') +
-  scale_x_discrete(labels=vid_types)
-
-
-# gwwc_vid_results %>%
-#   grpsumgg(media, DV_costadj, 0.1) %>%
-#   ggplot(aes(x=media, y=mean_dv)) +
-#   geom_bar(stat='identity',fill="#0072B2", position=dodge) +
-#   gg_gg_options +
-#   ylab('Results/$ spent') +
-#   xlab('Video') +
-#   ggtitle('Results/$ spent by Video, 90% CIs') +
-#   scale_y_continuous(limits = c(0,.2),  breaks=seq(0,.2, by=.05)) +
-#   scale_x_discrete(labels=vid_types)
-# 
-```
-
-
-- Refer to models/estimates above, coefficient on 'video'
-
-
-[^gwwc_gg-4]
-
-[^gwwc_gg-4]: Check: is this the same as 'which yields the highest rate of results, or is there a cost difference?'
-
-
-#### How does the 'best video' vary by audience? {.unnumbered}
-
-- Include interactions in above model
-- Run model separately for each group (or allowing everything to interact) for robustness
-- Also consider 'what did FB serve to each group', assuming it is optimizing.
-
-#### Aggregating: Which *category* of videos yields a result at the highest rate/lowest cost? ("Facts", "Cause focus", or "Arguments, rich content") {.unnumbered}
-
-- Above, pooling videos of similar type. (Random effects models?)
-
-### Which *message* yields a Result at the highest rate/lowest cost? {.unnumbered}
-
-[^gwwc_gg-5]
-
-[^gwwc_gg-5]: Check: is this the same as 'which yields the highest rate of results, or is there a cost difference?'
-
-**Sub-questions**
-
-#### How does the 'best message' vary by audience? {.unnumbered}
-
-::: {.callout-note collapse="true"}
-## Other questions (less interest or less feasible)
-
--   Do the message treatments 'interact' with the video treatments (i.e., are their synergies and better pairings)?
-
--   Do some videos lead to higher click rates?
-
--   Do some videos lead to higher watch rates?
-:::
-
-## Analysis and visuals
-
-[^gwwc_gg-6]
-
-[^gwwc_gg-6]: Moved from Erin's work
-
-```{r}
-
-##gwwc_vid_results$DV_costadj)
-##gwwc_vid_results$DV)
-##gwwc_vid_results$ave.cost.impr)
-
-```
-
-Data summary
-
-::: {.alert .alert-secondary}
-Below, a few data summary bits (from Erin). I commented most of it out and will redo it using an automated and formatted 'key summary statistics' package.
-
-I may also present the data in a dashboard for self-service.
-:::
-
-```{r}
-
-#datatable(gwwc_vid_results)
-```
-
-
-
-```{r}
-
-
-#print(gwwc_vid_results %>% group_by(Gender,Age) %>% summarise(n=n(),cost=mean(ave.cost.impr)),n=40)
-
-#gwwc_vid_results %>% group_by(audience) %>% summarise(n=n(), cost=mean(ave.cost.impr)*100) %>% .kable(digits=2, caption="Average cost per impression (in pennies)") %>%  .kable_styling()
-
-#gwwc_vid_results %>% group_by(message) %>% summarise(n=n(),cost=mean(ave.cost.impr)*100) %>% .kable(digits=2, caption="Average cost per impression (in pennies)") %>%  .kable_styling()
-
-```
-
-```{r}
-
-### CHART DATA
-
-#print(gwwc_vid_results %>% group_by(audience,media) %>% #summarise(results=mean(DV)*100,SE=std.error(DV)*100,n=n(),cost=mean(ave.cost.impr),CPR=cost/results),n=50)
-
-```
-
-<!--  Erin's work  has been (moved) 
-
-### PLOTS (Erin)
-
-Moved to archive: `eamt_data_analysis/gwwc/giving_guides/archive_erin/erin_plots_stats_gg.qmd`; will re-incoprporate and adjust
-
-### Models, statistics and crosstabs (Erin)
-
-Moved to archive: `../erin_plots_stats_gg.qmd`
-
---> 
-
-## Modeling/simulating CIs for results by group
-
-::: {.callout-note collapse="true"}
-##  Simulation-based: Sketched proposal
-
-1. Assume the 'cost per impression' (CpI) is fixed for each group or segment -- take that as exogenous and something we adjust for at the end^[Although I am not sure if this is the case; the costs and number of impressions served are determined in a complicated way.]
-
-2.  Make some assumptions about the distribution of the probability of a result from an impression for each individual in each group $g$; call this $P_{ig}$.
-E.g., each outcome $r_i \in \{0,1\}$ is drawn with probability  $P_{ig}$.
-We see the average of these draws.
-
-A close-to-correct simplification might yield that the group-specific results per impression (RpI) is the average value of $P_{ig}$ for the group, call this $P_g$. We can make some intuitive assumptions about the variance of $P_{ig}$ around $P_g$ within each group.
-
-So we would have something like:
-$P_{ig} \sim  \beta$ distribution with a mean of RpI (results per impression for the group), and some reasonable variation.
-
-3. Let $N_g$  be the number of impressions we see per group.
-
-In each simulation replication, simulate $N_g$ draws of $P_{ig}$ for each individual in each group $g$.
-
-Next 'flip an unfair coin for each individual', where the coin has probability $P_{ig}$ of a result.  This yields $N_g$ draws of the 0/1 outcome $r_i(g)$ for each group
-
-4. Look at the distribution of results for each group across many simulations.  This can easily be converted to the distribution of RpI for each group, or, assuming CpI is fixed, the distribution of 'cost per result' (or results per cost) for each group.
-
-This gives us our confidence intervals.
-
-The above is a bit ad-hoc (but less than our previous work). I suspect the procedure comes close to something that could give us something Bayesian.
-:::
-
-
-::: {.callout-note collapse="true"}
-
-## Adjusting the above to Jamie's suggestions ... for a 2 step simulation
-
-
-1. Draw $P_{gci}$ — the probability of a click for person $i$ in group $g$ for each individual (impression) in each group which might have a mean at the empirical click rate for this group, $C_g/N_g$, where $N_g$ is the number of impressions in group $g$
-
-2. Simulate clicks by group with $N_g$ coin flips each w/ draws from the $P_{gci}$ probability vector $\rightarrow$   $C^k_g$ simulated clicks for group $g$ in simulation $k$
-
-3. Draw  $P_{gri|c}$: ‘probability of result given click’ for individual $i$ in group $g$
-
-which might have a mean at the empirical results/clicks for this group
-
-4. Simulate results by group with  $C^k_g$ draws with vector of probabilities $P_{gri|c}$ $\rightarrow$  $R^k_g$ simulated results for group $g$ in simulation $k$
-
-My concern in general with these hurdle models is when they make inferences that depended on independence across hurdles. Here, I would be concerned if it depends on the probabilities $P_{gc}$ and $P_{gr|c}$ being independent.
-
-To me it seems plausible that for higher draws of $P_c$ we tend to  have lower values of $P_{r|c}$ … e.g., people (and groups) who click on everything rarely convert when they click.
-
-But I don’t think that the simulation posed above itself suffers from this problem.  If one group has a high click rate and a low ‘conversions per click’ rate, I think this would be reflected in the means of the distributions of $P$’s I use for the simulation above.
-
-As long as we don’t try to make (overly strong inferences) from the differences in $P_{gr|c}$ by group $g$ itself, I think we are OK. So the ‘two step’ simulation could indeed be better here.
-
-:::
-
-## Bayesian Logistic regressions and CIs 
-
-This comes from Jamie's work in `fb ad analysis.R`
-
-[google drive link](https://drive.google.com/file/d/1t_dySvC-GIQcSY2hJw7rfofuv15Qlg0s/view?usp=sharing)
+[google drive link](https://drive.google.com/file/d/1t_dySvC-GIQcSY2hJw7rfofuv15Qlg0s/view?usp=sharing)]
 
 ```{r packages}
 library(pacman)
@@ -1261,8 +725,6 @@ p_load(brms, install=FALSE)
 library(brms)
 p_load(tidybayes, install=FALSE)
 library(tidybayes)
-
-
 
 ```
 
@@ -1286,6 +748,14 @@ gg_video_breakdowns_col <- gg_video_breakdowns %>%
 sum_results
 #%>%   mutate(starts = as.factor(starts))
 #rem: we are just summing outcomes, so no weights are needed here
+
+gg_video_breakdowns_col_mix <- gg_video_breakdowns %>%
+  group_by(video_theme, audience, starts) %>%
+  #group_by(video_theme, audience, starts) %>%
+sum_results
+#%>%   mutate(starts = as.factor(starts))
+#rem: we are just summing outcomes, so no weights are needed here
+
 
 ```
 
@@ -1381,12 +851,23 @@ We would be 'very surprised' (seems 5% likely or less) with an RpC of over `r pr
 
 ### Estimating the models 
 
-```{r clicks_reg2}
+```{r bayes_model_formulas}
 
 clicks_per_reach_video_aud <- as.formula("clicks | trials(reach) ~ video_theme + audience + video_theme:audience")
 
 # +  starts
 results_per_click_video_aud <- as.formula("results | trials(clicks) ~ video_theme + audience + video_theme:audience")
+
+#  For comparison: a one-step model 
+results_per_reach_video_aud <- as.formula("results | trials(reach) ~ video_theme + audience + (video_theme|audience)")
+
+#  Fuller, mixed model 
+# results_per_reach_video_aud_mix <- as.formula("results | trials(reach) ~ (1|starts) + video_theme + audience + (video_theme | audience) + (video_theme:audience)")
+
+```
+
+
+```{r bayes_args_estimates}
 
 ## passing a list
 arg.list <- list(init = 0, chains = 4, cores = 4, iter = 2500, warmup = 500, backend = "cmdstanr", seed = 1010, silent=2,  refresh = 0) 
@@ -1412,7 +893,31 @@ results_logit_vid <-  do.call("brm", c(list(
   list(threads = threading(8)))
 )
 
+
+results_per_reach_logit_vid <-  do.call("brm", c(list(
+  data = gg_video_breakdowns_col, 
+  formula = results_per_reach_video_aud,
+                  family = binomial("logit"),
+                  control = list(adapt_delta = 0.99, max_treedepth = 15),
+                  prior = prior_results),
+                  arg.list,                  
+  list(threads = threading(8)))
+)
+
+
+# rpi_logit_mix_vid <-  do.call("brm", c(list(
+#   data = gg_video_breakdowns_col_mix, 
+#   formula = results_per_reach_video_aud_mix,
+#                   family = binomial("logit"),
+#                   control = list(adapt_delta = 0.99, max_treedepth = 15),
+#                   prior = prior_results),
+#                   arg.list,                  
+#   list(threads = threading(8)))
+# )
+
+
 ```
+
 ### (To do) Summarize the model results/coefficients in clean tables here
 
 ### Forest plots
@@ -1585,11 +1090,11 @@ Note: the 'pooled' graphs in this section may not be correctly weighted across s
 ::: 
 
 
-For the 'cause videos only' we see (todo: doublecheck after final estimates) that the philanthropy audience, across all causes, seems to perform at least as well as the climate and 'global poverty' audiences (when the latter are presented videos for the causes they are said to care about). However, the animal audiences seems to perform substantially better. 
+For the 'cause videos only' we see ^[todo: doublecheck after final estimates] that the philanthropy audience, across all causes, seems to perform at least as well as the climate and 'global poverty' audiences (when the latter are presented videos for the causes they are said to care about). However, the animal audiences seems to perform substantially better. 
 
 For example, focusing on climate-cause videos (and removing 'lookalikes') below, we see that the philanthropy audience performs substantially better than the climate audience.
 
-```{r}
+```{r reach_to_clicks_aud_plot_climate}
 (
 reach_to_clicks_aud_plot_climate <-  full_post  %>%
     filter(str_det(theme, "Climate"))  %>%
@@ -1603,9 +1108,7 @@ reach_to_clicks_aud_plot_climate <-  full_post  %>%
 
 ```
 
-
-
-### Results by Video   (todo: fix weighting)
+### Results by Video  (todo: fix weighting)
 
 ```{r}
 
@@ -1625,7 +1128,7 @@ vid_plots <- function(df) {
 (
 reach_to_clicks_vid_plot <-  full_post  %>%
     vid_plots() +
-  labs(title = "By theme (reach, clicks, signups)",
+  labs(title = "By video theme (reach, clicks, signups)",
        x = "Estimated % 'converting' with 60% and 90% HDI")  +
       facet_grid(~level, scales = "free")
 )
@@ -1810,8 +1313,372 @@ The Lookalike audiences are relatively cost-effective for most videos, although 
 The cause audiences are relatively cost-effective  for their 'own' videos, but not overwhelmingly so. They seemed particularly cost-ineffective for the Hypercube video.
 
 
-## Modeling 'cost per result' and 'results per dollar': possible reference literature
 
-[Sodomka, Eric, Sébastien Lahaie, and Dustin Hillard. "A predictive model for advertiser value-per-click in sponsored search." Proceedings of the 22nd international conference on World Wide Web. 2013.](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.448.8462&rep=rep1&type=pdf)
+<!-- 
+## WIP: Building a set of models from a list of inputs
 
-[Chris Bow Kaggle vignette](https://www.kaggle.com/code/chrisbow/an-introduction-to-facebook-ad-analysis-using-r/notebook)
+NOTE 11 Aug 2022: adjusting this from another context - WIP
+
+```{r targets, eval=FALSE}
+
+#THE content belo 
+#targets:
+bin_out <- c("d_don_1k", "d_don_10pct")
+
+num_out <- c('donation_usd', 'don_av2_yr', 'l_don_usd', "l_don_av_2yr", "don_share_inc_imp_bc5k", "donation_plan_usd")
+targets <- c(bin_out, num_out)
+targets_short <- c("don_av2_yr", "don_share_inc_imp_bc5k", "d_don_1k")
+
+#Note -- don_av2_yr is the right one for qpoisson as it already expresses things in exponents. l_don_av2_yr was the one to use in the loglinear model, which we are not emphasizing
+
+targets_short_names <- c("Log (Avg don +1)", "Don/Income", "Donated 1k+")
+```
+
+
+```{r impute_norm_features, warning=FALSE}
+#imputing and normalization
+```
+
+```{r key_labels, eval=FALSE}
+
+#labeling for model output
+
+key_eas_all_labels <- c( #note these are converted to a list with as.list before assigning them
+    donation_usd = "Donation (USD)",
+    l_don_usd = "Log Don. (USD)",
+    l_don_av_2yr = "Log Don. 'avg.'",
+    ln_age = "Log age",
+    don_av2_yr = "Don. 'avg'",
+    donation_plan_usd = "Don. plan (USD)")
+```
+
+
+```{r features, eval = FALSE}
+
+feat_list = list(
+  c(key_demog, feat_income_employ, controls),
+  c(key_demog, feat_income_employ, controls, robust_controls),
+  c(key_demog, feat_income_employ, feat_gwwc_etg, controls) )
+
+feat_names = c("Baseline", "Robust controls",  "Base + EtG & GWWC")
+
+```
+
+
+```{r vars_list, eval = FALSE}
+
+rhs_vars_list <- rep(feat_list, length(targets_short))
+
+outcome_vars_list <- rep(as.list(targets_short), each=length(feat_list))
+
+dfs <- rep(list(eas_all_s_rl_imp), length(outcome_vars_list))
+
+```
+
+```{r model-prep-linear, warning=FALSE, eval = FALSE}
+
+## Create dataframe for modeling
+(linear_models <- make_model_df(rhs_vars_list, outcome_vars_list, dfs))
+
+```
+
+
+
+
+```{r fit_linear_models, eval=FALSE}
+
+linear_models <- linear_models %>%
+  mutate(
+    lm_fit = fit_models(
+      linear_models, "formulas", "dfs", fun = fit_lm)
+    )
+
+# Extract coefficients, fitted and residuals
+model_feat_names <- rep(c(feat_names), times= length(targets_short))
+model_oc_names <- rep(c(targets_short_names), each= length(feat_names))
+model_names <- paste(model_oc_names, model_feat_names, sep = ": ")
+
+```
+
+
+
+```{r set_base_levels}
+#set base levels before doing modeling
+
+gg_campaign_by_ad_by_text_age_gender$age <- factor( gg_campaign_by_ad_by_text_age_gender$age,
+  ordered = FALSE )
+
+gg_campaign_by_ad_by_text_age_gender$age <- relevel( gg_campaign_by_ad_by_text_age_gender$age,
+  ref="18-24")
+
+gg_campaign_by_ad_by_text_age_gender$audience <- factor( gg_campaign_by_ad_by_text_age_gender$audience,
+  ordered = FALSE )
+
+gg_campaign_by_ad_by_text_age_gender$audience <- relevel( gg_campaign_by_ad_by_text_age_gender$audience,
+  ref="Philanthropy")
+
+```
+
+
+```{r}
+
+summarise_stuff <- function(df) {
+  df %>%
+     summarise(
+      amount_spent_usd = sum(amount_spent_usd),
+      reach=sum(reach),
+      link_clicks = sum(link_clicks, na.rm = TRUE),
+      results = sum(results, na.rm = TRUE),
+      cost_per_impression = amount_spent_usd/reach,
+      cost_per_click = amount_spent_usd/link_clicks,
+      results = ifelse(is.na(results), 0, results ),
+      results_per_100usd = results/(amount_spent_usd/100),
+      results_per_1k_reach = results*1000/reach)
+}
+
+model_data_0 <- gg_campaign_by_ad_by_text_age_gender %>%
+  filter(audience!="Retargeting") %>%
+  ungroup() %>%
+    group_by(video_theme, text_treat, audience) %>% #starts,
+    #filter(reach>200) %>%
+    summarise_stuff() %>%
+  ungroup() %>%
+  as.tibble() %>%
+  mutate(
+    across(c(video_theme, text_treat, audience), #starts,
+      as.factor )
+    )
+
+model_data_start <- gg_campaign_by_ad_by_text_age_gender %>%
+  filter(audience!="Retargeting") %>%
+  ungroup() %>%
+    group_by(video_theme, text_treat, audience, starts) %>% #starts,
+    #filter(reach>200) %>%
+        summarise_stuff() %>%
+  ungroup() %>%
+  as.tibble() %>%
+  mutate(
+    across(c(video_theme, text_treat, audience, starts), #starts,
+      as.factor )
+    )
+
+model_data <- gg_campaign_by_ad_by_text_age_gender %>%
+    filter(audience!="Retargeting") %>%
+  ungroup() %>%
+    group_by(video_theme, text_treat, audience, gender, agetrin) %>% #starts,
+    #filter(reach>200) %>%
+        summarise_stuff() %>%
+  ungroup() %>%
+  as.tibble() %>%
+  mutate(
+    across(c(video_theme, text_treat, audience, gender, agetrin), #starts,
+      as.factor )
+    )
+
+Rp100usd_vid_text_audience0 <- model_data_0 %>%
+  lm(
+    results_per_100usd ~ 1 + video_theme + text_treat + audience,
+    data = .,
+    weights = reach)
+
+
+Rp100usd_vid_text_audience_starts <- model_data_start %>%
+  lm(
+    results_per_100usd ~ 1 + starts + video_theme + text_treat + audience,
+    data = .,
+    weights = reach)
+
+
+Rp100usd_vid_text_audience_demo <- model_data %>%
+  lm(
+    results_per_100usd ~ 1 + video_theme + text_treat + audience + gender + agetrin,
+    data = .,
+    weights = reach)
+
+#Do NOT do this: Rp100usd_vid_text_audience0$df.residual <- sum(model_data_0$reach) - length(coef(Rp100usd_vid_text_audience0))
+
+huxtable::huxreg(Rp100usd_vid_text_audience0, Rp100usd_vid_text_audience_starts, Rp100usd_vid_text_audience_demo)
+
+
+```
+
+ Note: the N (and R-sq?) values above are incorrect; these are the number of *groups* not the number of baseline observations.
+
+[^gwwc_gg-3]
+
+[^gwwc_gg-3]: Followup of interest: What do the 'diminishing returns to scale' look like here? How to measure? Can we track results over time and see if the cost increased? (But targeting may also improve over time.) Roughly compare 'small' and 'large' campaigns? ...
+
+-->
+
+
+## Asking and answering questions {#q_and_a}
+
+::: {.callout-note collapse="true"}
+## This dynamic document format allows us to ask and answer a series of questions
+
+-   Using the data, with all coding steps shown
+-   Ideally, following a pre-defined (pre-analysis) plan
+-   Using the data and statistics directly and automatically in the narrative
+    -   And everything will be automatically adjusted if we bring in new data or adjust/correct features
+:::
+
+### In this context, how much does it cost to get a 'Result", i.e., to get a person to give their email to receive a Giving Guide? {.unnumbered}
+
+
+
+### Which pre-defined audience yields a Result at the lowest cost? How does this cost vary by audience? {.unnumbered}
+
+- Refer to models/estimates above
+
+
+```{r}
+
+limits <- aes(ymax = mean_dv + (se_dv), ymin = mean_dv - (se_dv))
+dodge <- position_dodge(width = 0.9)
+
+
+gg_gg_options <- list(geom_bar(stat = 'identity', position=dodge),
+  geom_errorbar(limits, position=dodge,  width=0.25, color="red"),
+  jtools::theme_apa(),
+  theme(legend.position="none"),
+  geom_text(aes(label = paste("$", mean_dv %>% round(.,2)), y=5), position = position_dodge(.9), size=4, color="white"),
+  theme(text=element_text(size=10))
+)
+  
+
+limits <- aes(ymax = mean_dv , ymin = mean_dv)
+dodge <- position_dodge(width = 0.9)
+
+
+
+(
+  result_by_age <-  gg_campaign_by_ad_by_text_age_gender %>%
+        mutate(results_per_100usd = results/(amount_spent_usd/100)) %>%
+     uncount(weights = .$reach) %>%
+   group_by(age) %>%
+  summarise(mean_dv = mean(results_per_100usd, na.rm=TRUE)) %>% 
+  ggplot(aes(x=age, mean_dv)) +
+  geom_bar(stat='identity',fill="#0072B2", position=dodge) +
+  ylab('Results/$ spent') +
+  xlab('Video') +
+  ggtitle('Results/$ spent by Age') 
+#+  scale_x_discrete(labels=vid_types)
+)
+
+
+```
+
+
+### Which pre-defined audience yields the highest 'rate of Result'? How does this vary by audience? {.unnumbered}
+
+Note, this is not the same as the previous question because some audiences are more *costly* to target on Facebook.
+
+-  Re-run above models for 'results per impression'
+
+Important caveat: this does not tell us the effect 'on a particular group', because of FB's optimization algorithms; [see discussion here](https://effective-giving-marketing.gitbook.io/untitled/methodological-discussion/splits-randomization/facebook-split-testing-etc).
+
+Interactions/separate models for 'vary by audience'.
+
+
+### Which *video* yields a Result at the highest rate/lowest cost? {.unnumbered}
+
+
+```{r common_plot_options}
+
+#Plot options in common
+
+#limits <- aes(ymax = mean_dv + (ci_spread), ymin = mean_dv - (ci_spread))
+dodge <- position_dodge(width = 0.9)
+
+vid_types <-
+  c("factual short",
+    "animal",
+    "climate",
+    "factual long",
+    "hypercube",
+    "poverty")
+
+
+
+grpsumgg <- function(df, gvar, var, ci_ends) {
+  df %>%
+  group_by({{gvar}}) %>%
+  summarise(mean_dv = mean({{var}}, na.rm=TRUE),
+            se_dv = sd({{var}}, na.rm=TRUE)/sqrt(n()),
+            ci_spread = qt(1 - (ci_ends / 2), n() - 1) * se_dv)
+}
+
+```
+
+
+```{r gwwc_vid_results_plot}
+
+gg_video_breakdowns %>%
+        mutate(results_per_100usd = results/(amount_spent_usd/100)) %>%
+     uncount(weights = .$reach) %>%
+   group_by(video_theme) %>%
+  summarise(mean_dv = mean(results_per_100usd, na.rm=TRUE)) %>% 
+  #grpsumgg(video_theme, results_per_100usd, 0.1) %>%
+  ggplot(aes(x=video_theme, mean_dv)) +
+  geom_bar(stat='identity',fill="#0072B2", position=dodge) +
+  #gg_gg_options +
+  ylab('Results/$ spent') +
+  xlab('Video') +
+  #ggtitle('Results/$ spent by Video, 90% CIs') +
+  ggtitle('Results/$ spent by Video') +
+  scale_x_discrete(labels=vid_types)
+
+
+# gwwc_vid_results %>%
+#   grpsumgg(media, DV_costadj, 0.1) %>%
+#   ggplot(aes(x=media, y=mean_dv)) +
+#   geom_bar(stat='identity',fill="#0072B2", position=dodge) +
+#   gg_gg_options +
+#   ylab('Results/$ spent') +
+#   xlab('Video') +
+#   ggtitle('Results/$ spent by Video, 90% CIs') +
+#   scale_y_continuous(limits = c(0,.2),  breaks=seq(0,.2, by=.05)) +
+#   scale_x_discrete(labels=vid_types)
+# 
+```
+
+
+- Refer to models/estimates above, coefficient on 'video'
+
+
+[^gwwc_gg-4]
+
+[^gwwc_gg-4]: Check: is this the same as 'which yields the highest rate of results, or is there a cost difference?'
+
+
+#### How does the 'best video' vary by audience? {.unnumbered}
+
+- Include interactions in above model
+- Run model separately for each group (or allowing everything to interact) for robustness
+- Also consider 'what did FB serve to each group', assuming it is optimizing.
+
+#### Aggregating: Which *category* of videos yields a result at the highest rate/lowest cost? ("Facts", "Cause focus", or "Arguments, rich content") {.unnumbered}
+
+- Above, pooling videos of similar type. (Random effects models?)
+
+### Which *message* yields a Result at the highest rate/lowest cost? {.unnumbered}
+
+[^gwwc_gg-5]
+
+[^gwwc_gg-5]: Check: is this the same as 'which yields the highest rate of results, or is there a cost difference?'
+
+**Sub-questions**
+
+#### How does the 'best message' vary by audience? {.unnumbered}
+
+::: {.callout-note collapse="true"}
+## Other questions (less interest or less feasible)
+
+-   Do the message treatments 'interact' with the video treatments (i.e., are their synergies and better pairings)?
+
+-   Do some videos lead to higher click rates?
+
+-   Do some videos lead to higher watch rates?
+:::
+
+

@@ -50,10 +50,14 @@ restriction18_39 =
   if("campaign_name" %in% names(data)){
     data <- data %>% 
   mutate(
+    campaign_name = case_when(
+      grepl("Hypercube", campaign_name) ~ "Branded",
+      TRUE ~ campaign_name
+      ),
     campaign_theme =
            case_when(grepl("Cause-led",campaign_name)~"Cause-led",
                      grepl("Factual",campaign_name)~"Factual",
-                     grepl("Hypercube",campaign_name)~"Hypercube",
+                     grepl("Branded",campaign_name)~"Branded",
                      grepl("PPCo",campaign_name)~"'Optimized' PPCo", # "'Optimized' Factual, Emotional- PPCo creatives",
                      TRUE ~ ""),
           version = case_when(
@@ -61,7 +65,7 @@ restriction18_39 =
       #Emotional ads remained the same for V1 and V2, and a second set of filmed ads were used for V3
       #Factual ad was shortened for V2, and a second filmed ad was used for V3
                               str_detect(campaign_name, "V3") ~ "V3 - sometimes Luke",
-                              str_detect(campaign_name, "Hypercube") ~ "Video/creatives",
+                              str_detect(campaign_name, "Branded") ~ "Video/creatives",
                               str_detect(campaign_name, "PPCo ") ~ "Video/creatives",
                               TRUE ~ "V1"),
   )
@@ -76,7 +80,7 @@ restriction18_39 =
             str_detect(ad_name, "Poverty") & str_detect(ad_name, "Cause-led V3|Cause-led")  ~ "Poverty",
             #str_detect(ad_name, "Animated") ~ "Animated",
             str_detect(ad_name, "Cause-led") ~ "Cause-led (any)",
-            grepl("Hypercube", ad_name)~"Hypercube (factual)",
+            grepl("Branded|Hypercube", ad_name)~"Branded (factual)",
             grepl("Factual", campaign_theme) & grepl("V1", version) ~"Factual long",
             grepl("Factual", campaign_theme)  ~ "Factual short",
             grepl("factual short", version) ~"Factual short",

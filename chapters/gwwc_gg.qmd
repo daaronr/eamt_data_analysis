@@ -227,7 +227,6 @@ attribution_setting_c <- gg_campaign_by_ad_by_text_age_gender$attribution_settin
 reporting_starts_c <- gg_campaign_by_ad_by_text_age_gender$reporting_starts %>% .[1]
 reporting_ends_c <- gg_campaign_by_ad_by_text_age_gender$reporting_ends %>% .[1]
 
-
 gg_campaign_by_ad_by_text_age_gender  %<>% mini_clean()
 gg_video_breakdowns  %<>% mini_clean()
 
@@ -263,7 +262,7 @@ gg_video_breakdowns %<>%
     TRUE ~   video_theme
     ),
     video_theme =  factor(video_theme),
-    video_theme = fct_relevel(video_theme, c("Animal", "Climate", "Poverty", "Factual short", "Factual long", "Branded (Factual)"))
+    video_theme = fct_relevel(video_theme, c("Animal", "Climate", "Poverty", "Factual short", "Factual long", "Branded (factual)"))
   )
 
 ```
@@ -809,7 +808,7 @@ In later trials we only targeted the younger age groups; the cost per results we
 
 
 ::: {.callout-note collapse="true"}
-##  Note on change in table style
+##  Note on change in table style   
 
 The tables above make it clear how the relevant 'per dollar' and 'per unique impression results are calculated. In the following tables we present slightly fewer columns, for readability.
  
@@ -890,7 +889,7 @@ Next, we compare the text treatments for the later campaigns only. The earlier a
 ```{r}
 
 outcomes_by_text <- gg_campaign_by_ad_by_text_age_gender %>%
-    filter(str_det(campaign_name, "factual|hyper")) %>%
+    filter(str_det(campaign_name, "factual|branded")) %>%
     group_by(text_treat) %>%
     base_results_sum() 
 
@@ -1850,7 +1849,7 @@ vid_types <-
     "animal",
     "climate",
     "factual long",
-    "hypercube",
+    "branded",
     "poverty")
 
 

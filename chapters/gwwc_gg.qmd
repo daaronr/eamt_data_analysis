@@ -606,35 +606,38 @@ Next we consider "Test 3", starting on 2021-12-23. As noted, this had a new vers
 )
 
 ```
-This has the same filters as the previous table: only Philanthropy and Lookalike audiences^[Here we could have included the cause audiences and it would have been somewhat comparable, but we leave them out for simplicity] and only those text treatments shown to all. Here both audiences, and both sets of message perform roughtly the same on a results-per-cost basis.
+This has the same filters as the previous table: only Philanthropy and Lookalike audiences^[Here we could have included the cause audiences and it would have been somewhat comparable, but we leave them out for simplicity] and only those text treatments shown to all. Here both audiences, and both sets of messages perform roughtly the same on a results-per-cost basis.
 
 Finally, for test 4, considering the branded video versus the rest. Here all text treatments could be paired with each of the videos, and each were given to each audience. Thus, we can 'include a lot' and this table is large (thus the 'datatables' format).^[We can also use the data that includes information on the video all audiences saw here, because we don't need to filter on message.]
 
 ```{r campaign_date_outcomes_comp_4}
 
-(
-  campaign_date_outcomes_comp_4 <-  gg_video_breakdowns %>%
+
+campaign_date_outcomes_comp_4 <-  gg_video_breakdowns %>%
     filter(starts== "2022-01-07") %>% 
     group_by(video_theme, audience) %>%
-    filter(reach>100) %>%
+    filter(audience!="Retargeting") %>%
     base_results_sum %>%
      dplyr::select(-Cost, -`Results`, -`Link clicks`) %>%
     arrange(audience, `$/ result`) %>% 
-    dplyr::select(audience, everything()) %>%
+    dplyr::select(audience, everything())
+
+campaign_date_outcomes_comp_4 %>% 
         DT::datatable(caption = "Tests 4 (roughly comparable); blank cells indicate NA/no results") 
-)
 
 
 ```
 \
 
-**By audience**^[Developers note: all of this description is hard-coded.]
+**Within each audience**^[Developers note: all of this description is hard-coded.]
 
 For the Philanthropy audience, the Climate and Poverty  videos and the Factual Short videos did about equally well -- about 8-9 USD per result. The Branded video did slightly worse. The Animal video which performed very poorly on this audience!
 
 For the General audience, the Climate video did best, achieving a result at close to 6 dollars. The Animal and Factual videos did somewhat worse, and the Poverty and Hypercube videos did substantially worse on a results per cost basis.
 
-The cost per result for the Factual Short video was fairly constant across audiences. The Branded video performed so/so on the Lookalikes and Philanthropy audeinces, but extremely poorly on the General and cause audiences.
+**Factual short versus Branded videos** 
+
+The cost per result for the Factual Short video was fairly constant across audiences (except the Lookalikes, who performed veyr poorly with this video). The Branded video performed so/so on the Lookalikes and Philanthropy audiences, but extremely poorly on the General and cause audiences.
 
 **Cause videos:**
 
@@ -644,7 +647,27 @@ The cost per result for the Factual Short video was fairly constant across audie
 
 - Poverty: This video apparently had  poor performance overall, leading FB's algorithm to largely drop it. It seems to have not appealed to any audience except the Philanthropy audience, where it did marginally OK.
 
+**Sorting by '$/results overall'**
 
+The best audience-video combinations were:
+
+```{r}
+
+campaign_date_outcomes_comp_4 %>% filter(`$/ result`<=9.1) %>% dplyr::select(audience, video_theme, `$/ result`) 
+
+```
+...  each of which cost at or below 9 dollars per result
+
+
+
+The worst audience-video combinations were:
+
+```{r}
+
+campaign_date_outcomes_comp_4 %>% filter(`$/ result`>20 |  is.na(`$/ result`) ) %>% dplyr::select(audience, video_theme, `$/ result`) 
+
+```
+Each of which cost over 20 dollars per result (or had no results, suggesting even higher costs).
 
 #### Other 'outcome by group' comparisons across several trials {-}
 

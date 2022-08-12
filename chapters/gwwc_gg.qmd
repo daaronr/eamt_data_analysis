@@ -413,7 +413,6 @@ reach_video_audience <- gg_video_breakdowns %>%
 ```
 :::
 
-:::{.column-body-outset}
 
 Below (in fold), we see that the second treatment dimension -- the text presented along with the video -- was allowed to vary independently of the video (but these are not 'statistically independent').
 
@@ -442,6 +441,7 @@ video_levels_gg <- c("Animal", "Climate", "Poverty", "Cause-led (any)", "Factual
 ```
 
 Note (again) that we cannot identify all of the video treatments in the same dataset with text treatments; thus, some are characterized as 'cause-led (any)'. This is a limitation of the Facebook interface.
+
 :::
 
 Note that treatment shares are not equal.  In fact, as the first table in this sectionshows, they are not even equal within each campaign. This is because Facebook optimizes to show more succesful videos and text more than less succesful versions.^[This also may lead FB to particularly combine certain message presentations more with certain video presentations. However we cannot check this in our current setup: it is confounded with 'audience profile' (at least in the data we can observe).]
@@ -492,9 +492,10 @@ Below, we present the text treatments *as shares of each campaign's unique impre
 ```
 As can be clearly seen above, within all age groups, the ads were disproportionally shown to women. Relative to the [overall Facebook population](https://www.statista.com/statistics/187549/facebook-distribution-of-users-age-group-usa/#:~:text=As%20of%20June%202022%2C%2023.5,13%20to%2017%20years%20old) our data skews very slightly younger.^[But we essentially excluded the  13-17 age group, completely excluding it in later.]
 
-```{r statista, out.width="40%"}
+```{r statista}
 
 knitr::include_url("https://www.statista.com/statistics/187549/facebook-distribution-of-users-age-group-usa/#:~:text=As%20of%20June%202022%2C%2023.5,13%20to%2017%20years%20old")
+
 ```
 
 ### Outcomes

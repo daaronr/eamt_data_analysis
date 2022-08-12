@@ -118,9 +118,9 @@ The page they were directed to,  <!-- (DR: probably the one linked below ) --> "
 :::
 
 ::: {.callout-note collapse="true"}
-## Arguments, rich content from "Hypercube"
+## Arguments, rich content from "Brand Video"
 
-6.  [Hypercube](https://www.youtube.com/watch?v=CiFoHm7HD94) (1 min 22 seconds): Animated and voiceover video that explains how GWWC can help maximize charitable impact (support, community, and information) and the problems GWWC addresses (good intentions don't always produce the desired outcomes, there are millions of charities that have varying degrees of impact and some can even cause harm). CTA: *Check out givingwhatwecan.org to learn how you can become an effective giver.*
+6.  [Brand Video](https://www.youtube.com/watch?v=CiFoHm7HD94) (1 min 22 seconds): Animated and voiceover video that explains how GWWC can help maximize charitable impact (support, community, and information) and the problems GWWC addresses (good intentions don't always produce the desired outcomes, there are millions of charities that have varying degrees of impact and some can even cause harm). CTA: *Check out givingwhatwecan.org to learn how you can become an effective giver.*
 :::
 
 
@@ -162,7 +162,7 @@ Test 2 (Starting December 8, campaign "Factual V2"?) was the same as Test 1 but 
 
 Test 3 (Starting December 23, campaign "Cause-led V3" and "Factual V3" (?)): was the same as Test 2 but had a new version of the videos (with Luke just holding up signs with the words). This test was also restricted to 18-35 (or 18-44) year olds.^[We see 'no individuals over 45' in the data for all experiments starting after mid-December]
 
-Test 4:  (Starting December 23, "Hypercube" and "PPCo") The Hypercube video was displayed in a separate “Hypercube” campaign which was tested against another campaign that allowed the algorithm to optimize between the 'short factual' and 'cause focus' videos (although not allowing each cause-specific audience to see the ads for other cause areas).
+Test 4:  (Starting December 23, "Brand Video" and "PPCo") The Brand Video  was displayed in a separate campaign which was tested against another campaign that allowed the algorithm to optimize between the 'short factual' and 'cause focus' videos (although not allowing each cause-specific audience to see the ads for other cause areas).
 
 In all tests, the text content displayed above the video was determined by Facebook’s algorithm. Balance across variations was determined to equate budgets across split tests; otherwise, according to Facebook’s algorithm. All variation was done at the level of the impression.
 
@@ -192,7 +192,7 @@ We import the exported 'pivot table' `gg_campaign_by_ad_by_text` below, as well 
 
 The data frame `gg_campaign_by_ad_by_text_age_gender` has one row per combination of 'campaign, ad, text, age group, gender'.
 
-Each row represents a combination of the below (with different numbers of 'reach' for each row)^[However, for the Hypercube campaign these are further broken up; I am not sure how.]
+Each row represents a combination of the below (with different numbers of 'reach' for each row)^[However, for the Brand Video campaign these are further broken up; I am not sure how.]
 
 - `campaign_name`: When and and with what funds the ad was launched, I think (?)
 - `ad_set`: An ad set can specifically tie an `ad_name` to an audience (I think)
@@ -263,7 +263,7 @@ gg_video_breakdowns %<>%
     TRUE ~   video_theme
     ),
     video_theme =  factor(video_theme),
-    video_theme = fct_relevel(video_theme, c("Animal", "Climate", "Poverty", "Factual short", "Factual long", "Hypercube (factual)"))
+    video_theme = fct_relevel(video_theme, c("Animal", "Climate", "Poverty", "Factual short", "Factual long", "Branded (Factual)"))
   )
 
 ```
@@ -384,7 +384,7 @@ Audiences not associated with a cause included the 'General' audience, the Phila
 
 ```{r reach_video_audience}
 
-video_levels <- c("Animal", "Climate", "Poverty", "Factual short",  "Factual long", "Hypercube (factual)", "Total")
+video_levels <- c("Animal", "Climate", "Poverty", "Factual short",  "Factual long", "Branded (Factual)", "Total")
 
 audience_levels <- c("Animal", "Climate", "Global Poverty", "Philanthropy", "General audience", "Lookalikes", "Retargeting")
 
@@ -423,7 +423,7 @@ Below (in fold), we see that the second treatment dimension -- the text presente
 
 ```{r reach_video_text}
 
-video_levels_gg <- c("Animal", "Climate", "Poverty", "Cause-led (any)", "Factual short",  "Factual long", "Hypercube (factual)", "Total")
+video_levels_gg <- c("Animal", "Climate", "Poverty", "Cause-led (any)", "Factual short",  "Factual long", "Branded (Factual)", "Total")
 
 (
   reach_video_text <- gg_campaign_by_ad_by_text_age_gender %>%
@@ -469,6 +469,8 @@ Below, we present the text treatments *as shares of each campaign's unique impre
 )
 
 
+
+
 ```
 
 :::
@@ -492,11 +494,14 @@ Below, we present the text treatments *as shares of each campaign's unique impre
 ```
 As can be clearly seen above, within all age groups, the ads were disproportionally shown to women. Relative to the [overall Facebook population](https://www.statista.com/statistics/187549/facebook-distribution-of-users-age-group-usa/#:~:text=As%20of%20June%202022%2C%2023.5,13%20to%2017%20years%20old) our data skews very slightly younger.^[But we essentially excluded the  13-17 age group, completely excluding it in later.]
 
+<!-- 
 ```{r statista}
 
 knitr::include_url("https://www.statista.com/statistics/187549/facebook-distribution-of-users-age-group-usa/#:~:text=As%20of%20June%202022%2C%2023.5,13%20to%2017%20years%20old")
 
 ```
+
+-->
 
 ### Outcomes
 
@@ -524,7 +529,7 @@ base_results_sum <- function(df) {
 
 (
   campaign_date_outcomes <-  gg_campaign_by_ad_by_text_age_gender %>%
-    group_by(campaign_name, starts) %>%
+    group_by(campaign_name, starts, ends) %>%
     rename('Campaign' = campaign_name) %>%
     filter(reach>200) %>%
     base_results_sum %>%
@@ -537,7 +542,111 @@ base_results_sum <- function(df) {
 ```
 :::
 
-The results vary substantially by campaign, but this could be attributed to a range of factors, including different sets of videos and texts in each campaign, different *versions* of videos presented on these dates, and changes in audience filters. As these campaigns were administered on different dates, there  may also be uncontrolled differences in the population seeing our ads. The campaigns run on the same dates are just most comparable, and in some cases, were explicitly set up as A/B tests.
+The results vary substantially by campaign, but this could be attributed to a range of factors, including different sets of videos and texts in each campaign, different *versions* of videos presented on these dates, and changes in audience filters. As these campaigns were administered on different dates, there  may also be uncontrolled differences in the population seeing our ads. 
+
+#### Most comparable trials and A/B testing {-}
+
+The campaigns run on the same dates are the most comparable, and in some cases, were explicitly set up as A/B tests.
+
+::: {.callout-note collapse="true"}
+## A/B trial setups
+
+
+Test 1 (Nov 30, 2021 – Dec 8, 2021) displayed either the long factual video or a cause focus video. In the cause focus condition, cause-specific audiences for animal rights, climate change, and poverty (based on their behavior on Facebook) were shown the relevant cause video.
+
+(Note: the 'Only 3% research' and '100x impact' messages were not shown )
+
+Test 2 (Dec 8 - 20, 2021) was the same as Test 1 but used the short factual video instead of the cause-focus videos. 
+
+Test 3 (Dec 23, 2021 - Jan 4, 2022) was the same as Test 2 but had a new version of the videos (with Luke just holding up signs with the words). This test was also restricted to 18-35 year olds. 
+
+Test 4: The brand video was displayed in a separate “brand video” campaign which was tested against another campaign that allowed the algorithm to optimize between the short factual and cause-focus videos (although not allowing each cause-specific audience to see the ads for other cause areas). 
+
+::: 
+
+As noted, some campaigns were set up explicitly as A/B trials. Below, we focus specifically on the comparable groups in each.
+
+```{r campaign_date_outcomes_comp_1_2}
+(
+  campaign_date_outcomes_comp_1_2 <-  gg_campaign_by_ad_by_text_age_gender %>%
+    filter(starts<= "2021-12-08") %>% 
+    filter(!str_det(text_treat, "100x impact|Overwhelming|Only 3% research|Cause list")) %>%
+    filter(audience == "Philanthropy" | audience =="Lookalikes") %>%
+    group_by(video_theme, audience) %>%
+    filter(reach>100) %>%
+    base_results_sum %>%
+     dplyr::select(-Cost, -`Results`, -`Link clicks`) %>%
+    arrange(audience, -`Results/ 1k impr.`) %>% 
+    .kable(caption = "'Comparable' Parts of Tests 1 & 2") %>%
+    .kable_styling() 
+)
+
+
+
+```
+
+The table above is limited to the campaigns starting on or before 2021-12-08: the 'tests 1 and 2'. It is limited to Philanthropy and Lookalike audiences, the only audiences that saw all videos. It is  limited to text (message) treatments that were shown across all these campaigns ("6000+ people", "Bigger difference", and "Learn"). Note the extremely poor performance of the 'Factual long' message. The Factual short message slightly outperformed the Cause-led messages overall.^[But recall we cannot distinguish which cause message they were shown for this slice of the data.] The Lookalike audience somewhat overperformed the Philanthropy audience, particularly with the cause-led videos.
+
+Next we consider "Test 3", starting on 2021-12-23. As noted, this had a new version of the videos, and new age restrictions
+
+
+```{r campaign_date_outcomes_comp_3}
+(
+  campaign_date_outcomes_comp_3 <-  gg_campaign_by_ad_by_text_age_gender %>%
+    filter(starts== "2021-12-23") %>% 
+    filter(!str_det(text_treat, "100x impact|Overwhelming|Only 3% research|Cause list")) %>%
+    filter(audience == "Philanthropy" | audience =="Lookalikes") %>%
+    group_by(video_theme, audience) %>%
+    filter(reach>100) %>%
+    base_results_sum %>%
+     dplyr::select(-Cost, -`Results`, -`Link clicks`) %>%
+    arrange(audience, -`Results/ 1k impr.`) %>% 
+    .kable(caption = "'Comparable' Parts of Tests 3") %>%
+    .kable_styling() 
+)
+
+```
+This has the same filters as the previous table: only Philanthropy and Lookalike audiences^[Here we could have included the cause audiences and it would have been somewhat comparable, but we leave them out for simplicity] and only those text treatments shown to all. Here both audiences, and both sets of message perform roughtly the same on a results-per-cost basis.
+
+Finally, for test 4, considering the branded video versus the rest. Here all text treatments could be paired with each of the videos, and each were given to each audience. Thus, we can 'include a lot' and this table is large (thus the 'datatables' format).^[We can also use the data that includes information on the video all audiences saw here, because we don't need to filter on message.]
+
+```{r campaign_date_outcomes_comp_4}
+
+(
+  campaign_date_outcomes_comp_4 <-  gg_video_breakdowns %>%
+    filter(starts== "2022-01-07") %>% 
+    group_by(video_theme, audience) %>%
+    filter(reach>100) %>%
+    base_results_sum %>%
+     dplyr::select(-Cost, -`Results`, -`Link clicks`) %>%
+    arrange(audience, `$/ result`) %>% 
+    dplyr::select(audience, everything()) %>%
+        DT::datatable(caption = "Tests 4 (roughly comparable); blank cells indicate NA/no results") 
+)
+
+
+```
+\
+
+**By audience**^[Developers note: all of this description is hard-coded.]
+
+For the Philanthropy audience, the Climate and Poverty  videos and the Factual Short videos did about equally well -- about 8-9 USD per result. The Branded video did slightly worse. The Animal video which performed very poorly on this audience!
+
+For the General audience, the Climate video did best, achieving a result at close to 6 dollars. The Animal and Factual videos did somewhat worse, and the Poverty and Hypercube videos did substantially worse on a results per cost basis.
+
+The cost per result for the Factual Short video was fairly constant across audiences. The Branded video performed so/so on the Lookalikes and Philanthropy audeinces, but extremely poorly on the General and cause audiences.
+
+**Cause videos:**
+
+- Animals: did approximately equally well (about 2 results per 1k impressions and  9-11 dollars per result) on all audiences except the Philanthropy audience.  
+
+- Climate: Surprisingly poor performance for the climate audience (but performed well with theGeneral audience, and OK with the Philanthropy and Lookalike audiences
+
+- Poverty: This video apparently had  poor performance overall, leading FB's algorithm to largely drop it. It seems to have not appealed to any audience except the Philanthropy audience, where it did marginally OK.
+
+
+
+#### Other 'outcome by group' comparisons across several trials {-}
 
 Next, we show the results by age and gender. As our age filters changed over time, we do this first for the earlier trials, when all age groups were included.
 
@@ -555,6 +664,7 @@ Next, we show the results by age and gender. As our age filters changed over tim
 
 
 While ^[this text is 'hard-coded' on 4 Aug 2022 ... if data changes we need to change the text] older age groups yield more results per impression, they are also more expensive. This approximately balances out, although the age 18-24 group is particularly costly per result!
+
 
 
 In later trials we only targeted the younger age groups; the cost per results were similar to earlier trials , and fairly close among the younger age groups (see fold).
@@ -1271,7 +1381,7 @@ Above we consider the cost effectiveness of each video by audience.
 
 **Climate video**: This seems to have performed best for the Philanthropy and General audiences, although the distribution is diffuse. Surprisingly, it does *not* perform best for the climate audience. 
 
-**Hypercube, Factual Long**: These seemed to have performed worst or near-worst for most audiences. 'Factual long' seems to have clearly performed worse than 'Factual short' version. (But see caveat below.)
+**Brand Video, Factual Long**: These seemed to have performed worst or near-worst for most audiences. 'Factual long' seems to have clearly performed worse than 'Factual short' version. (But see caveat below.)
 
 
 
@@ -1279,7 +1389,7 @@ Above we consider the cost effectiveness of each video by audience.
 
 ## Caveat/todo -- Video/campaign date imbalance
 
-There is substantial imbalance in dates the administration of treatments in the pooled data. E.g., the 'Factual short' video was the only one shown for the 2021-12-08 trial, which may confound the above result. The Hypercube video was *only* shown in a single trial, where it was the only video shown. The 'Factual long' video was dropped in later trials (?possibly after poor performance in an explicit A/B test?). Again, confounds are certainly possible.  We may want to either remove trials from dates that only ran a single trial (at a first pass), or include start date/campaign into our modeling.
+There is substantial imbalance in dates the administration of treatments in the pooled data. E.g., the 'Factual short' video was the only one shown for the 2021-12-08 trial, which may confound the above result. The Brand Video was *only* shown in a single trial, where it was the only video shown. The 'Factual long' video was dropped in later trials (?possibly after poor performance in an explicit A/B test?). Again, confounds are certainly possible.  We may want to either remove trials from dates that only ran a single trial (at a first pass), or include start date/campaign into our modeling.
 
 :::
 

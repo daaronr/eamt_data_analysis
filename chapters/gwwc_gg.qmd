@@ -10,7 +10,7 @@ execute:
 
 ::: {.callout-note}
 
-This chapter should align with a (forthcoming) EA Forum post, which will be linked here (and vice-versa).
+This chapter will align with a (forthcoming) EA Forum post; we will provide links in both directions. 
 
 :::
 
@@ -63,12 +63,12 @@ See full description in the gitbook [here](https://effective-giving-marketing.gi
 
 > **Effective Giving Guide Lead Generation campaign** ... ran late November 2021 - January 2022. The objective of this campaign was to see whether a factual ['who researches giving' or 'magnitude of impact differences'] or cause-led approach was more cost-effective at getting people to fill out a form and give us their email in order to download our Effective Giving Guide.
 
-The page they were directed to,  <!-- (DR: probably the one linked below ) --> "[Learn how to give more effectively](https://www.givingwhatwecan.org/giving-guide) allowed you to download the guide only after leaving your email.
+The page they were directed to,  <!-- (DR: probably the one linked below ) --> "[Learn how to give more effectively](https://www.givingwhatwecan.org/giving-guide)" allowed you to download the guide only after leaving your email.
 
 
 ### Treatments (text $\times$ video) {-}
 
-*There were two dimensions of treatment content:*
+*There were two dimensions of treatment content:*^[As well as the third dimension of 'different targeted audiences'.]
 
 1.  **The texts displayed above the videos**
 
@@ -143,12 +143,12 @@ source(here("code", "shared_packages_code.R"))
 
 Details in Gitbook [HERE (and embedded below)](https://effective-giving-marketing.gitbook.io/untitled/partner-organizations-and-trials/gwwc/giving-guides-+) and Gdoc [here](https://docs.google.com/document/d/1FfrXhD1YAIjrATy9PR6ScP20NMQa82sd80YvMb62iUQ/edit)
 
-```{r wppage, out.width="70%"}
+```{r wppage, out.width="85%"}
 
 knitr::include_url("https://effective-giving-marketing.gitbook.io/untitled/partner-organizations-and-trials/gwwc/giving-guides-+")
 ```
 
-## Implementation & treatment assignment: key details
+### Implementation & assignment: key details
 
 
 ::: {.callout-note collapse="true"}
@@ -170,7 +170,7 @@ The videos were adapted across the trials as we learned. First, we updated the f
 
 :::
 
-## Build: Source data input and cleaning code
+## Build: Source data, cleaning
 
 ::: {.callout-note collapse="true"}
 ## Accessing, downloading, inputting data
@@ -286,11 +286,13 @@ write_rds(gg_campaign_by_ad_by_text_age_gender, here(cleaned_data_path, "gg_camp
 
 
 ::: {.callout-note collapse="true"}
-## This data should be publicly shareable; above, we 'export'
+## This data is being publicly shared; above, 'export'  above
 
-This data is clearly not identifying individuals; it involves aggregates based on real or assumed characteristics ... there is likely nothing that needs to be hidden here. We aim to share and integrate all the data in this repo, for a complete pipeline.
+This data is clearly not identifying individuals; it involves aggregates based on real or assumed characteristics ... there is likely nothing that needs to be hidden here. We are sharing and integrating all the data in this repo, for a complete pipeline.
 
-In the code above, we create several 'cleaned data' files for others to access in the Github repo
+In the code above, we create several 'cleaned data' files for others to access in the [linked Github repo](https://github.com/daaronr/eamt_data_analysis) (under `gwwc`.)
+
+You can access the original data referred to above, and/or fork or clone our public Github repository and run the present code if you like. 
 
 :::
 
@@ -392,7 +394,7 @@ adorn_opts <- function(df) {
   df %>% 
     adorn_percentages("all") %>%
     adorn_totals(where = c("row", "col")) %>%
-    adorn_pct_formatting(digits = 2) 
+    adorn_pct_formatting(digits = 2)  
 }
 
 (
@@ -400,13 +402,15 @@ reach_video_audience <- gg_video_breakdowns %>%
     dplyr::select(video_theme, audience, reach) %>%
     uncount(weights = .$reach) %>%
     dplyr::select(-reach) %>%
-    tabyl(video_theme, audience) %>%
+    tabyl(audience, video_theme) %>%
     adorn_opts() %>% 
-    dplyr::select(video_theme, Animal, Climate, `Global Poverty`, everything()) %>%
-   mutate(video_theme =  factor(video_theme, levels = video_levels)) %>%
-  arrange(video_theme)  %>%
-    .kable(caption = "Video themes by audience: share of unique impressions", digits=3) %>%
-  .kable_styling()
+    dplyr::select(audience, Animal, Climate,Poverty, everything()) %>%
+   mutate(audience =  factor(audience, levels = audience_levels)) %>%
+  arrange(audience)  %>%
+    .kable(caption = "Video themes (columns) by audience (rows): share of unique impressions", digits=3) %>%
+  .kable_styling() 
+
+
 )
 
 ```
@@ -451,7 +455,7 @@ As shown in the fold below, the set of text treatments varied across campaigns:
 ::: {.callout-note collapse="true"}
 ## Text treatments by campaign
 
-Below, we present the text treatments *as shares of each campaign's unique impressions*. We see that the text treatments varied as shares of the treatments in each campaign. Some texts were swapped for other texts in later campaigns. But even among campaigns that used the same overall set of texts, there was some dramatic variation E.g., the '100x impact' was favored heavily in the 'Factual V2' campaign, while the other 'Factual' campaigns used this much less frequently. This presumably resulted from it performing better in the earliest hours of the Factual V2 trial, and Facebook's algorithm thus favoring it. 
+Below, we present the text treatments *as shares of each campaign's unique impressions*. We see that the text treatments varied as shares of the treatments in each campaign. Some texts were swapped for other texts in later campaigns. But even among campaigns that used the same overall set of texts, there was some dramatic variation E.g., the '100x impact' was favored heavily in the 'Factual V2' campaign, while the other 'Factual' campaigns used this much less frequently. This presumably resulted from it performing better in the earliest hours of the Factual V2 trial, and Facebook's algorithm thus favoring it.^[We suspect Facebook's algorithm uses some version of [Thompson sampling](https://en.wikipedia.org/wiki/Thompson_sampling#:~:text=Thompson%20sampling%2C%20named%20after%20William,to%20a%20randomly%20drawn%20belief) to optimize along the explore/exploit frontier.]
 
 ```{r}
 (
@@ -466,7 +470,6 @@ Below, we present the text treatments *as shares of each campaign's unique impre
   .kable(caption = "Text treatments as shares of unique impressions by campaign", digits=3) %>%
   .kable_styling()
 )
-
 
 
 
@@ -541,7 +544,7 @@ base_results_sum <- function(df) {
 ```
 :::
 
-The results vary substantially by campaign, but this could be attributed to a range of factors, including different sets of videos and texts in each campaign, different *versions* of videos presented on these dates, and changes in audience filters. As these campaigns were administered on different dates, there  may also be uncontrolled differences in the population seeing our ads. 
+The results varied substantially by campaign, but this could be attributed to a range of factors, including different sets of videos and texts in each campaign, different *versions* of videos presented on these dates, and changes in audience filters. As these campaigns were administered on different dates, there  may also be uncontrolled differences in the population seeing our ads. 
 
 ### Outcomes for the most comparable trials and A/B tests {-}
 
@@ -559,11 +562,11 @@ Test 2 (Dec 8 - 20, 2021) was the same as Test 1 but used the short factual vide
 
 Test 3 (Dec 23, 2021 - Jan 4, 2022) was the same as Test 2 but had a new version of the videos (with Luke just holding up signs with the words). This test was also restricted to 18-35 year olds. 
 
-Test 4: The brand video was displayed in a separate “brand video” campaign which was tested against another campaign that allowed the algorithm to optimize between the short factual and cause-focus videos (although not allowing each cause-specific audience to see the ads for other cause areas). 
+Test 4: The brand video was displayed in a separate branded campaign which was tested against another campaign that allowed the algorithm to optimize between the short factual and cause-focus videos (although not allowing each cause-specific audience to see the ads for other cause areas). 
 
 ::: 
 
-As noted, some campaigns were set up explicitly as A/B trials. Below, we focus specifically on the comparable groups in each.
+As noted, some campaigns were set up explicitly as A/B trials. Below, we focus specifically on the comparable groups in each.^[Todo: present or link at least something here about the likely dispersion/CI's for these. We should have a sense of 'how strong' these differences are. A minor challenge: we run the models and simulations later, so this would make this Quarto less of a 'transparent pipeline'.]
 
 ```{r campaign_date_outcomes_comp_1_2}
 (
@@ -576,7 +579,7 @@ As noted, some campaigns were set up explicitly as A/B trials. Below, we focus s
     base_results_sum %>%
      dplyr::select(-Cost, -`Results`, -`Link clicks`) %>%
     arrange(audience, -`Results/ 1k impr.`) %>% 
-    .kable(caption = "'Comparable' Parts of Tests 1 & 2") %>%
+    .kable(caption = "'Comparable' Parts of Tests 1 & 2: reach, impressions, clicks, results") %>%
     .kable_styling() 
 )
 
@@ -605,12 +608,12 @@ Next we consider "Test 3", starting on 2021-12-23. As noted, this had a new vers
 )
 
 ```
-This has the same filters as the previous table: only Philanthropy and Lookalike audiences^[Here we could have included the cause audiences and it would have been somewhat comparable, but we leave them out for simplicity] and only those text treatments shown to all. Here both audiences, and both sets of messages perform roughtly the same on a results-per-cost basis.
+This has the same filters as the previous table: only Philanthropy and Lookalike audiences^[Here we could have included the cause audiences and it would have been somewhat comparable, but we leave them out for simplicity] and only those text treatments shown to all. Here, at first pass, both audiences, and both sets of messages seem to perform roughly the same on a results-per-cost basis.^[But on a results per impression, the lookalikes seem do substantially better, and the cause-led treatments do better among the Philanthropy audience.] 
 
 
 #### Focus: Test 4, videos and audiences  {-}
 
-Finally, we focus on test 4, which incorporates the branded video. Here all text treatments could be paired with each of the videos, and each were given to each audience. Thus, we can 'include a lot' and this table is large (thus the 'datatables' format).^[We can also use the data that includes information on the video all audiences saw here, because we don't need to filter on message.]
+Finally, we focus on test 4, which incorporated the branded video. Here all text treatments could be paired with each of the videos, and each were given to each audience. Thus, we can 'include a lot' and this table is large (thus the 'datatables' format, allowing sorting and filtering).^[We can also use the data that includes information on the video all audiences saw here, because we don't need to filter on message.]
 
 
 
@@ -627,7 +630,7 @@ campaign_date_outcomes_comp_4_vid <-  gg_video_breakdowns %>%
     dplyr::select(audience, everything())
 
 campaign_date_outcomes_comp_4_vid %>% 
-        DT::datatable(caption = "Tests 4 (roughly comparable); blank cells indicate NA/no results") 
+        DT::datatable(caption = "Tests 4 (roughly comparable); blank cells indicate NA/no results", filter="top",  rownames= FALSE) 
 
 
 ```
@@ -635,21 +638,36 @@ campaign_date_outcomes_comp_4_vid %>%
 
 **Within each audience**^[Developers note: all of this description is hard-coded.]
 
-For the Philanthropy audience, the Climate and Poverty  videos and the Factual Short videos did about equally well -- about 8-9 USD per result. The Branded video did slightly worse. The Animal video which performed very poorly on this audience!
+For the Philanthropy audience, the Climate and Poverty  videos and the Factual Short videos did about equally well -- about 8-9 USD per result. The Branded video did slightly worse. The Animal video performed very poorly on this audience!
 
 For the General audience, the Climate video did best, achieving a result at close to 6 dollars. The Animal and Factual videos did somewhat worse, and the Poverty and Brand videos did substantially worse on a results per cost basis.
 
+
+::: {.callout-note collapse="true"}
+## Format note
+
+The table above is presented with the `Datatables` package/function. This allows sorting, filtering, etc. We can present more tables in this format if it is preferable.
+
+::: 
+
+\
+
 **Factual short versus Branded videos** 
 
-The cost per result for the Factual Short video was fairly constant across audiences (except the Lookalikes, who performed veyr poorly with this video). The Branded video performed so/so on the Lookalikes and Philanthropy audiences, but extremely poorly on the General and cause audiences.
+The cost per result for the Factual Short video was fairly constant across audiences (except the Lookalikes, who performed very poorly with this video). The Branded video performed adequately on the Lookalikes and Philanthropy audiences, but extremely poorly on the General and cause audiences.
 
-**Cause videos:**
+\
 
-- Animals: did approximately equally well (about 2 results per 1k impressions and  9-11 dollars per result) on all audiences except the Philanthropy audience.  
+**Cause videos**
 
-- Climate: Surprisingly poor performance for the climate audience (but performed well with theGeneral audience, and OK with the Philanthropy and Lookalike audiences
+- Animals video: did approximately equally well (about 2 results per 1k impressions and  9-11 dollars per result) on all audiences except the Philanthropy audience.  
 
-- Poverty: This video apparently had  poor performance overall, leading FB's algorithm to largely drop it. It seems to have not appealed to any audience except the Philanthropy audience, where it did marginally OK.
+- Climate video: Surprisingly poor performance for the climate audience (but performed well with theGeneral audience, and OK with the Philanthropy and Lookalike audiences
+
+- Poverty video: This video apparently had  poor performance overall, leading FB's algorithm to largely drop it. It seems to have not appealed to any audience except the Philanthropy audience, where it did marginally OK.
+
+\
+
 
 **Sorting by '$/results overall'**
 
@@ -657,7 +675,9 @@ The best audience-video combinations were:
 
 ```{r}
 
-campaign_date_outcomes_comp_4_vid %>% filter(`$/ result`<=9.1) %>% dplyr::select(audience, video_theme, `$/ result`) %>%  .kable() %>% .kable_styling()
+campaign_date_outcomes_comp_4_vid %>% filter(`$/ result`<=9.1) %>% dplyr::select(audience, video_theme, `$/ result`) %>% 
+  dplyr::arrange(`$/ result`) %>% 
+  .kable() %>% .kable_styling()
 
 ```
 ...  each of which cost at or below 9 dollars per result
@@ -668,10 +688,12 @@ The worst audience-video combinations were:
 
 ```{r}
 
-campaign_date_outcomes_comp_4_vid %>% filter(`$/ result`>20 |  is.na(`$/ result`) ) %>% dplyr::select(audience, video_theme, `$/ result`) %>%  .kable() %>% .kable_styling()
+campaign_date_outcomes_comp_4_vid %>% filter(`$/ result`>20 |  is.na(`$/ result`) ) %>% dplyr::select(audience, video_theme, `$/ result`) %>% 
+    dplyr::arrange(-`$/ result`) %>% 
+.kable() %>% .kable_styling()
 
 ```
-... each of which cost over 20 dollars per result (or had no results, suggesting even higher costs).
+... each of which cost over 20 dollars per result (or had no results, suggesting even higher costs).^[In some cases these had few observations, which we believe was because Facebook's algorithm largely 'gave up on these' videos for this audience because of very poor performance.]
 
 
 **Comparing audiences in Test 4**
@@ -682,6 +704,9 @@ campaign_date_outcomes_comp_4_vid %>% filter(`$/ result`>20 |  is.na(`$/ result`
 
 ```
 Here the General and Philanthropy audiences performed about equally well, while the cause audiences performed somewhat worse, particularly the Poverty audience.
+
+
+:::{.column-body-outset}
 
 
 ```{r campaign_date_outcomes_comp_4_aud_vt}
@@ -712,10 +737,14 @@ campaign_date_outcomes_comp_4_aud_vt <-  gg_video_breakdowns %>%
 campaign_date_outcomes_comp_4_aud_vt_all <- bind_rows(campaign_date_outcomes_comp_4_aud, campaign_date_outcomes_comp_4_aud_vt)
 
 campaign_date_outcomes_comp_4_aud_vt_all %>% 
-        DT::datatable(caption = "Tests 4 by audience and video type") 
+        DT::datatable(caption = "Test 4 by audience and video type", filter="top",  rownames= FALSE) 
 
 ```
 
+:::
+
+
+\
 
 
 #### Focus: Test 4, Texts and audiences  {-}
@@ -738,9 +767,15 @@ worst_to_best <- campaign_date_outcomes_comp_4_text_pool[[5,5]]/campaign_date_ou
 
 
 ```
-Above, pooling across all audiences (except Retargeting) and weighted towards 'those people in each audience who got each message', we see the "`r campaign_date_outcomes_comp_4_text_pool %>% .[[1,1]]`" message performed best per dollar, closely followed by the "`r campaign_date_outcomes_comp_4_text_pool %>% .[[2,1]]`" and "`r campaign_date_outcomes_comp_4_text_pool %>% .[[3,1]]`" messages.  "`r campaign_date_outcomes_comp_4_text_pool %>% .[[4,1]]`" did substantially worse, and "`r campaign_date_outcomes_comp_4_text_pool %>% .[[5,1]]`" the worst, costing `r op(worst_to_best)` times as much as the best message. 
+Above, pooling across all audiences (except Retargeting) and weighted towards 'those people in each audience who got each message', we see the "`r campaign_date_outcomes_comp_4_text_pool %>% .[[1,1]]`" message performed best per dollar, closely followed by the "`r campaign_date_outcomes_comp_4_text_pool %>% .[[2,1]]`" and "`r campaign_date_outcomes_comp_4_text_pool %>% .[[3,1]]`" messages.  "`r campaign_date_outcomes_comp_4_text_pool %>% .[[4,1]]`" did substantially worse, and "`r campaign_date_outcomes_comp_4_text_pool %>% .[[5,1]]`" the worst, costing `r op(worst_to_best)` times as much as the best message.
 
-Next, we considering these messages by audience, for this trial.
+
+\
+
+**Next, we consider these messages by audience, for this trial.**
+
+
+:::{.column-body-outset}
 
 ```{r campaign_date_outcomes_comp_4_text}
 
@@ -754,11 +789,12 @@ campaign_date_outcomes_comp_4_text <-  gg_campaign_by_ad_by_text_age_gender %>%
     dplyr::select(audience, everything())
 
 campaign_date_outcomes_comp_4_text %>% 
-        DT::datatable(caption = "Tests 4: Performance by audience and text; blank cells indicate NA/no results") 
+        DT::datatable(caption = "Tests 4: Performance by audience and text; blank cells indicate NA/no results", filter="top",  rownames= FALSE) 
 
 ```
+:::
 
-Some messages show strong heterogeneity across audiences, while others are fairly consistent.   The "Only 3% " message does well on the Animal and Philanthropy audiences, OK on the General audience, but does very  poorly on the other audiences.  The second best overall message, "100x impact" does so/so on all audiences.   "Learn" shows some variation, doing pretty well on Poverty and Lookalike audiences, OK on Animal audiences, but poorly on the General, Philanthropy and Climate audiences.  The "6000+ people" and "Bigger Difference" messages perform poorly on nearly all audiences, doing at best-OK on a few audiences
+Some messages show strong heterogeneity across audiences, while others were fairly consistent.   The "Only 3% " message does well on the Animal and Philanthropy audiences, OK on the General audience, but does very  poorly on the other audiences.  The second best overall message, "100x impact" does so/so on all audiences.   "Learn" shows some variation, doing pretty well on Poverty and Lookalike audiences, OK on Animal audiences, but poorly on the General, Philanthropy and Climate audiences.  The "6000+ people" and "Bigger Difference" messages perform poorly on nearly all audiences, doing at best-OK on a few audiences. (Use the above 'filter' functions to make these comparisons clear.)
 
 
 
@@ -779,11 +815,11 @@ Next, we show the results by age and gender. As our age filters changed over tim
 ```
 
 
-While ^[this text is 'hard-coded' on 4 Aug 2022 ... if data changes we need to change the text] older age groups yield more results per impression, they are also more expensive. This approximately balances out, although the age 18-24 group is particularly costly per result!
+While ^[this text is 'hard-coded' on 4 Aug 2022 ... if data changes we need to change the text] older age groups yield more results per impression, they are also more expensive. This approximately balances out, although the age 18-24 group is particularly costly per result.
 
 
 
-In later trials we only targeted the younger age groups; the cost per results were similar to earlier trials , and fairly close among the younger age groups (see fold).
+In later trials we only targeted the younger age groups; the costs per result were similar to earlier trials , and fairly close among the younger age groups (see fold).
 
 ::: {.callout-note collapse="true"}
 
@@ -815,7 +851,7 @@ The tables above make it clear how the relevant 'per dollar' and 'per unique imp
 ::: 
 
 
-Women gave their emails at a somewhat higher rate overall, but their (unique) impressions were a bit more costly. Thus cost per result roughly balanced out. Nonetheless, this might be somewhat informative for other contexts; women might be a particularly promising audience, all else equal.
+Women (or those identifying as female) gave their emails at a somewhat higher rate overall, but their (unique) impressions were a bit more costly. Thus, 'cost per result' roughly balanced out. Nonetheless, this might be somewhat informative for other contexts; wher costs are equal, women might be a particularly promising audience.
 
 ```{r}
 
@@ -882,7 +918,7 @@ bot_vid_phil <- video_outcomes_phil_0 %>% top_table( outvar=`$/ result`, outcol=
 ```
 
 
-The `r top_vid_phil` video performed particularly well on the philanthropy-interested audience filter, while "`r bot_vid_phil`" performed the worst.^[Tech note: the video names in the previous sentence are soft-coded, i.e., inline code; see the previous chunk where we identify the `top_vid_phil` and `bot_vid_phil`.]
+The `r top_vid_phil` video performed particularly well on the philanthropy-interested audience, while "`r bot_vid_phil`" performed the worst.^[Tech note: the video names in the previous sentence are soft-coded, i.e., inline code; see the previous chunk where we identify the `top_vid_phil` and `bot_vid_phil`.]
 
 Next, we compare the text treatments for the later campaigns only. The earlier and later campaigns had a slightly different set of texts; combining across these indeed risks confounding multiple dimensions.
 
@@ -904,9 +940,11 @@ bot_text_later <- outcomes_by_text %>% top_table( outvar=`$/ result`, outcol=tex
 
 ```
 
-The "`r top_text_later`" message performed particularly well on a cost-per-result basis, while `r bot_text_later` performed the worst 
+The "`r top_text_later`" message performed particularly well on a cost-per-result basis, while `r bot_text_later` performed the worst.
 
-We next consider results by audience, focusing on the non-cause treatments and cause treatments separately for comparability.
+\
+
+Finally, we consider results by audience, focusing on the non-cause and cause treatments separately, for comparability.
 
 :::{.column-body-outset}
 
@@ -931,9 +969,8 @@ audience_outcomes_vt <- gg_video_breakdowns %>%
 
 audience_outcomes_vt_all <- bind_rows(audience_outcomes_all, audience_outcomes_vt)
 
-
 audience_outcomes_vt_all %>%
-    DT::datatable(caption = "Results by audience; cause vs non-cause (and overall")
+    DT::datatable(caption = "Results by audience; cause vs non-cause (and overall)",  filter="top",  rownames= FALSE)
 
 
 ```
@@ -950,24 +987,18 @@ The above table is somewhat misleading because of the [divergent delivery](https
 
 
 
-::: {.callout-note collapse="true"}
-## Format note
-
-The table above is presented with the `Datatables` package/function. This allows sorting, filtering, etc. We can present more tables in this format if it is preferable.
-
-::: 
 
 
-## Modeling and simulation
-
-Discussion moved to separate file `modeling_fb_discussion.qmd`
 
 
-## Modeling: Bayesian Logistic regressions and CIs 
+## Modeling and inference: Bayesian Logistic regressions and CIs 
 
 ^[This comes from Jamie's work in `fb ad analysis.R`
 
 [google drive link](https://drive.google.com/file/d/1t_dySvC-GIQcSY2hJw7rfofuv15Qlg0s/view?usp=sharing)]
+
+^[Discussion of this and other modeling and simulation approaches moved to separate file `modeling_fb_discussion.qmd`
+]
 
 ```{r packages}
 library(pacman)
@@ -1009,7 +1040,7 @@ sum_results
 
 ```
 
-In the chunk below, we compute and set minimally informative priors for the click rates model.
+In the code chunk below, we compute and set minimally-informative priors for the click rates model.
 
 ```{r priors_clicks}
 
@@ -1080,7 +1111,6 @@ prior_results <- c(
   make_prior_normal(prior_intercept_results, se_prior_results, class = "Intercept"),
 make_prior_normal(0, se_prior_slope_results, class = "b")
 )
-
 
 ```
 
@@ -1174,7 +1204,9 @@ results_per_reach_logit_vid <-  do.call("brm", c(list(
 
 ```
 
-### (To do) Summarize the model results/coefficients in clean tables here
+<!-- 
+### (TODO) Summarize the model results/coefficients in clean tables here
+-->
 
 ### Forest plots
 
@@ -1280,18 +1312,25 @@ mutate_mean_hdi <- function(
 
 #### Results by audience {-}
 
-We ran two Bayesian Logit models, presented above (Todo: tables summarizing these). Results come from a two-stage process:  1. some people who see the ad click on it. 2. Some of those who click on the ad leave their email (asking for a Giving Guide). We model clicks as a share of unique impressions ('reach') and results as a share of clicks, allowing each to vary by video theme and by audience. (Later: by text and by demographics.)  The product of these shares (probabilities) yields results as a share of impressions, the main outcome of interest. 
+We ran two Bayesian Logit models. ^[TODO: tables summarizing these.] Results come from a two-stage process:  1. some people who see the ad click on it. 2. Some of those who click on the ad leave their email (asking for a Giving Guide). We model clicks as a share of unique impressions ('reach') and results as a share of clicks, allowing each to vary by video theme and by audience. (Later: by text and by demographics.)  The product of these shares (probabilities) yields 'results as a share of impressions', the main outcome of interest. 
 
 Below, we plot the point means (aka 'coefficients') and 'highest density intervals' (HDI) of our posterior beliefs for these. These models consider the audience and video themes at the same time, the imbalance between audiences and themes should probably not be a major biasing factor.
 
 *Caveats*: 
 
-1. The coefficients for the second stage ('clicks to results') should be taken lightly; as the audiences may be selected very differently 'conditional on click'; e.g., audiences that are 'easy to click' may by 'harder to convert ot a result'.  
+1. The specific coefficients for the second stage ('clicks to results') should be taken lightly; as the audiences may be selected very differently 'conditional on click'; e.g., audiences that are 'easy to click' may by 'harder to convert to a result'.  
 
 2. The results presented below do not control for 'which text treatment' nor for 'which campaign'. (We can do the latter next, but we can only do the former with the other version of the data, which is then missing some detail on who saw which video)
 
 3. The usual ['divergent delivery' issue](https://effective-giving-marketing.gitbook.io/untitled/methodological-discussion/splits-randomization/facebook-split-testing-etc)
 
+
+
+::: {.callout-note}
+
+**Important note:** the 'pooled' graphs (for individual audiences and videos) in this section may not be correctly weighted across subcategories. We need to reexamine this. 
+
+::: 
 
 ```{r aud_plots}
 
@@ -1338,11 +1377,7 @@ reach_to_clicks_aud_plot_cause <-  full_post  %>%
 
 ```
 
-::: {.callout-note}
 
-Note: the 'pooled' graphs in this section may not be correctly weighted across subcategories. We need to reexamine this. 
-
-::: 
 
 
 For the 'cause videos only' we see ^[todo: doublecheck after final estimates] that the philanthropy audience, across all causes, seems to perform at least as well as the climate and 'global poverty' audiences (when the latter are presented videos for the causes they are said to care about). However, the animal audiences seems to perform substantially better. 
@@ -1363,7 +1398,9 @@ reach_to_clicks_aud_plot_climate <-  full_post  %>%
 
 ```
 
-### Results by Video  (todo: fix weighting)
+### Results by Video
+
+^[Todo: fix weighting]
 
 ```{r}
 
@@ -1533,7 +1570,7 @@ Above we consider the cost effectiveness of each video by audience.
 
 ## Caveat/todo -- Video/campaign date imbalance
 
-There is substantial imbalance in dates the administration of treatments in the pooled data. E.g., the 'Factual short' video was the only one shown for the 2021-12-08 trial, which may confound the above result. The Brand Video was *only* shown in a single trial, where it was the only video shown. The 'Factual long' video was dropped in later trials (?possibly after poor performance in an explicit A/B test?). Again, confounds are certainly possible.  We may want to either remove trials from dates that only ran a single trial (at a first pass), or include start date/campaign into our modeling.
+There is substantial imbalance in dates the administration of treatments in the pooled data. E.g., the 'Factual short' video was the only one shown for the 2021-12-08 trial, which may confound the above result. The Brand Video was *only* shown in a single trial, where it was the only video shown. The 'Factual long' video was dropped in later trials (possibly after poor performance in an explicit A/B test). Again, confounds are certainly possible.  We may want to either remove trials from dates that only ran a single trial (at a first pass), or include start date/campaign into our modeling.
 
 :::
 
@@ -1765,7 +1802,9 @@ huxtable::huxreg(Rp100usd_vid_text_audience0, Rp100usd_vid_text_audience_starts,
 -->
 
 
-## Asking and answering questions {#q_and_a}
+<!-- 
+
+  ## Asking and answering questions {#q_and_a}
 
 ::: {.callout-note collapse="true"}
 ## This dynamic document format allows us to ask and answer a series of questions
@@ -1935,4 +1974,4 @@ gg_video_breakdowns %>%
 -   Do some videos lead to higher watch rates?
 :::
 
-
+-->

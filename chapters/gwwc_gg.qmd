@@ -608,7 +608,7 @@ Next we consider "Test 3", starting on 2021-12-23. As noted, this had a new vers
 )
 
 ```
-This has the same filters as the previous table: only Philanthropy and Lookalike audiences^[Here we could have included the cause audiences and it would have been somewhat comparable, but we leave them out for simplicity] and only those text treatments shown to all. Here, at first pass, both audiences, and both sets of messages seem to perform roughly the same on a results-per-cost basis.^[But on a results per impression, the lookalikes seem do substantially better, and the cause-led treatments do better among the Philanthropy audience.] 
+This has the same filters as the previous table: only Philanthropy and Lookalike audiences^[Here we could have included the cause audiences and it would have been somewhat comparable, but we leave them out for simplicity] and only those text treatments shown to all. Here, at first pass, both audiences, and both sets of video treatment themes seem to perform roughly the same on a results-per-cost basis.^[But on a results per impression, the lookalikes seem do substantially better, and the cause-led treatments do better among the Philanthropy audience.] 
 
 
 #### Focus: Test 4, videos and audiences  {-}
@@ -630,7 +630,7 @@ campaign_date_outcomes_comp_4_vid <-  gg_video_breakdowns %>%
     dplyr::select(audience, everything())
 
 campaign_date_outcomes_comp_4_vid %>% 
-        DT::datatable(caption = "Tests 4 (roughly comparable); blank cells indicate NA/no results", filter="top",  rownames= FALSE) 
+        DT::datatable(caption = "Test 4 (roughly comparable); blank cells indicate NA/no results", filter="top",  rownames= FALSE) 
 
 
 ```
@@ -1038,6 +1038,28 @@ sum_results
 #rem: we are just summing outcomes, so no weights are needed here
 
 
+# collapse into the categories of interest
+gg_campaign_by_text_col <-  gg_campaign_by_ad_by_text_age_gender %>%
+   uncount(weights = .$reach) %>%
+  group_by(text_treat, audience) %>% 
+sum_results
+#%>%   mutate(starts = as.factor(starts))
+#rem: we are just summing outcomes, so no weights are needed here
+
+gg_campaign_by_text_only <-  gg_campaign_by_ad_by_text_age_gender %>%
+   uncount(weights = .$reach) %>%
+  group_by(text_treat) %>% 
+sum_results
+
+gg_video_breakdowns_col_mix <- gg_video_breakdowns %>%
+  group_by(video_theme, audience, starts) %>%
+  #group_by(video_theme, audience, starts) %>%
+sum_results
+#%>%   mutate(starts = as.factor(starts))
+#rem: we are just summing outcomes, so no weights are needed here
+
+
+
 ```
 
 In the code chunk below, we compute and set minimally-informative priors for the click rates model.
@@ -1132,9 +1154,7 @@ We would be 'very surprised' (seems 5% likely or less) with an RpC of over `r pr
 ### Estimating the models 
 
 ```{r bayes_model_formulas}
-
 #| output: false
-
 
 clicks_per_reach_video_aud <- as.formula("clicks | trials(reach) ~ video_theme + audience + video_theme:audience")
 
@@ -1144,6 +1164,13 @@ results_per_click_video_aud <- as.formula("results | trials(clicks) ~ video_them
 #  For comparison: a one-step model 
 results_per_reach_video_aud <- as.formula("results | trials(reach) ~ video_theme + audience + (video_theme|audience)")
 
+#including messages
+clicks_per_reach_text_aud <- as.formula("clicks | trials(reach) ~ text_treat + audience + text_treat:audience")
+
+# +  starts
+results_per_click_text_aud <- as.formula("results | trials(clicks) ~ text_treat + audience + text_treat:audience")
+
+
 #  Fuller, mixed model 
 # results_per_reach_video_aud_mix <- as.formula("results | trials(reach) ~ (1|starts) + video_theme + audience + (video_theme | audience) + (video_theme:audience)")
 
@@ -1151,7 +1178,6 @@ results_per_reach_video_aud <- as.formula("results | trials(reach) ~ video_theme
 
 
 ```{r bayes_args_estimates}
-
 #| output: false
 
 
@@ -1159,7 +1185,7 @@ results_per_reach_video_aud <- as.formula("results | trials(reach) ~ video_theme
 arg.list <- list(init = 0, chains = 4, cores = 4, iter = 2500, warmup = 500, backend = "cmdstanr", seed = 1010, silent=2,  refresh = 0) 
 
 clicks_logit_vid <-  do.call("brm", c(list(
-  data =gg_video_breakdowns_col, 
+  data = gg_video_breakdowns_col, 
   formula = clicks_per_reach_video_aud,
                   family = binomial("logit"),
                   control = list(adapt_delta = 0.99, max_treedepth = 15),
@@ -1179,7 +1205,6 @@ results_logit_vid <-  do.call("brm", c(list(
   list(threads = threading(8)))
 )
 
-
 results_per_reach_logit_vid <-  do.call("brm", c(list(
   data = gg_video_breakdowns_col, 
   formula = results_per_reach_video_aud,
@@ -1189,17 +1214,54 @@ results_per_reach_logit_vid <-  do.call("brm", c(list(
                   arg.list,                  
   list(threads = threading(8)))
 )
+```
 
 
-# rpi_logit_mix_vid <-  do.call("brm", c(list(
-#   data = gg_video_breakdowns_col_mix, 
-#   formula = results_per_reach_video_aud_mix,
-#                   family = binomial("logit"),
-#                   control = list(adapt_delta = 0.99, max_treedepth = 15),
-#                   prior = prior_results),
-#                   arg.list,                  
-#   list(threads = threading(8)))
-# )
+```{r bayes_args_estimates_text}
+
+
+#for texts:
+clicks_logit_text <-  do.call("brm", c(list(
+  data = gg_campaign_by_text_col, 
+  formula = clicks_per_reach_text_aud,
+                  family = binomial("logit"),
+                  control = list(adapt_delta = 0.99, max_treedepth = 15),
+                   prior = prior_click),
+                  arg.list,                  
+  list(threads = threading(8)))
+)
+
+results_logit_text <-  do.call("brm", c(list(
+  data = gg_campaign_by_text_col, 
+  formula = results_per_click_text_aud,
+                  family = binomial("logit"),
+                  control = list(adapt_delta = 0.99, max_treedepth = 15),
+                  prior = prior_results),
+                  arg.list,                  
+  list(threads = threading(8)))
+)
+
+
+#for texts only:
+clicks_logit_text_only <-  do.call("brm", c(list(
+  data = gg_campaign_by_text_only, 
+  formula = clicks | trials(reach) ~ text_treat,
+                  family = binomial("logit"),
+                  control = list(adapt_delta = 0.99, max_treedepth = 15),
+                   prior = prior_click),
+                  arg.list,                  
+  list(threads = threading(8)))
+)
+
+results_logit_text_only <-  do.call("brm", c(list(
+  data = gg_campaign_by_text_only, 
+  formula = results | trials(clicks) ~ text_treat,
+                  family = binomial("logit"),
+                  control = list(adapt_delta = 0.99, max_treedepth = 15),
+                  prior = prior_results),
+                  arg.list,                  
+  list(threads = threading(8)))
+)
 
 
 ```
@@ -1210,7 +1272,7 @@ results_per_reach_logit_vid <-  do.call("brm", c(list(
 
 ### Forest plots
 
-```{r full_crossing}
+```{r full_crossing_vid}
 
 # posterior expectations:
 full_crossing <- expand_grid(
@@ -1229,11 +1291,14 @@ results_post <- posterior_epred(results_logit_vid, full_crossing)
 
 combined_post <- click_post * results_post #DR: multiplying the predicted probabilities of click and conversion here?
 
+results_per_reach_post <- posterior_epred(results_per_reach_logit_vid, full_crossing)
+
 ```
 
-```{r tib_post}
-#make tibbles of the stuff above, put it together s
 
+```{r tib_post_vid}
+
+#make tibbles of the stuff above, put it together s
 post_tib_clean <- function(df, name) {
   data <- df %>% 
     as.tibble() %>% 
@@ -1252,20 +1317,107 @@ post_tib_clean <- function(df, name) {
 # make tibbles
 tib_click_post <- click_post %>% 
   post_tib_clean( "1. Reach to clicks")
-
 tib_result_post <- results_post  %>%
     post_tib_clean("2. Clicks to signups")
-
 tib_combined_post <- combined_post %>%
       post_tib_clean("3. Total") 
-
 full_post <- bind_rows(tib_click_post,
                        tib_result_post,
                        tib_combined_post)
-
 ```
 
 
+```{r full_crossing_text}
+
+post_tib_clean_text <- function(df, name) {
+  data <- df %>% 
+    as.tibble() %>% 
+    pivot_longer(cols = everything(),
+    names_to = "identifier",
+    values_to = "probability") 
+  data <- data %>% 
+     mutate(level = name)
+       #     starts = rep(full_crossing$starts, 1000) #DR: I think I want starts (start date as a factor) in the model, because the audience may be systematically different on those days, and other things change we leave out here. However, I don't want to see it in the graphs. How to do that? 
+  return(data)
+}
+
+
+# posterior expectations:
+
+full_crossing_text <- expand_grid(
+  "text_treat" = unique(gg_campaign_by_text_col$text_treat),
+  "audience" = unique(gg_campaign_by_text_col$audience)) %>% 
+  mutate(reach = 1, #it is estimating the number of clicks based on the reach
+         clicks = 1) 
+
+full_crossing_text_only <- expand_grid(
+  "text_treat" = unique(gg_campaign_by_text_col$text_treat)) %>% 
+  mutate(reach = 1, #it is estimating the number of clicks based on the reach
+         clicks = 1)
+
+click_post_text <- posterior_epred(clicks_logit_text, newdata = full_crossing_text) #ndraws = 1000, 
+results_post_text <- posterior_epred(results_logit_text, full_crossing_text)
+combined_post_text <- click_post_text * results_post_text 
+
+text_audience_reps <- function(df) {
+  df %>% 
+ mutate(
+         text_treat = rep(full_crossing_text$text_treat, dim(tib_click_post_text)[1]/dim(full_crossing_text)[1]),
+       audience = rep(full_crossing_text$audience,  dim(tib_click_post_text)[1]/dim(full_crossing_text)[1])
+)}
+  
+
+# make tibbles
+tib_click_post_text <- click_post_text %>% 
+  post_tib_clean_text( "1. Reach to clicks") 
+tib_click_post_text %<>%  text_audience_reps
+
+tib_result_post_text <- results_post_text  %>%
+    post_tib_clean_text("2. Clicks to signups")
+tib_result_post_text %<>% text_audience_reps
+
+tib_combined_post_text <- combined_post_text %>%
+      post_tib_clean_text("3. Total") 
+tib_combined_post_text %<>% text_audience_reps
+
+full_post_text <- bind_rows(tib_click_post_text,
+                       tib_result_post_text,
+                       tib_combined_post_text)
+
+#for text only, 1 variable model
+
+click_post_text_only <- posterior_epred(clicks_logit_text_only, newdata = full_crossing_text_only) #ndraws = 1000, 
+
+results_post_text_only <- posterior_epred(results_logit_text_only, full_crossing_text_only)
+
+combined_post_text_only <- click_post_text_only * results_post_text_only
+
+
+# make tibbles
+
+text_only_reps <- function(df) {
+  df %>% 
+   mutate(text_treat = rep(full_crossing_text_only$text_treat, dim(tib_click_post_text_only)[1]/dim(full_crossing_text_only)[1]))
+}          
+
+tib_click_post_text_only <- click_post_text_only %>% 
+  post_tib_clean_text( "1. Reach to clicks")
+tib_click_post_text_only %<>%   text_only_reps
+
+tib_results_post_text_only <- results_post_text_only  %>%
+    post_tib_clean_text("2. Clicks to signups")
+tib_results_post_text_only %<>%  text_only_reps
+
+tib_combined_post_text_only <- combined_post_text_only %>%
+      post_tib_clean_text("3. Total") 
+
+tib_combined_post_text_only %<>%  text_only_reps
+
+full_post_text_only <- bind_rows(tib_click_post_text_only,
+                       tib_results_post_text_only,
+                       tib_combined_post_text_only)
+
+```
 
 ```{r post_summary}
 
@@ -1372,12 +1524,9 @@ reach_to_clicks_aud_plot_cause <-  full_post  %>%
  labs(title = "By audience, Cause videos only",
        x = "Estimated % 'converting' with 60% and 90% HDI")  +
       facet_grid(~level, scales = "free")
-
 )
 
 ```
-
-
 
 
 For the 'cause videos only' we see ^[todo: doublecheck after final estimates] that the philanthropy audience, across all causes, seems to perform at least as well as the climate and 'global poverty' audiences (when the latter are presented videos for the causes they are said to care about). However, the animal audiences seems to perform substantially better. 
@@ -1393,7 +1542,6 @@ reach_to_clicks_aud_plot_climate <-  full_post  %>%
  labs(title = "By audience, Climate videos only",
        x = "Estimated % 'converting' with 60% and 90% HDI")  +
       facet_grid(~level, scales = "free")
-
 )
 
 ```
@@ -1470,7 +1618,7 @@ reach_to_results_plot <-  full_post %>%
   geom_errorbarh(aes(xmin = lower_w, xmax = upper_w, y = theme),  height=.25, color = "blue") +  geom_point(aes(x = mean, y = theme)) +
   facet_wrap(~audience, scales = "fixed") +
     coord_cartesian(xlim=c(0, 0.8)) +
-  labs(title = "Reach to results (total)",
+  labs(title = "Reach to results (total), by audience by theme",
        x = "Estimated % results with 60% and 90% HDIs") +
   facet_wrap(~factor(audience, levels=audience_levels), scales = "fixed")
 )
@@ -1487,17 +1635,93 @@ reach_to_results_plot_flip <-  full_post %>%
   geom_errorbarh(aes(xmin = lower_w, xmax = upper_w, y = audience),  height=.25, color = "blue") +  geom_point(aes(x = mean, y = audience)) +
   facet_wrap(~audience, scales = "fixed") +
     coord_cartesian(xlim=c(0, 0.8)) +
-  labs(title = "Reach to results (total)",
+  labs(title = "Reach to results (total), by theme by audience",
        x = "Estimated % results with 60% and 90% HDIs") +
   facet_wrap(~theme, scales = "fixed")
 )
 
+```
+
+
+### Results by text
+
+```{r reach_to_results_sum_text_only}
+
+
+
+reach_to_results_sum_text_only <-  full_post_text_only %>% 
+      filter(grepl("3", level)) %>% 
+      group_by(text_treat) %>% #, startslevel, 
+      sum_mean_hdi( CI_choice_n=0.90, CI_choice_w = 0.99) %>%         
+  mutate(text_treat = reorder(as.factor(text_treat), `mean`)) 
+
+reach_to_results_sum_text_only  %>%
+  DT::datatable(caption = "Texts: mean performance by text, 0% and 99% HDI bounds", filter="top",  rownames= FALSE) %>%
+  formatRound(1:length(reach_to_results_sum_text_only), digits=3)
+
+(
+reach_to_results_sum_text_only_plot <- 
+reach_to_results_sum_text_only %>% 
+    ggplot() + 
+  geom_errorbarh(aes(xmin = lower_n, xmax = upper_n, y = text_treat), height = .7, color = "red") +
+  geom_errorbarh(aes(xmin = lower_w, xmax = upper_w, y = text_treat),  height=.25, color = "blue") +  geom_point(aes(x = mean, y = text_treat)) +
+    coord_cartesian(xlim=c(0.13, .45)) +
+  labs(title = "Reach to results (total), by text",
+       x = "Estimated % results with 90% and 99% HDIs") 
+)
+```
+
+
+
+```{r reach_results_text}
+
+reach_to_results_sum_text <-  full_post_text %>% 
+      filter(grepl("3", level)) %>% 
+      group_by(text_treat, audience) %>% #, startslevel, 
+      sum_mean_hdi %>%         
+  mutate(text_treat = reorder(as.factor(text_treat), `mean`)) %>% 
+      filter(audience!="Retargeting")  
+
+reach_to_results_sum_text  %>%
+  DT::datatable(caption = "Texts:  mean performance by audience, 60 and 90% HDI bounds", filter="top",  rownames= FALSE) 
+
+(
+reach_to_results_sum_text_plot <- 
+reach_to_results_sum_text %>% 
+    ggplot() + 
+  geom_errorbarh(aes(xmin = lower_n, xmax = upper_n, y = text_treat), height = .7, color = "red") +
+  geom_errorbarh(aes(xmin = lower_w, xmax = upper_w, y = text_treat),  height=.25, color = "blue") +  geom_point(aes(x = mean, y = text_treat)) +
+  facet_wrap(~audience, scales = "fixed") +
+    coord_cartesian(xlim=c(0, .6)) +
+  labs(title = "Reach to results (total), by audience by text",
+       x = "Estimated % results with 60% and 90% HDIs") +
+  facet_wrap(~factor(audience, levels=audience_levels), scales = "fixed") 
+)
+
+(
+reach_to_results_plot_flip <-  full_post_text %>% 
+      filter(grepl("3", level)) %>% 
+      group_by(audience, text_treat) %>% #, startslevel, 
+      sum_mean_hdi %>% 
+        mutate(audience = reorder(as.factor(audience), `mean`)) %>% 
+      filter(audience!="Retargeting")  %>%
+    ggplot() + 
+  geom_errorbarh(aes(xmin = lower_n, xmax = upper_n, y = audience), height = .7, color = "red") +
+  geom_errorbarh(aes(xmin = lower_w, xmax = upper_w, y = audience),  height=.25, color = "blue") +  geom_point(aes(x = mean, y = audience)) +
+  facet_wrap(~audience, scales = "fixed") +
+    coord_cartesian(xlim=c(0, 1)) +
+  labs(title = "Reach to results (total), by text by audience",
+       x = "Estimated % results with 60% and 90% HDIs") +
+  facet_wrap(~text_treat, scales = "fixed")
+)
 
 ```
 
 
 
 ### Outcomes by cost
+
+Note: We don't report on the 'text' treatment in this section (for now), because the cost per unique impression was very similar across these texts.
 
 
 ```{r}

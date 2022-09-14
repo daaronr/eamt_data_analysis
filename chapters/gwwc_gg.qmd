@@ -1177,12 +1177,14 @@ results_per_click_text_aud <- as.formula("results | trials(clicks) ~ text_treat 
 ```
 
 
-```{r bayes_args_estimates}
+```{r }
+# label: bayes_args_estimates
 #| output: false
+#| warning: false
 
 
 ## passing a list
-arg.list <- list(init = 0, chains = 4, cores = 4, iter = 2500, warmup = 500, backend = "cmdstanr", seed = 1010, silent=2,  refresh = 0) 
+#arg.list <- list(init = 0, chains = 4, cores = 4, iter = 2500, warmup = 500, backend = "cmdstanr", seed = 1010, silent=2,  refresh = 0) 
 
 clicks_logit_vid <-  do.call("brm", c(list(
   data = gg_video_breakdowns_col, 
@@ -1190,7 +1192,7 @@ clicks_logit_vid <-  do.call("brm", c(list(
                   family = binomial("logit"),
                   control = list(adapt_delta = 0.99, max_treedepth = 15),
                    prior = prior_click),
-                  arg.list,                  
+                  init = 0, chains = 4, cores = 4, iter = 2500, warmup = 500, backend = "cmdstanr", seed = 1010, silent=2,  refresh = 0,                  
   list(threads = threading(8)))
 )
 
@@ -1201,7 +1203,7 @@ results_logit_vid <-  do.call("brm", c(list(
                   family = binomial("logit"),
                   control = list(adapt_delta = 0.99, max_treedepth = 15),
                   prior = prior_results),
-                  arg.list,                  
+                  init = 0, chains = 4, cores = 4, iter = 2500, warmup = 500, backend = "cmdstanr", seed = 1010, silent=2,  refresh = 0,                   
   list(threads = threading(8)))
 )
 
@@ -1211,14 +1213,16 @@ results_per_reach_logit_vid <-  do.call("brm", c(list(
                   family = binomial("logit"),
                   control = list(adapt_delta = 0.99, max_treedepth = 15),
                   prior = prior_results),
-                  arg.list,                  
+                  init = 0, chains = 4, cores = 4, iter = 2500, warmup = 500, backend = "cmdstanr", seed = 1010, silent=2,  refresh = 0,                   
   list(threads = threading(8)))
 )
 ```
 
 
 ```{r bayes_args_estimates_text}
-
+# label: bayes_args_estimates_text
+#| output: false
+#| warning: false
 
 #for texts:
 clicks_logit_text <-  do.call("brm", c(list(
@@ -1227,7 +1231,7 @@ clicks_logit_text <-  do.call("brm", c(list(
                   family = binomial("logit"),
                   control = list(adapt_delta = 0.99, max_treedepth = 15),
                    prior = prior_click),
-                  arg.list,                  
+                  init = 0, chains = 4, cores = 4, iter = 2500, warmup = 500, backend = "cmdstanr", seed = 1010, silent=2,  refresh = 0,                   
   list(threads = threading(8)))
 )
 
@@ -1237,7 +1241,7 @@ results_logit_text <-  do.call("brm", c(list(
                   family = binomial("logit"),
                   control = list(adapt_delta = 0.99, max_treedepth = 15),
                   prior = prior_results),
-                  arg.list,                  
+                  init = 0, chains = 4, cores = 4, iter = 2500, warmup = 500, backend = "cmdstanr", seed = 1010, silent=2,  refresh = 0,                   
   list(threads = threading(8)))
 )
 
@@ -1249,7 +1253,7 @@ clicks_logit_text_only <-  do.call("brm", c(list(
                   family = binomial("logit"),
                   control = list(adapt_delta = 0.99, max_treedepth = 15),
                    prior = prior_click),
-                  arg.list,                  
+                  init = 0, chains = 4, cores = 4, iter = 2500, warmup = 500, backend = "cmdstanr", seed = 1010, silent=2,  refresh = 0,                   
   list(threads = threading(8)))
 )
 
@@ -1259,10 +1263,9 @@ results_logit_text_only <-  do.call("brm", c(list(
                   family = binomial("logit"),
                   control = list(adapt_delta = 0.99, max_treedepth = 15),
                   prior = prior_results),
-                  arg.list,                  
+                  init = 0, chains = 4, cores = 4, iter = 2500, warmup = 500, backend = "cmdstanr", seed = 1010, silent=2,  refresh = 0,                   
   list(threads = threading(8)))
 )
-
 
 ```
 
@@ -1683,7 +1686,9 @@ reach_to_results_sum_text <-  full_post_text %>%
       filter(audience!="Retargeting")  
 
 reach_to_results_sum_text  %>%
-  DT::datatable(caption = "Texts:  mean performance by audience, 60 and 90% HDI bounds", filter="top",  rownames= FALSE) 
+  DT::datatable(caption = "Texts:  mean performance by audience, 60 and 90% HDI bounds", filter="top",  rownames= FALSE) %>%  
+    formatRound(1:length(reach_to_results_sum_text_only), digits=3)
+
 
 (
 reach_to_results_sum_text_plot <- 

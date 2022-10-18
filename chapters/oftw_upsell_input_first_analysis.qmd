@@ -4,8 +4,11 @@
 ^[Setup at top installs/loads packages.]
 ```{r, include=FALSE}
 library(here)
+library(dplyr)
 source(here("code", "shared_packages_code.R"))
 ```
+
+
 
 
 ## The trial
@@ -21,7 +24,7 @@ Kennan and Chloe captured the data and metadata from
 1. The OFTW database
 2. SurveyMonkey
 
-Putting this into the (private) Google sheet linked [HERE](https://docs.google.com/spreadsheets/d/1iUKXkEqoadBgtUG_epBzUzCgA_J5mdWWstcXtpAdNJs/edit#gid=521638649) .
+Putting this into the (private) Google sheet linked [HERE](https://docs.google.com/spreadsheets/d/1iUKXkEqoadBgtUG_epBzUzCgA_J5mdWWstcXtpAdNJs/edit#gid=521638649).
 We added some metadata/explainers to that data.^[Todo for best practice in future: more direct input through API tools; package bigrquery for bitquery.]
 
 
@@ -44,9 +47,9 @@ drive_auth(token = gs4_token())
 
 oftw_21_22_mc <- read_sheet("https://docs.google.com/spreadsheets/d/1iUKXkEqoadBgtUG_epBzUzCgA_J5mdWWstcXtpAdNJs/edit#gid=521638649", 
   sheet="Raw data (Mailchimp)")  %>% 
-  select(-`Treatment group`) %>%  #remove an un-useful repeated name column 
+  dplyr::select(-`Treatment group`) %>%  #remove an un-useful repeated name column 
     mutate(`Treatment Group` = purrr::map_chr(`Treatment Group`, ~ .[[1]])) %>%
-  select(`Email Address`, `Email Date`, `Treatment Group`, Opens, `Donate link clicks`, everything()) %>% #Most relevant features organized first
+  dplyr::select(`Email Address`, `Email Date`, `Treatment Group`, Opens, `Donate link clicks`, everything()) %>% #Most relevant features organized first
   arrange(`Email Address`)
 
 
@@ -66,7 +69,7 @@ oftw_21_22_db_don <- read_sheet(
   "https://docs.google.com/spreadsheets/d/1iUKXkEqoadBgtUG_epBzUzCgA_J5mdWWstcXtpAdNJs/edit#gid=521638649", 
   sheet="Giving Season contributions (BigQuery)") %>% 
   mutate(`Treatment group` = purrr::map_chr(`Treatment group`, ~ .[[1]])) %>%
-    select(`email`, `primary_email`, `donation_date`, `Net_Contribution_Amount_USD`, `payment_platform`, everything()) %>%  #Most relevant features organized first
+    dplyr::select(`email`, `primary_email`, `donation_date`, `Net_Contribution_Amount_USD`, `payment_platform`, everything()) %>%  #Most relevant features organized first
   filter(donation_date>=as.Date("2021-11-15")) # At least for now, remove pre-treatment donation data
 
 oftw_21_22_db_don %>% names() %>% paste(collapse=", ")

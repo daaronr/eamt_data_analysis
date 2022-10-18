@@ -199,9 +199,9 @@ ggplot(filter(cost_summary, upper_eti < 100)) +
   facet_wrap(~theme, scales = "free_x")
 
 
-SOME SUGGESTED THINGS TO DO
+#SOME SUGGESTED THINGS TO DO
 
-LMER package 
+#LMER package 
 
 clicks | trials(reach) ~ 1 + video_theme + audience + video_theme:audience + (video_theme | campaign) + (audience | campaign) + (video_theme:audience | campaign) ~ 1 + video*audience*campaign
 
@@ -212,4 +212,4 @@ results_per_click_video_aud <- as.formula("results | trials(clicks) ~ video_them
 ~ 1 + (1 | video_theme) + (1 | audience) + (1 | video_theme:audience)
 
 
-I think random effects do not deal with OVB ... Jamie does not agree; we may have different terms for random effects -- see slack thread [here](https://rethinkpriorities.slack.com/archives/G01BDCD2QPR/p1660060733533869)
+#I think random effects do not deal with OVB ... Jamie does not agree; we may have different terms for random effects -- see slack thread [here](https://rethinkpriorities.slack.com/archives/G01BDCD2QPR/p1660060733533869)

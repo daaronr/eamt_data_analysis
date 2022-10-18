@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.113">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>EA Market testing data analysis - 5&nbsp; TLYCS Portland trial: background, data input, brief report</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: 1;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../references.html" rel="next">
+<link href="../chapters/oftw_upsell_input_first_analysis.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script async="" src="https://hypothes.is/embed.js"></script>
+
+<script src="../site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<script src="../site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="../site_libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="../site_libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="../site_libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="../site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="../site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="../site_libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="../site_libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">TLYCS Portland trial: background, data input, brief report</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">EA Market testing data analysis</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/daaronr/eamt_data_analysis" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-reader-toggle sidebar-tool" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">About</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/gwwc_gg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Giving What We Can: Giving guides</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/gwwc_fb.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Giving What We Can: Feb 22 Facebook Message Test</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/gwwc_pledge_wip.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">(GWWC: Pledge page trial)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/oftw_upsell_input_first_analysis.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">OftW pre-giving-tuesday-email upselling split test (considering ‘impact vs emotion’)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/tlycs_input_simple_analysis.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">TLYCS Portland trial: background, data input, brief report</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#the-trial" id="toc-the-trial" class="nav-link active" data-scroll-target="#the-trial"><span class="toc-section-number">5.1</span>  The trial</a></li>
+  <li><a href="#capturing-data" id="toc-capturing-data" class="nav-link" data-scroll-target="#capturing-data"><span class="toc-section-number">5.2</span>  Capturing data</a></li>
+  <li><a href="#input-and-clean-data" id="toc-input-and-clean-data" class="nav-link" data-scroll-target="#input-and-clean-data"><span class="toc-section-number">5.3</span>  Input and clean data</a></li>
+  <li><a href="#casualsimple-uptick-analysis" id="toc-casualsimple-uptick-analysis" class="nav-link" data-scroll-target="#casualsimple-uptick-analysis"><span class="toc-section-number">5.4</span>  Casual/simple ‘uptick’ analysis</a>
+  <ul class="collapse">
+  <li><a href="#bound-maximum-impactminimum-cost-subject-to-random-variation" id="toc-bound-maximum-impactminimum-cost-subject-to-random-variation" class="nav-link" data-scroll-target="#bound-maximum-impactminimum-cost-subject-to-random-variation"><span class="toc-section-number">5.4.1</span>  Bound: Maximum impact/minimum cost (subject to random variation)</a></li>
+  <li><a href="#difference-in-differences-comparison-to-other-cities" id="toc-difference-in-differences-comparison-to-other-cities" class="nav-link" data-scroll-target="#difference-in-differences-comparison-to-other-cities"><span class="toc-section-number">5.4.2</span>  Difference in Differences comparison to other cities</a></li>
+  <li><a href="#plotting-the-difference-in-difference" id="toc-plotting-the-difference-in-difference" class="nav-link" data-scroll-target="#plotting-the-difference-in-difference"><span class="toc-section-number">5.4.3</span>  Plotting the ‘difference in difference’</a></li>
+  </ul></li>
+  <li><a href="#next-steps-if-warranted" id="toc-next-steps-if-warranted" class="nav-link" data-scroll-target="#next-steps-if-warranted"><span class="toc-section-number">5.5</span>  Next steps, if warranted</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/daaronr/eamt_data_analysis/edit/main/chapters/tlycs_input_simple_analysis.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/daaronr/eamt_data_analysis/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title d-none d-lg-block"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">TLYCS Portland trial: background, data input, brief report</span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="the-trial" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="the-trial"><span class="header-section-number">5.1</span> The trial</h2>
+<p>In December 2021, TLYCS ran a YouTube advertising campaign in single city, involving ‘donation advice’. The top 10% household income households were targeted with (one of?) three categories of videos.</p>
+<p>The details are presented in our (currently private) gitbook <a href="https://app.gitbook.com/o/-MfFk4CTSGwVOPkwnRgx/s/-Mf8cHxdwePMZXRTKnEE/contexts-and-environments-for-testing/tlycs/advisor-signup-portland">HERE</a></p>
+</section>
+<section id="capturing-data" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="capturing-data"><span class="header-section-number">5.2</span> Capturing data</h2>
+<p>I (David Reinstein) did a manual ‘create report and download’ in TLYCS google analytics, basically as described <a href="https://effective-giving-marketing.gitbook.io/untitled/marketing-and-testing-opportunities-tools-tips/collecting-data-trial-outcomes/google-analytics-interface">here</a>.</p>
+<p>The report and it’s parameters can be accessed <a href="https://analytics.google.com/analytics/web/#/my-reports/mmZsQ-HMSbCwiG5hjQhWhQ/a10056556w22050110p185278310/_u.date00=20211203&amp;_u.date01=20211231&amp;_u.date10=20201203&amp;_u.date11=20201231&amp;197-table.advFilter=%5B%5B1,%22analytics.totalVisitors%22,%22GT%22,%220%22,0%5D%5D&amp;197-table.plotKeys=%5B%5D&amp;197-table.rowCount=5000&amp;197-table-dataTable.sortColumnName=analytics.totalVisitors&amp;197-table-dataTable.sortDescending=false&amp;197-graphOptions.primaryConcept=analytics.totalVisitors&amp;197-graphOptions.compareConcept=analytics.visits">here</a>, if you have access.</p>
+<p>Report:</p>
+<ul>
+<li>3-31 December 2021 vs prior year, same dates</li>
+<li>All North American cities with 1 or more user</li>
+<li>Counts: Users, sessions, certain types of conversions (see below)</li>
+</ul>
+<p>I downloaded this as an Excel spreadsheet to the private <code>eamt_actual_data</code> repo:</p>
+<p><code>eamt_actual_data/tlycs/tlycs_dec_2021_vs_2020_by_city_n_america.xlsx</code></p>
+<!-- (This is gitignored so it won't be 'committed' to our repo, at least for now) -->
+</section>
+<section id="input-and-clean-data" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="input-and-clean-data"><span class="header-section-number">5.3</span> Input and clean data</h2>
+<p><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>Reading TLYCS trial data</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#tl21 &lt;- read_excel(here::here("data_do_not_commit", "tlycs", "tlycs_dec_2021_vs_2020_by_city_n_america.xlsx"), sheet = "Dataset1") #this should have worked?</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#tl21 &lt;- readxl::read_excel("~/githubs/eamt_actual_data/tlycs/tlycs_dec_2021_vs_2020_by_city_n_america.xlsx",  sheet = "Dataset1") </span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>tl21 <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"tlycs_portland_trial_2021"</span>, <span class="st">"tlycs_dec_2021_vs_2020_by_city_n_america.xlsx"</span>),  <span class="at">sheet =</span> <span class="st">"Dataset1"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">as_tibble</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>And companion data on US city sizes downloaded from <a href="https://worldpopulationreview.com/us-cities">this link</a> accessed on 17 Mar 2022 <!--(input from download link itself?)--> , and largest-15 Canadian cities (hand-input)</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>us_cities_pop <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"tlycs_portland_trial_2021"</span>, <span class="st">"uscities_pop.csv"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(name, rank, usps, pop2022) <span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">name =</span> <span class="fu">if_else</span>(name<span class="sc">==</span><span class="st">"New York City"</span>, <span class="st">"New York"</span>, name)) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>tl21 <span class="ot">&lt;-</span> <span class="fu">left_join</span>(</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  tl21,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  us_cities_pop,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a> <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"City"</span> <span class="ot">=</span> <span class="st">"name"</span>) ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">pop_gt250k =</span> pop2022<span class="sc">&gt;</span><span class="dv">250000</span> <span class="sc">|</span> <span class="fu">str_det</span>(City, <span class="st">"Windsor|Oshawa|Halifax|Victoria|Kitchener|Hamilton|Quebec|Winnipeg|Ottawa|Edmonton|Calgary|Vancouver|Montreal|Toronto"</span>) </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(City, <span class="st">`</span><span class="at">Date Range</span><span class="st">`</span>, Users, pop2022, pop_gt250k, <span class="fu">everything</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Code: creates ‘year’ feature…</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>tl21 <span class="ot">&lt;-</span> tl21 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">year =</span> <span class="fu">case_when</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_detect</span>(<span class="st">`</span><span class="at">Date Range</span><span class="st">`</span>, <span class="st">"2021"</span>) <span class="sc">==</span> <span class="cn">TRUE</span> <span class="sc">~</span> <span class="dv">2021</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_detect</span>(<span class="st">`</span><span class="at">Date Range</span><span class="st">`</span>, <span class="st">"2020"</span>) <span class="sc">==</span> <span class="cn">TRUE</span> <span class="sc">~</span> <span class="dv">2020</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Re-labels the ‘correct’ Portland (we think), as it’s a common city name.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>tl21 <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(City<span class="sc">==</span><span class="st">"Portland"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(City, year, Users, pop2022, pop_gt250k) <span class="sc">%&gt;%</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">.kable</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  .kable_styling</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> City </th>
+   <th style="text-align:right;"> year </th>
+   <th style="text-align:right;"> Users </th>
+   <th style="text-align:right;"> pop2022 </th>
+   <th style="text-align:left;"> pop_gt250k </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Portland </td>
+   <td style="text-align:right;"> 2,021 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 666,453 </td>
+   <td style="text-align:left;"> TRUE </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Portland </td>
+   <td style="text-align:right;"> 2,020 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 666,453 </td>
+   <td style="text-align:left;"> TRUE </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Portland </td>
+   <td style="text-align:right;"> 2,021 </td>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 666,453 </td>
+   <td style="text-align:left;"> TRUE </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Portland </td>
+   <td style="text-align:right;"> 2,020 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 666,453 </td>
+   <td style="text-align:left;"> TRUE </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Portland </td>
+   <td style="text-align:right;"> 2,021 </td>
+   <td style="text-align:right;"> 306 </td>
+   <td style="text-align:right;"> 666,453 </td>
+   <td style="text-align:left;"> TRUE </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Portland </td>
+   <td style="text-align:right;"> 2,020 </td>
+   <td style="text-align:right;"> 144 </td>
+   <td style="text-align:right;"> 666,453 </td>
+   <td style="text-align:left;"> TRUE </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<p>Presumably the largest one is Portland, Oregon, and we’ll re-label it as such.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>tl21 <span class="ot">&lt;-</span> tl21 <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">City =</span> <span class="fu">case_when</span>(City<span class="sc">==</span><span class="st">"Portland"</span> <span class="sc">&amp;</span> Users<span class="sc">&gt;</span><span class="dv">20</span> <span class="sc">~</span> <span class="st">"Portland_OR"</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>              City<span class="sc">==</span><span class="st">"Portland"</span> <span class="sc">~</span> <span class="st">"Other_Portland"</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>              <span class="cn">TRUE</span> <span class="sc">~</span> City)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>… (inelegantly) drops other repeat cities to enable panel data features</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>tl21 <span class="ot">&lt;-</span> tl21 <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">key =</span> <span class="fu">paste</span>(<span class="fu">sort</span>(<span class="fu">c</span>(City, year)), <span class="at">collapse=</span><span class="st">""</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">distinct</span>(key, <span class="at">.keep_all=</span>T) <span class="sc">%&gt;%</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>   dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>key) <span class="sc">%&gt;%</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  ungroup</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>… creates lags and ‘differences across years’ features.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>tlag <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">n =</span> 1L, time) { </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  index <span class="ot">&lt;-</span> <span class="fu">match</span>(time <span class="sc">-</span> n, time, <span class="at">incomparables =</span> <span class="cn">NA</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  x[index]</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>tl21 <span class="ot">&lt;-</span> tl21 <span class="sc">%&gt;%</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(City) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">lag_users =</span> <span class="fu">tlag</span>(Users, <span class="dv">1</span>, <span class="at">time =</span> year),</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">diff_users =</span> Users<span class="sc">-</span>lag_users,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">prop_diff_users =</span> diff_users<span class="sc">/</span>lag_users</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<!-- ## Exploratory analysis; todo  -->
+</section>
+<section id="casualsimple-uptick-analysis" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="casualsimple-uptick-analysis"><span class="header-section-number">5.4</span> Casual/simple ‘uptick’ analysis</h2>
+<p>Below, we give, for the comparable periods in 2020 and 2021…</p>
+<p>…the total numbers of cities in the sample, the share with a positive number of user clicks, and the mean, median, 80th quantile, and standard deviation of the number of clicks.</p>
+<p>… For a few subsets</p>
+<p>… First for unique usert visits, and then for total numbers of sessions.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>tl21 <span class="sc">%&gt;%</span> <span class="fu">sumtab</span>(Users, year, <span class="at">caption=</span><span class="st">"All N. Amer. cities"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>All N. Amer. cities</caption>
+ <thead>
+  <tr>
+   <th style="text-align:right;"> year </th>
+   <th style="text-align:right;"> N </th>
+   <th style="text-align:right;"> share &gt; 0 </th>
+   <th style="text-align:right;"> Mean </th>
+   <th style="text-align:right;"> Median </th>
+   <th style="text-align:right;"> P80 </th>
+   <th style="text-align:left;"> Std.dev. </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 2020 </td>
+   <td style="text-align:right;"> 3006 </td>
+   <td style="text-align:right;"> 0.6 </td>
+   <td style="text-align:right;"> 9.38 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:left;"> (296.34) </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2021 </td>
+   <td style="text-align:right;"> 3006 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 13.48 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:left;"> (425.33) </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>tl21 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="sc">!</span>City<span class="sc">==</span><span class="st">"Portland_OR"</span>) <span class="sc">%&gt;%</span> <span class="fu">sumtab</span>(Users, year, <span class="at">caption=</span><span class="st">"N. Amer. Cities other than Portland"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>N. Amer. Cities other than Portland</caption>
+ <thead>
+  <tr>
+   <th style="text-align:right;"> year </th>
+   <th style="text-align:right;"> N </th>
+   <th style="text-align:right;"> share &gt; 0 </th>
+   <th style="text-align:right;"> Mean </th>
+   <th style="text-align:right;"> Median </th>
+   <th style="text-align:right;"> P80 </th>
+   <th style="text-align:left;"> Std.dev. </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 2020 </td>
+   <td style="text-align:right;"> 3004 </td>
+   <td style="text-align:right;"> 0.6 </td>
+   <td style="text-align:right;"> 3.94 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:left;"> (21.01) </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2021 </td>
+   <td style="text-align:right;"> 3004 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 5.64 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:left;"> (30.79) </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>tl21 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(pop2022<span class="sc">&gt;</span><span class="dv">250000</span>) <span class="sc">%&gt;%</span> <span class="fu">sumtab</span>(Users, year, <span class="at">caption=</span><span class="st">"All N. Amer. Cities with pop. &gt; 250k"</span>) <span class="co">#Fix -- filter on over 20 users for 2020 ONLY]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>All N. Amer. Cities with pop. &gt; 250k</caption>
+ <thead>
+  <tr>
+   <th style="text-align:right;"> year </th>
+   <th style="text-align:right;"> N </th>
+   <th style="text-align:right;"> share &gt; 0 </th>
+   <th style="text-align:right;"> Mean </th>
+   <th style="text-align:right;"> Median </th>
+   <th style="text-align:right;"> P80 </th>
+   <th style="text-align:left;"> Std.dev. </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 2020 </td>
+   <td style="text-align:right;"> 92 </td>
+   <td style="text-align:right;"> 0.848 </td>
+   <td style="text-align:right;"> 47.46 </td>
+   <td style="text-align:right;"> 17.0 </td>
+   <td style="text-align:right;"> 47.0 </td>
+   <td style="text-align:left;"> (99.21) </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2021 </td>
+   <td style="text-align:right;"> 92 </td>
+   <td style="text-align:right;"> 1.000 </td>
+   <td style="text-align:right;"> 70.04 </td>
+   <td style="text-align:right;"> 19.5 </td>
+   <td style="text-align:right;"> 80.2 </td>
+   <td style="text-align:left;"> (147.88) </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>tl21 <span class="sc">%&gt;%</span> <span class="fu">sumtab</span>(Sessions, year, <span class="at">caption=</span><span class="st">"Sessions by year, all"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>Sessions by year, all</caption>
+ <thead>
+  <tr>
+   <th style="text-align:right;"> year </th>
+   <th style="text-align:right;"> N </th>
+   <th style="text-align:right;"> share &gt; 0 </th>
+   <th style="text-align:right;"> Mean </th>
+   <th style="text-align:right;"> Median </th>
+   <th style="text-align:right;"> P80 </th>
+   <th style="text-align:left;"> Std.dev. </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 2020 </td>
+   <td style="text-align:right;"> 3006 </td>
+   <td style="text-align:right;"> 0.6 </td>
+   <td style="text-align:right;"> 11.75 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:left;"> (370.61) </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2021 </td>
+   <td style="text-align:right;"> 3006 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 16.80 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:left;"> (528.67) </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<p>Note that all measures generally show an increase.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>OR_users_21 <span class="ot">&lt;-</span> tl21 <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(City<span class="sc">==</span><span class="st">"Portland_OR"</span> <span class="sc">&amp;</span> year<span class="sc">==</span><span class="dv">2021</span>) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="st">'Users'</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>()</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>OR_users_20 <span class="ot">&lt;-</span> tl21 <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(City<span class="sc">==</span><span class="st">"Portland_OR"</span> <span class="sc">&amp;</span> year<span class="sc">==</span><span class="dv">2020</span>) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="st">'Users'</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>()</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>OR_uptick <span class="ot">&lt;-</span> OR_users_21 <span class="sc">-</span> OR_users_20</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>nonOR  <span class="ot">&lt;-</span> tl21 <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(City<span class="sc">!=</span><span class="st">"Portland_OR"</span>) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="st">'Users'</span>, year)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>nonOR_gt250k  <span class="ot">&lt;-</span> tl21 <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(pop_gt250k<span class="sc">==</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="st">'Users'</span>, year)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>nonOR_users_21 <span class="ot">&lt;-</span> <span class="fu">mean</span>(nonOR<span class="sc">$</span>Users[nonOR<span class="sc">$</span>year<span class="sc">==</span><span class="dv">2021</span>])</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>nonOR_users_20 <span class="ot">&lt;-</span> <span class="fu">mean</span>(nonOR<span class="sc">$</span>Users[nonOR<span class="sc">$</span>year<span class="sc">==</span><span class="dv">2020</span>])</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>nonOR_uptick <span class="ot">&lt;-</span> (nonOR_users_21 <span class="sc">-</span> nonOR_users_20)<span class="sc">/</span>nonOR_users_20</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>nonOR_gt250k_users_21 <span class="ot">&lt;-</span> <span class="fu">mean</span>(nonOR_gt250k<span class="sc">$</span>Users[nonOR_gt250k<span class="sc">$</span>year<span class="sc">==</span><span class="dv">2021</span>])</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>nonOR_gt250k_users_20 <span class="ot">&lt;-</span> <span class="fu">mean</span>(nonOR_gt250k<span class="sc">$</span>Users[nonOR_gt250k<span class="sc">$</span>year<span class="sc">==</span><span class="dv">2020</span>])</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>nonOR_gt250k_uptick <span class="ot">&lt;-</span> (nonOR_gt250k_users_21 <span class="sc">-</span> nonOR_gt250k_users_20)<span class="sc">/</span>nonOR_gt250k_users_20</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<!-- (As in interactive Gitbook) -->
+<section id="bound-maximum-impactminimum-cost-subject-to-random-variation" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="bound-maximum-impactminimum-cost-subject-to-random-variation"><span class="header-section-number">5.4.1</span> Bound: Maximum impact/minimum cost (subject to random variation)</h3>
+<p>(This duplicates the <!-- (todo: integrate in) update --> hand-calculated results in Gitbook <a href="https://app.gitbook.com/o/-MfFk4CTSGwVOPkwnRgx/s/-Mf8cHxdwePMZXRTKnEE/contexts-and-environments-for-testing/tlycs/advisor-signup-portland/results-first-pass">HERE</a>)</p>
+<p><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<p>We have a….</p>
+<ul>
+<li><p>lower bound on cost of $13.07 per user ($10.28 per visit) if ‘all visits were generated by the ad.’</p></li>
+<li><p>somewhat more reasonable $24.69 cost per user if Portland was the ‘same as last year’. But it seems more reasonable to allow Portland to have similar trends as other cities.</p></li>
+</ul>
+</section>
+<section id="difference-in-differences-comparison-to-other-cities" class="level3" data-number="5.4.2">
+<h3 data-number="5.4.2" class="anchored" data-anchor-id="difference-in-differences-comparison-to-other-cities"><span class="header-section-number">5.4.2</span> Difference in Differences comparison to other cities</h3>
+<p>Guiding assumptions:</p>
+<ul>
+<li><p>the cities used are fairly representative</p></li>
+<li><p>‘uptick as a percentage’ is unrelated to city size/visits last year all the cities in the comparison group are ‘informative to the counterfactual’ in proportion to their total number of sessions.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p></li>
+</ul>
+<p><br>
+</p>
+<p><em>Thus</em></p>
+<p>112.5% visits uptick (Year on Year) for Portland in 2020</p>
+<p>For ‘all North American cities other than Portland (with greater than 250,000 people )’:</p>
+<p>The average is 46.5 users in the 2020 period and 64.5 users in the 2021 period, an uptick of 64.5 - 46.5)/46.5 = about 38.8%. <a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
+<p>38.8% uptick <span class="math inline">\(\times\)</span> 144 = 55.9 ‘counterfactual uptick’ in users for Portland</p>
+<p>162 -55.9 = 106 ‘uptick relative to counterfactual’</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>or_uptick_vs_cfl_gt250 <span class="ot">&lt;-</span> OR_users_21 <span class="sc">-</span> OR_users_20 <span class="sc">-</span> nonOR_gt250k_uptick<span class="sc">*</span>OR_users_20</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>USD 4000 /106 = $ 37.7 cost per user</p>
+<p>This seems realistic at a first-pass.</p>
+<p><br>
+</p>
+</section>
+<section id="plotting-the-difference-in-difference" class="level3" data-number="5.4.3">
+<h3 data-number="5.4.3" class="anchored" data-anchor-id="plotting-the-difference-in-difference"><span class="header-section-number">5.4.3</span> Plotting the ‘difference in difference’</h3>
+<p>Scatterplot of unique users by city, both time periods, US cities with 500k-1.5mill population, Portland highlighted</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  users_by_year <span class="ot">&lt;-</span>  tl21 <span class="sc">%&gt;%</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(pop2022 <span class="sc">&gt;=</span> <span class="dv">500000</span> <span class="sc">&amp;</span> pop2022 <span class="sc">&lt;</span> <span class="dv">1500000</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> pop2022, <span class="at">y =</span> Users, <span class="at">label =</span> City) <span class="sc">+</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> <span class="fu">factor</span>(year)), <span class="at">size=</span><span class="dv">3</span>, <span class="at">alpha=</span><span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="fu">aes</span>(<span class="at">group =</span> City)) <span class="sc">+</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label</span>(<span class="at">data =</span> <span class="fu">subset</span>(tl21, City <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">'Portland_OR'</span>,<span class="st">'Boston'</span>,<span class="st">'Seattle'</span>, <span class="st">'San Francisco'</span>, <span class="st">'Atlanta'</span>, <span class="st">'San Diego'</span>, <span class="st">'Indianapolis'</span>, <span class="st">'Fort Worth'</span>, <span class="st">'Sacramento'</span>, <span class="st">'Denver'</span>, <span class="st">'San Jose'</span>, <span class="st">'Las Vegas'</span>) <span class="sc">&amp;</span> year<span class="sc">==</span><span class="dv">2020</span>), <span class="at">alpha  =</span> <span class="fl">0.3</span>, <span class="at">size =</span><span class="fl">2.5</span>) <span class="sc">+</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">trans=</span><span class="st">'log10'</span>) <span class="sc">+</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() </span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="tlycs_input_simple_analysis_files/figure-html/users_by_year-1.png" class="img-fluid" width="672"></p>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>users_by_year <span class="sc">%&gt;%</span>  plotly<span class="sc">::</span><span class="fu">ggplotly</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in geom2trace.default(dots[[1L]][[1L]], dots[[2L]][[1L]], dots[[3L]][[1L]]): geom_GeomLabel() has yet to be implemented in plotly.
+  If you'd like to see this geom implemented,
+  Please open an issue with your example code at
+  https://github.com/ropensci/plotly/issues</code></pre>
+</div>
+<div class="cell-output-display">
+<div id="htmlwidget-c118f86cba0fb9ca002b" style="width:100%;height:464px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c118f86cba0fb9ca002b">{"x":{"data":[{"x":[6.01208815898448,5.85633911894906,6.12997524717894,5.96454482227111,5.88084159194346,5.82376952725268,5.96627786858885,5.78892242658095,5.70352523217367,5.97253468293386,5.73894932992899,5.81356764598284,5.83026266512226,5.74641466130082,5.73228275927136,5.83713812932786,5.76827023790102,5.75063565611418,5.8203282470811,5.83395118301977,5.72532755445822,5.98167910332794,5.95068412844682,5.7533003307927,5.82968449824588,6.15523063993189,5.72647862041426,6.00135288937187,5.94650532037406,5.82376952725268,5.84320723061238,5.89652346180517],"y":[0,1,0,0,0,0,2,2,5,2,7,19,26,47,12,17,41,44,32,58,46,24,51,40,83,125,111,161,235,144,117,236],"text":["pop2022: 1028225<br />Users:   0<br />City: Austin<br />factor(year): 2020","pop2022:  718355<br />Users:   1<br />City: Washington<br />factor(year): 2020","pop2022: 1348886<br />Users:   0<br />City: Dallas<br />factor(year): 2020","pop2022:  921605<br />Users:   0<br />City: Columbus<br />factor(year): 2020","pop2022:  760049<br />Users:   0<br />City: Denver<br />factor(year): 2020","pop2022:  666453<br />Users:   0<br />City: Other_Portland<br />factor(year): 2020","pop2022:  925290<br />Users:   2<br />City: Charlotte<br />factor(year): 2020","pop2022:  615067<br />Users:   2<br />City: Louisville<br />factor(year): 2020","pop2022:  505272<br />Users:   5<br />City: Kansas City<br />factor(year): 2020","pop2022:  938717<br />Users:   2<br />City: Jacksonville<br />factor(year): 2020","pop2022:  548213<br />Users:   7<br />City: Mesa<br />factor(year): 2020","pop2022:  650980<br />Users:  19<br />City: Memphis<br />factor(year): 2020","pop2022:  676492<br />Users:  26<br />City: Oklahoma City<br />factor(year): 2020","pop2022:  557718<br />Users:  47<br />City: Tucson<br />factor(year): 2020","pop2022:  539862<br />Users:  12<br />City: Fresno<br />factor(year): 2020","pop2022:  687287<br />Users:  17<br />City: El Paso<br />factor(year): 2020","pop2022:  586503<br />Users:  41<br />City: Milwaukee<br />factor(year): 2020","pop2022:  563165<br />Users:  44<br />City: Albuquerque<br />factor(year): 2020","pop2022:  661193<br />Users:  32<br />City: Detroit<br />factor(year): 2020","pop2022:  682262<br />Users:  58<br />City: Nashville<br />factor(year): 2020","pop2022:  531285<br />Users:  46<br />City: Sacramento<br />factor(year): 2020","pop2022:  958692<br />Users:  24<br />City: Fort Worth<br />factor(year): 2020","pop2022:  892656<br />Users:  51<br />City: Indianapolis<br />factor(year): 2020","pop2022:  566631<br />Users:  40<br />City: Baltimore<br />factor(year): 2020","pop2022:  675592<br />Users:  83<br />City: Las Vegas<br />factor(year): 2020","pop2022: 1429653<br />Users: 125<br />City: San Diego<br />factor(year): 2020","pop2022:  532695<br />Users: 111<br />City: Atlanta<br />factor(year): 2020","pop2022: 1003120<br />Users: 161<br />City: San Jose<br />factor(year): 2020","pop2022:  884108<br />Users: 235<br />City: San Francisco<br />factor(year): 2020","pop2022:  666453<br />Users: 144<br />City: Portland_OR<br />factor(year): 2020","pop2022:  696959<br />Users: 117<br />City: Boston<br />factor(year): 2020","pop2022:  787995<br />Users: 236<br />City: Seattle<br />factor(year): 2020"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":0.4,"size":11.3385826771654,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)"}},"hoveron":"points","name":"2020","legendgroup":"2020","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[6.01208815898448,5.85633911894906,6.12997524717894,5.96454482227111,5.88084159194346,5.82376952725268,5.96627786858885,5.78892242658095,5.70352523217367,5.97253468293386,5.73894932992899,5.81356764598284,5.83026266512226,5.74641466130082,5.73228275927136,5.83713812932786,5.76827023790102,5.75063565611418,5.8203282470811,5.83395118301977,5.72532755445822,5.98167910332794,5.95068412844682,5.7533003307927,5.82968449824588,6.15523063993189,5.72647862041426,6.00135288937187,5.94650532037406,5.82376952725268,5.84320723061238,5.89652346180517],"y":[1,1,1,1,1,1,1,3,5,5,15,25,28,34,34,34,36,41,53,65,67,67,77,91,93,140,165,224,290,306,353,366],"text":["pop2022: 1028225<br />Users:   1<br />City: Austin<br />factor(year): 2021","pop2022:  718355<br />Users:   1<br />City: Washington<br />factor(year): 2021","pop2022: 1348886<br />Users:   1<br />City: Dallas<br />factor(year): 2021","pop2022:  921605<br />Users:   1<br />City: Columbus<br />factor(year): 2021","pop2022:  760049<br />Users:   1<br />City: Denver<br />factor(year): 2021","pop2022:  666453<br />Users:   1<br />City: Other_Portland<br />factor(year): 2021","pop2022:  925290<br />Users:   1<br />City: Charlotte<br />factor(year): 2021","pop2022:  615067<br />Users:   3<br />City: Louisville<br />factor(year): 2021","pop2022:  505272<br />Users:   5<br />City: Kansas City<br />factor(year): 2021","pop2022:  938717<br />Users:   5<br />City: Jacksonville<br />factor(year): 2021","pop2022:  548213<br />Users:  15<br />City: Mesa<br />factor(year): 2021","pop2022:  650980<br />Users:  25<br />City: Memphis<br />factor(year): 2021","pop2022:  676492<br />Users:  28<br />City: Oklahoma City<br />factor(year): 2021","pop2022:  557718<br />Users:  34<br />City: Tucson<br />factor(year): 2021","pop2022:  539862<br />Users:  34<br />City: Fresno<br />factor(year): 2021","pop2022:  687287<br />Users:  34<br />City: El Paso<br />factor(year): 2021","pop2022:  586503<br />Users:  36<br />City: Milwaukee<br />factor(year): 2021","pop2022:  563165<br />Users:  41<br />City: Albuquerque<br />factor(year): 2021","pop2022:  661193<br />Users:  53<br />City: Detroit<br />factor(year): 2021","pop2022:  682262<br />Users:  65<br />City: Nashville<br />factor(year): 2021","pop2022:  531285<br />Users:  67<br />City: Sacramento<br />factor(year): 2021","pop2022:  958692<br />Users:  67<br />City: Fort Worth<br />factor(year): 2021","pop2022:  892656<br />Users:  77<br />City: Indianapolis<br />factor(year): 2021","pop2022:  566631<br />Users:  91<br />City: Baltimore<br />factor(year): 2021","pop2022:  675592<br />Users:  93<br />City: Las Vegas<br />factor(year): 2021","pop2022: 1429653<br />Users: 140<br />City: San Diego<br />factor(year): 2021","pop2022:  532695<br />Users: 165<br />City: Atlanta<br />factor(year): 2021","pop2022: 1003120<br />Users: 224<br />City: San Jose<br />factor(year): 2021","pop2022:  884108<br />Users: 290<br />City: San Francisco<br />factor(year): 2021","pop2022:  666453<br />Users: 306<br />City: Portland_OR<br />factor(year): 2021","pop2022:  696959<br />Users: 353<br />City: Boston<br />factor(year): 2021","pop2022:  787995<br />Users: 366<br />City: Seattle<br />factor(year): 2021"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":0.4,"size":11.3385826771654,"symbol":"triangle-up","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)"}},"hoveron":"points","name":"2021","legendgroup":"2021","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[5.75063565611418,5.75063565611418,null,5.72647862041426,5.72647862041426,null,6.01208815898448,6.01208815898448,null,5.7533003307927,5.7533003307927,null,5.84320723061238,5.84320723061238,null,5.96627786858885,5.96627786858885,null,5.96454482227111,5.96454482227111,null,6.12997524717894,6.12997524717894,null,5.88084159194346,5.88084159194346,null,5.8203282470811,5.8203282470811,null,5.83713812932786,5.83713812932786,null,5.98167910332794,5.98167910332794,null,5.73228275927136,5.73228275927136,null,5.95068412844682,5.95068412844682,null,5.97253468293386,5.97253468293386,null,5.70352523217367,5.70352523217367,null,5.82968449824588,5.82968449824588,null,5.78892242658095,5.78892242658095,null,5.81356764598284,5.81356764598284,null,5.73894932992899,5.73894932992899,null,5.76827023790102,5.76827023790102,null,5.83395118301977,5.83395118301977,null,5.83026266512226,5.83026266512226,null,5.82376952725268,5.82376952725268,null,5.82376952725268,5.82376952725268,null,5.72532755445822,5.72532755445822,null,6.15523063993189,6.15523063993189,null,5.94650532037406,5.94650532037406,null,6.00135288937187,6.00135288937187,null,5.89652346180517,5.89652346180517,null,5.74641466130082,5.74641466130082,null,5.85633911894906,5.85633911894906],"y":[41,44,null,165,111,null,1,0,null,91,40,null,353,117,null,1,2,null,1,0,null,1,0,null,1,0,null,53,32,null,34,17,null,67,24,null,34,12,null,77,51,null,5,2,null,5,5,null,93,83,null,3,2,null,25,19,null,15,7,null,36,41,null,65,58,null,28,26,null,1,0,null,306,144,null,67,46,null,140,125,null,290,235,null,224,161,null,366,236,null,34,47,null,1,1],"text":["pop2022:  563165<br />Users:  41<br />City: Albuquerque<br />City: Albuquerque","pop2022:  563165<br />Users:  44<br />City: Albuquerque<br />City: Albuquerque",null,"pop2022:  532695<br />Users: 165<br />City: Atlanta<br />City: Atlanta","pop2022:  532695<br />Users: 111<br />City: Atlanta<br />City: Atlanta",null,"pop2022: 1028225<br />Users:   1<br />City: Austin<br />City: Austin","pop2022: 1028225<br />Users:   0<br />City: Austin<br />City: Austin",null,"pop2022:  566631<br />Users:  91<br />City: Baltimore<br />City: Baltimore","pop2022:  566631<br />Users:  40<br />City: Baltimore<br />City: Baltimore",null,"pop2022:  696959<br />Users: 353<br />City: Boston<br />City: Boston","pop2022:  696959<br />Users: 117<br />City: Boston<br />City: Boston",null,"pop2022:  925290<br />Users:   1<br />City: Charlotte<br />City: Charlotte","pop2022:  925290<br />Users:   2<br />City: Charlotte<br />City: Charlotte",null,"pop2022:  921605<br />Users:   1<br />City: Columbus<br />City: Columbus","pop2022:  921605<br />Users:   0<br />City: Columbus<br />City: Columbus",null,"pop2022: 1348886<br />Users:   1<br />City: Dallas<br />City: Dallas","pop2022: 1348886<br />Users:   0<br />City: Dallas<br />City: Dallas",null,"pop2022:  760049<br />Users:   1<br />City: Denver<br />City: Denver","pop2022:  760049<br />Users:   0<br />City: Denver<br />City: Denver",null,"pop2022:  661193<br />Users:  53<br />City: Detroit<br />City: Detroit","pop2022:  661193<br />Users:  32<br />City: Detroit<br />City: Detroit",null,"pop2022:  687287<br />Users:  34<br />City: El Paso<br />City: El Paso","pop2022:  687287<br />Users:  17<br />City: El Paso<br />City: El Paso",null,"pop2022:  958692<br />Users:  67<br />City: Fort Worth<br />City: Fort Worth","pop2022:  958692<br />Users:  24<br />City: Fort Worth<br />City: Fort Worth",null,"pop2022:  539862<br />Users:  34<br />City: Fresno<br />City: Fresno","pop2022:  539862<br />Users:  12<br />City: Fresno<br />City: Fresno",null,"pop2022:  892656<br />Users:  77<br />City: Indianapolis<br />City: Indianapolis","pop2022:  892656<br />Users:  51<br />City: Indianapolis<br />City: Indianapolis",null,"pop2022:  938717<br />Users:   5<br />City: Jacksonville<br />City: Jacksonville","pop2022:  938717<br />Users:   2<br />City: Jacksonville<br />City: Jacksonville",null,"pop2022:  505272<br />Users:   5<br />City: Kansas City<br />City: Kansas City","pop2022:  505272<br />Users:   5<br />City: Kansas City<br />City: Kansas City",null,"pop2022:  675592<br />Users:  93<br />City: Las Vegas<br />City: Las Vegas","pop2022:  675592<br />Users:  83<br />City: Las Vegas<br />City: Las Vegas",null,"pop2022:  615067<br />Users:   3<br />City: Louisville<br />City: Louisville","pop2022:  615067<br />Users:   2<br />City: Louisville<br />City: Louisville",null,"pop2022:  650980<br />Users:  25<br />City: Memphis<br />City: Memphis","pop2022:  650980<br />Users:  19<br />City: Memphis<br />City: Memphis",null,"pop2022:  548213<br />Users:  15<br />City: Mesa<br />City: Mesa","pop2022:  548213<br />Users:   7<br />City: Mesa<br />City: Mesa",null,"pop2022:  586503<br />Users:  36<br />City: Milwaukee<br />City: Milwaukee","pop2022:  586503<br />Users:  41<br />City: Milwaukee<br />City: Milwaukee",null,"pop2022:  682262<br />Users:  65<br />City: Nashville<br />City: Nashville","pop2022:  682262<br />Users:  58<br />City: Nashville<br />City: Nashville",null,"pop2022:  676492<br />Users:  28<br />City: Oklahoma City<br />City: Oklahoma City","pop2022:  676492<br />Users:  26<br />City: Oklahoma City<br />City: Oklahoma City",null,"pop2022:  666453<br />Users:   1<br />City: Other_Portland<br />City: Other_Portland","pop2022:  666453<br />Users:   0<br />City: Other_Portland<br />City: Other_Portland",null,"pop2022:  666453<br />Users: 306<br />City: Portland_OR<br />City: Portland_OR","pop2022:  666453<br />Users: 144<br />City: Portland_OR<br />City: Portland_OR",null,"pop2022:  531285<br />Users:  67<br />City: Sacramento<br />City: Sacramento","pop2022:  531285<br />Users:  46<br />City: Sacramento<br />City: Sacramento",null,"pop2022: 1429653<br />Users: 140<br />City: San Diego<br />City: San Diego","pop2022: 1429653<br />Users: 125<br />City: San Diego<br />City: San Diego",null,"pop2022:  884108<br />Users: 290<br />City: San Francisco<br />City: San Francisco","pop2022:  884108<br />Users: 235<br />City: San Francisco<br />City: San Francisco",null,"pop2022: 1003120<br />Users: 224<br />City: San Jose<br />City: San Jose","pop2022: 1003120<br />Users: 161<br />City: San Jose<br />City: San Jose",null,"pop2022:  787995<br />Users: 366<br />City: Seattle<br />City: Seattle","pop2022:  787995<br />Users: 236<br />City: Seattle<br />City: Seattle",null,"pop2022:  557718<br />Users:  34<br />City: Tucson<br />City: Tucson","pop2022:  557718<br />Users:  47<br />City: Tucson<br />City: Tucson",null,"pop2022:  718355<br />Users:   1<br />City: Washington<br />City: Washington","pop2022:  718355<br />Users:   1<br />City: Washington<br />City: Washington"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":26.2283105022831,"r":7.30593607305936,"b":40.1826484018265,"l":43.1050228310502},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[5.68093996178576,6.1778159103198],"tickmode":"array","ticktext":["5e+05","7e+05","1e+06"],"tickvals":[5.69897000433602,5.84509804001426,6],"categoryorder":"array","categoryarray":["5e+05","7e+05","1e+06"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"pop2022","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-18.3,384.3],"tickmode":"array","ticktext":["0","100","200","300"],"tickvals":[0,100,200,300],"categoryorder":"array","categoryarray":["0","100","200","300"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"Users","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"factor(year)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"ab782846a2a":{"x":{},"y":{},"label":{},"shape":{},"type":"scatter"},"ab784355ecb0":{"x":{},"y":{},"label":{}},"ab783e263959":{"x":{},"y":{},"label":{}}},"cur_data":"ab782846a2a","visdat":{"ab782846a2a":["function (y) ","x"],"ab784355ecb0":["function (y) ","x"],"ab783e263959":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Plotting increases in users by population…</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  increase_by_size <span class="ot">&lt;-</span>  tl21 <span class="sc">%&gt;%</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(pop2022 <span class="sc">&gt;=</span> <span class="dv">500000</span> <span class="sc">&amp;</span> pop2022 <span class="sc">&lt;</span> <span class="dv">1500000</span> <span class="sc">&amp;</span> year<span class="sc">==</span><span class="dv">2021</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> pop2022, <span class="at">y =</span> diff_users, <span class="at">label =</span> City) <span class="sc">+</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">3</span>, <span class="at">alpha=</span><span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label</span>(<span class="at">data =</span> <span class="fu">subset</span>(tl21, City <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">'Portland_OR'</span>,<span class="st">'Boston'</span>,<span class="st">'Seattle'</span>, <span class="st">'San Francisco'</span>, <span class="st">'Atlanta'</span>, <span class="st">'San Diego'</span>, <span class="st">'Indianapolis'</span>, <span class="st">'Fort Worth'</span>, <span class="st">'Sacramento'</span>, <span class="st">'Denver'</span>, <span class="st">'San Jose'</span>, <span class="st">'Las Vegas'</span>)), <span class="at">alpha  =</span> <span class="fl">0.3</span>, <span class="at">size =</span><span class="fl">2.5</span>) <span class="sc">+</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">trans=</span><span class="st">'log10'</span>) <span class="sc">+</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() </span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 12 rows containing missing values (geom_label).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="tlycs_input_simple_analysis_files/figure-html/increase_by_size-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Plotting proportional increases in users by 2020 users…</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  prop_increase_by_size <span class="ot">&lt;-</span>  tl21 <span class="sc">%&gt;%</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(pop2022 <span class="sc">&gt;=</span> <span class="dv">500000</span> <span class="sc">&amp;</span> pop2022 <span class="sc">&lt;</span> <span class="dv">1500000</span> <span class="sc">&amp;</span> year<span class="sc">==</span><span class="dv">2021</span> <span class="sc">&amp;</span> lag_users<span class="sc">&gt;</span><span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> lag_users, <span class="at">y =</span> prop_diff_users, <span class="at">label =</span> City) <span class="sc">+</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">3</span>, <span class="at">alpha=</span><span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">'lm'</span>) <span class="sc">+</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">hjust=</span><span class="dv">0</span>, <span class="at">vjust=</span><span class="dv">0</span>, <span class="at">alpha=</span>.<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">trans=</span><span class="st">'log10'</span>) <span class="sc">+</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="st">"Mid-sized cities, proportional changes"</span>) <span class="sc">+</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>     <span class="fu">xlab</span>(<span class="st">"Users in 2020"</span>) <span class="sc">+</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>     <span class="fu">ylab</span>(<span class="st">"Proportional change in users"</span>)</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="tlycs_input_simple_analysis_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="next-steps-if-warranted" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="next-steps-if-warranted"><span class="header-section-number">5.5</span> Next steps, if warranted</h2>
+<p>The above comparisons are crude and have limitations:</p>
+<ul>
+<li>All cities are weighted equally, no matter their size or similasrity to Portland</li>
+<li>Some year-to-year idiosynchratic variation may be unrelated to trends or to the trial. We have not ‘quantified this uncertainty’</li>
+</ul>
+<p>If we want a more precise estimate and careful CIs<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> we can build an explicit model and simulation. But I want to know the value of precision here before I dig deeper.</p>
+
+
+<!-- -->
+
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Note: the code below reads directly from the folder structure and is thus not portable. I will modify this to read it in directly from the private Github repo for those with access.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>And there are two other ‘Portlands’, each with a small number of sessions<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>The present very simple section is hand-input for now…<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>I’m waving the hands a bit here; this is not precise.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>This is very similar to the result if we look at all cities which has an uptick of 43.1%<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>confidence, credible or ‘consistent intervals’, depending on model and terminology<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/oftw_upsell_input_first_analysis.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">OftW pre-giving-tuesday-email upselling split test (considering ‘impact vs emotion’)</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../references.html" class="pagination-link">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb21" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># TLYCS Portland trial: background, data input, brief report</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, include=FALSE}</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pacman)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(dplyr, plotly, <span class="at">install =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="fu">here</span>(<span class="st">"code"</span>, <span class="st">"shared_packages_code.R"</span>))</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="fu">## The trial</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>In December 2021, TLYCS ran a YouTube advertising campaign in single city, involving 'donation advice'. The top 10% household income households were targeted with (one of?) three categories of videos.</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>The details are presented in our (currently private) gitbook <span class="co">[</span><span class="ot">HERE</span><span class="co">](https://app.gitbook.com/o/-MfFk4CTSGwVOPkwnRgx/s/-Mf8cHxdwePMZXRTKnEE/contexts-and-environments-for-testing/tlycs/advisor-signup-portland)</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="fu">## Capturing data</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>I (David Reinstein) did a manual 'create report and download' in TLYCS google analytics, basically as described <span class="co">[</span><span class="ot">here</span><span class="co">](https://effective-giving-marketing.gitbook.io/untitled/marketing-and-testing-opportunities-tools-tips/collecting-data-trial-outcomes/google-analytics-interface)</span>.</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>The report and it's parameters can be accessed <span class="co">[</span><span class="ot">here</span><span class="co">](https://analytics.google.com/analytics/web/#/my-reports/mmZsQ-HMSbCwiG5hjQhWhQ/a10056556w22050110p185278310/_u.date00=20211203&amp;_u.date01=20211231&amp;_u.date10=20201203&amp;_u.date11=20201231&amp;197-table.advFilter=%5B%5B1,%22analytics.totalVisitors%22,%22GT%22,%220%22,0%5D%5D&amp;197-table.plotKeys=%5B%5D&amp;197-table.rowCount=5000&amp;197-table-dataTable.sortColumnName=analytics.totalVisitors&amp;197-table-dataTable.sortDescending=false&amp;197-graphOptions.primaryConcept=analytics.totalVisitors&amp;197-graphOptions.compareConcept=analytics.visits)</span>, if you have access.</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>Report:</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>3-31 December 2021 vs prior year, same dates</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>All North American cities with 1 or more user</span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Counts: Users, sessions, certain types of conversions (see below)</span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>I downloaded this as an Excel spreadsheet to the private <span class="in">`eamt_actual_data`</span> repo:</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a><span class="in">`eamt_actual_data/tlycs/tlycs_dec_2021_vs_2020_by_city_n_america.xlsx`</span></span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- (This is gitignored so it won't be 'committed' to our repo, at least for now) --&gt;</span></span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a><span class="fu">## Input and clean data</span></span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>^<span class="co">[</span><span class="ot">Note: the code below reads directly from the folder structure and is thus not portable. I will modify this to read it in directly from the private Github repo for those with access.</span><span class="co">]</span></span>
+<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a>Reading TLYCS trial data </span>
+<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a><span class="co">#tl21 &lt;- read_excel(here::here("data_do_not_commit", "tlycs", "tlycs_dec_2021_vs_2020_by_city_n_america.xlsx"), sheet = "Dataset1") #this should have worked?</span></span>
+<span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-47"><a href="#cb21-47" aria-hidden="true" tabindex="-1"></a><span class="co">#tl21 &lt;- readxl::read_excel("~/githubs/eamt_actual_data/tlycs/tlycs_dec_2021_vs_2020_by_city_n_america.xlsx",  sheet = "Dataset1") </span></span>
+<span id="cb21-48"><a href="#cb21-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-49"><a href="#cb21-49" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb21-50"><a href="#cb21-50" aria-hidden="true" tabindex="-1"></a>tl21 <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"tlycs_portland_trial_2021"</span>, <span class="st">"tlycs_dec_2021_vs_2020_by_city_n_america.xlsx"</span>),  <span class="at">sheet =</span> <span class="st">"Dataset1"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-51"><a href="#cb21-51" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">as_tibble</span>()</span>
+<span id="cb21-52"><a href="#cb21-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-53"><a href="#cb21-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-54"><a href="#cb21-54" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb21-55"><a href="#cb21-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-56"><a href="#cb21-56" aria-hidden="true" tabindex="-1"></a>And companion data on US city sizes downloaded from <span class="co">[</span><span class="ot">this link</span><span class="co">](https://worldpopulationreview.com/us-cities)</span> accessed on 17 Mar 2022 <span class="co">&lt;!--(input from download link itself?)--&gt;</span> , and largest-15 Canadian cities (hand-input)  </span>
+<span id="cb21-57"><a href="#cb21-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-58"><a href="#cb21-58" aria-hidden="true" tabindex="-1"></a><span class="in">```{r us_cities_pop}</span></span>
+<span id="cb21-59"><a href="#cb21-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-60"><a href="#cb21-60" aria-hidden="true" tabindex="-1"></a>us_cities_pop <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"tlycs_portland_trial_2021"</span>, <span class="st">"uscities_pop.csv"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb21-61"><a href="#cb21-61" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(name, rank, usps, pop2022) <span class="sc">%&gt;%</span></span>
+<span id="cb21-62"><a href="#cb21-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">name =</span> <span class="fu">if_else</span>(name<span class="sc">==</span><span class="st">"New York City"</span>, <span class="st">"New York"</span>, name)) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-63"><a href="#cb21-63" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span>
+<span id="cb21-64"><a href="#cb21-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-65"><a href="#cb21-65" aria-hidden="true" tabindex="-1"></a>tl21 <span class="ot">&lt;-</span> <span class="fu">left_join</span>(</span>
+<span id="cb21-66"><a href="#cb21-66" aria-hidden="true" tabindex="-1"></a>  tl21,</span>
+<span id="cb21-67"><a href="#cb21-67" aria-hidden="true" tabindex="-1"></a>  us_cities_pop,</span>
+<span id="cb21-68"><a href="#cb21-68" aria-hidden="true" tabindex="-1"></a> <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"City"</span> <span class="ot">=</span> <span class="st">"name"</span>) ) <span class="sc">%&gt;%</span></span>
+<span id="cb21-69"><a href="#cb21-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb21-70"><a href="#cb21-70" aria-hidden="true" tabindex="-1"></a>    <span class="at">pop_gt250k =</span> pop2022<span class="sc">&gt;</span><span class="dv">250000</span> <span class="sc">|</span> <span class="fu">str_det</span>(City, <span class="st">"Windsor|Oshawa|Halifax|Victoria|Kitchener|Hamilton|Quebec|Winnipeg|Ottawa|Edmonton|Calgary|Vancouver|Montreal|Toronto"</span>) </span>
+<span id="cb21-71"><a href="#cb21-71" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-72"><a href="#cb21-72" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(City, <span class="st">`</span><span class="at">Date Range</span><span class="st">`</span>, Users, pop2022, pop_gt250k, <span class="fu">everything</span>())</span>
+<span id="cb21-73"><a href="#cb21-73" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb21-74"><a href="#cb21-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-75"><a href="#cb21-75" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb21-76"><a href="#cb21-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-77"><a href="#cb21-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-78"><a href="#cb21-78" aria-hidden="true" tabindex="-1"></a>Code: creates 'year' feature...</span>
+<span id="cb21-79"><a href="#cb21-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-80"><a href="#cb21-80" aria-hidden="true" tabindex="-1"></a><span class="in">```{r year_feature}</span></span>
+<span id="cb21-81"><a href="#cb21-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-82"><a href="#cb21-82" aria-hidden="true" tabindex="-1"></a>tl21 <span class="ot">&lt;-</span> tl21 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
+<span id="cb21-83"><a href="#cb21-83" aria-hidden="true" tabindex="-1"></a>  <span class="at">year =</span> <span class="fu">case_when</span>(</span>
+<span id="cb21-84"><a href="#cb21-84" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_detect</span>(<span class="st">`</span><span class="at">Date Range</span><span class="st">`</span>, <span class="st">"2021"</span>) <span class="sc">==</span> <span class="cn">TRUE</span> <span class="sc">~</span> <span class="dv">2021</span>,</span>
+<span id="cb21-85"><a href="#cb21-85" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_detect</span>(<span class="st">`</span><span class="at">Date Range</span><span class="st">`</span>, <span class="st">"2020"</span>) <span class="sc">==</span> <span class="cn">TRUE</span> <span class="sc">~</span> <span class="dv">2020</span></span>
+<span id="cb21-86"><a href="#cb21-86" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb21-87"><a href="#cb21-87" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-88"><a href="#cb21-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-89"><a href="#cb21-89" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb21-90"><a href="#cb21-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-91"><a href="#cb21-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-92"><a href="#cb21-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-93"><a href="#cb21-93" aria-hidden="true" tabindex="-1"></a>Re-labels the 'correct' Portland (we think), as it's a common city name.^<span class="co">[</span><span class="ot">And there are two other 'Portlands', each with a small number of sessions</span><span class="co">]</span></span>
+<span id="cb21-94"><a href="#cb21-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-97"><a href="#cb21-97" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb21-98"><a href="#cb21-98" aria-hidden="true" tabindex="-1"></a>tl21 <span class="sc">%&gt;%</span></span>
+<span id="cb21-99"><a href="#cb21-99" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(City<span class="sc">==</span><span class="st">"Portland"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-100"><a href="#cb21-100" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(City, year, Users, pop2022, pop_gt250k) <span class="sc">%&gt;%</span></span>
+<span id="cb21-101"><a href="#cb21-101" aria-hidden="true" tabindex="-1"></a>  <span class="fu">.kable</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb21-102"><a href="#cb21-102" aria-hidden="true" tabindex="-1"></a>  .kable_styling</span>
+<span id="cb21-103"><a href="#cb21-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-104"><a href="#cb21-104" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb21-105"><a href="#cb21-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-106"><a href="#cb21-106" aria-hidden="true" tabindex="-1"></a>Presumably the largest one is Portland, Oregon, and we'll re-label it as such.</span>
+<span id="cb21-107"><a href="#cb21-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-108"><a href="#cb21-108" aria-hidden="true" tabindex="-1"></a><span class="in">```{r relable_portland}</span></span>
+<span id="cb21-109"><a href="#cb21-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-110"><a href="#cb21-110" aria-hidden="true" tabindex="-1"></a>tl21 <span class="ot">&lt;-</span> tl21 <span class="sc">%&gt;%</span></span>
+<span id="cb21-111"><a href="#cb21-111" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb21-112"><a href="#cb21-112" aria-hidden="true" tabindex="-1"></a>    <span class="at">City =</span> <span class="fu">case_when</span>(City<span class="sc">==</span><span class="st">"Portland"</span> <span class="sc">&amp;</span> Users<span class="sc">&gt;</span><span class="dv">20</span> <span class="sc">~</span> <span class="st">"Portland_OR"</span>,</span>
+<span id="cb21-113"><a href="#cb21-113" aria-hidden="true" tabindex="-1"></a>              City<span class="sc">==</span><span class="st">"Portland"</span> <span class="sc">~</span> <span class="st">"Other_Portland"</span>,</span>
+<span id="cb21-114"><a href="#cb21-114" aria-hidden="true" tabindex="-1"></a>              <span class="cn">TRUE</span> <span class="sc">~</span> City)</span>
+<span id="cb21-115"><a href="#cb21-115" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb21-116"><a href="#cb21-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-117"><a href="#cb21-117" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb21-118"><a href="#cb21-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-119"><a href="#cb21-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-120"><a href="#cb21-120" aria-hidden="true" tabindex="-1"></a>... (inelegantly) drops other repeat cities to enable panel data features</span>
+<span id="cb21-121"><a href="#cb21-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-122"><a href="#cb21-122" aria-hidden="true" tabindex="-1"></a><span class="in">```{r drop_dup_cities}</span></span>
+<span id="cb21-123"><a href="#cb21-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-124"><a href="#cb21-124" aria-hidden="true" tabindex="-1"></a>tl21 <span class="ot">&lt;-</span> tl21 <span class="sc">%&gt;%</span></span>
+<span id="cb21-125"><a href="#cb21-125" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb21-126"><a href="#cb21-126" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">key =</span> <span class="fu">paste</span>(<span class="fu">sort</span>(<span class="fu">c</span>(City, year)), <span class="at">collapse=</span><span class="st">""</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb21-127"><a href="#cb21-127" aria-hidden="true" tabindex="-1"></a>   <span class="fu">distinct</span>(key, <span class="at">.keep_all=</span>T) <span class="sc">%&gt;%</span></span>
+<span id="cb21-128"><a href="#cb21-128" aria-hidden="true" tabindex="-1"></a>   dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>key) <span class="sc">%&gt;%</span></span>
+<span id="cb21-129"><a href="#cb21-129" aria-hidden="true" tabindex="-1"></a>  ungroup</span>
+<span id="cb21-130"><a href="#cb21-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-131"><a href="#cb21-131" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb21-132"><a href="#cb21-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-133"><a href="#cb21-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-134"><a href="#cb21-134" aria-hidden="true" tabindex="-1"></a>... creates lags and 'differences across years' features.</span>
+<span id="cb21-135"><a href="#cb21-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-138"><a href="#cb21-138" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb21-139"><a href="#cb21-139" aria-hidden="true" tabindex="-1"></a>tlag <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">n =</span> 1L, time) { </span>
+<span id="cb21-140"><a href="#cb21-140" aria-hidden="true" tabindex="-1"></a>  index <span class="ot">&lt;-</span> <span class="fu">match</span>(time <span class="sc">-</span> n, time, <span class="at">incomparables =</span> <span class="cn">NA</span>)</span>
+<span id="cb21-141"><a href="#cb21-141" aria-hidden="true" tabindex="-1"></a>  x[index]</span>
+<span id="cb21-142"><a href="#cb21-142" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-143"><a href="#cb21-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-144"><a href="#cb21-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-145"><a href="#cb21-145" aria-hidden="true" tabindex="-1"></a>tl21 <span class="ot">&lt;-</span> tl21 <span class="sc">%&gt;%</span></span>
+<span id="cb21-146"><a href="#cb21-146" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(City) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-147"><a href="#cb21-147" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb21-148"><a href="#cb21-148" aria-hidden="true" tabindex="-1"></a>  <span class="at">lag_users =</span> <span class="fu">tlag</span>(Users, <span class="dv">1</span>, <span class="at">time =</span> year),</span>
+<span id="cb21-149"><a href="#cb21-149" aria-hidden="true" tabindex="-1"></a>  <span class="at">diff_users =</span> Users<span class="sc">-</span>lag_users,</span>
+<span id="cb21-150"><a href="#cb21-150" aria-hidden="true" tabindex="-1"></a>    <span class="at">prop_diff_users =</span> diff_users<span class="sc">/</span>lag_users</span>
+<span id="cb21-151"><a href="#cb21-151" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-152"><a href="#cb21-152" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb21-153"><a href="#cb21-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-154"><a href="#cb21-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-155"><a href="#cb21-155" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb21-156"><a href="#cb21-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-157"><a href="#cb21-157" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ## Exploratory analysis; todo  --&gt;</span></span>
+<span id="cb21-158"><a href="#cb21-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-159"><a href="#cb21-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-160"><a href="#cb21-160" aria-hidden="true" tabindex="-1"></a><span class="fu">## Casual/simple 'uptick' analysis</span></span>
+<span id="cb21-161"><a href="#cb21-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-162"><a href="#cb21-162" aria-hidden="true" tabindex="-1"></a>Below, we give, for the comparable periods in 2020 and 2021...</span>
+<span id="cb21-163"><a href="#cb21-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-164"><a href="#cb21-164" aria-hidden="true" tabindex="-1"></a>...the total numbers of cities in the sample, the share with a positive number of user clicks, and the mean, median, 80th quantile, and standard deviation of the number of clicks. </span>
+<span id="cb21-165"><a href="#cb21-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-166"><a href="#cb21-166" aria-hidden="true" tabindex="-1"></a>... For a few subsets</span>
+<span id="cb21-167"><a href="#cb21-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-168"><a href="#cb21-168" aria-hidden="true" tabindex="-1"></a>... First for unique usert visits, and then for total numbers of sessions. </span>
+<span id="cb21-169"><a href="#cb21-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-172"><a href="#cb21-172" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb21-173"><a href="#cb21-173" aria-hidden="true" tabindex="-1"></a>tl21 <span class="sc">%&gt;%</span> <span class="fu">sumtab</span>(Users, year, <span class="at">caption=</span><span class="st">"All N. Amer. cities"</span>)</span>
+<span id="cb21-174"><a href="#cb21-174" aria-hidden="true" tabindex="-1"></a>tl21 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="sc">!</span>City<span class="sc">==</span><span class="st">"Portland_OR"</span>) <span class="sc">%&gt;%</span> <span class="fu">sumtab</span>(Users, year, <span class="at">caption=</span><span class="st">"N. Amer. Cities other than Portland"</span>)</span>
+<span id="cb21-175"><a href="#cb21-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-176"><a href="#cb21-176" aria-hidden="true" tabindex="-1"></a>tl21 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(pop2022<span class="sc">&gt;</span><span class="dv">250000</span>) <span class="sc">%&gt;%</span> <span class="fu">sumtab</span>(Users, year, <span class="at">caption=</span><span class="st">"All N. Amer. Cities with pop. &gt; 250k"</span>) <span class="co">#Fix -- filter on over 20 users for 2020 ONLY]</span></span>
+<span id="cb21-177"><a href="#cb21-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-178"><a href="#cb21-178" aria-hidden="true" tabindex="-1"></a>tl21 <span class="sc">%&gt;%</span> <span class="fu">sumtab</span>(Sessions, year, <span class="at">caption=</span><span class="st">"Sessions by year, all"</span>)</span>
+<span id="cb21-179"><a href="#cb21-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-180"><a href="#cb21-180" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb21-181"><a href="#cb21-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-182"><a href="#cb21-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-183"><a href="#cb21-183" aria-hidden="true" tabindex="-1"></a>Note that all measures generally show an increase. </span>
+<span id="cb21-184"><a href="#cb21-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-185"><a href="#cb21-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-188"><a href="#cb21-188" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb21-189"><a href="#cb21-189" aria-hidden="true" tabindex="-1"></a>OR_users_21 <span class="ot">&lt;-</span> tl21 <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(City<span class="sc">==</span><span class="st">"Portland_OR"</span> <span class="sc">&amp;</span> year<span class="sc">==</span><span class="dv">2021</span>) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="st">'Users'</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>()</span>
+<span id="cb21-190"><a href="#cb21-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-191"><a href="#cb21-191" aria-hidden="true" tabindex="-1"></a>OR_users_20 <span class="ot">&lt;-</span> tl21 <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(City<span class="sc">==</span><span class="st">"Portland_OR"</span> <span class="sc">&amp;</span> year<span class="sc">==</span><span class="dv">2020</span>) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="st">'Users'</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>()</span>
+<span id="cb21-192"><a href="#cb21-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-193"><a href="#cb21-193" aria-hidden="true" tabindex="-1"></a>OR_uptick <span class="ot">&lt;-</span> OR_users_21 <span class="sc">-</span> OR_users_20</span>
+<span id="cb21-194"><a href="#cb21-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-195"><a href="#cb21-195" aria-hidden="true" tabindex="-1"></a>nonOR  <span class="ot">&lt;-</span> tl21 <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(City<span class="sc">!=</span><span class="st">"Portland_OR"</span>) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="st">'Users'</span>, year)</span>
+<span id="cb21-196"><a href="#cb21-196" aria-hidden="true" tabindex="-1"></a>nonOR_gt250k  <span class="ot">&lt;-</span> tl21 <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(pop_gt250k<span class="sc">==</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="st">'Users'</span>, year)</span>
+<span id="cb21-197"><a href="#cb21-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-198"><a href="#cb21-198" aria-hidden="true" tabindex="-1"></a>nonOR_users_21 <span class="ot">&lt;-</span> <span class="fu">mean</span>(nonOR<span class="sc">$</span>Users[nonOR<span class="sc">$</span>year<span class="sc">==</span><span class="dv">2021</span>])</span>
+<span id="cb21-199"><a href="#cb21-199" aria-hidden="true" tabindex="-1"></a>nonOR_users_20 <span class="ot">&lt;-</span> <span class="fu">mean</span>(nonOR<span class="sc">$</span>Users[nonOR<span class="sc">$</span>year<span class="sc">==</span><span class="dv">2020</span>])</span>
+<span id="cb21-200"><a href="#cb21-200" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb21-201"><a href="#cb21-201" aria-hidden="true" tabindex="-1"></a>nonOR_uptick <span class="ot">&lt;-</span> (nonOR_users_21 <span class="sc">-</span> nonOR_users_20)<span class="sc">/</span>nonOR_users_20</span>
+<span id="cb21-202"><a href="#cb21-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-203"><a href="#cb21-203" aria-hidden="true" tabindex="-1"></a>nonOR_gt250k_users_21 <span class="ot">&lt;-</span> <span class="fu">mean</span>(nonOR_gt250k<span class="sc">$</span>Users[nonOR_gt250k<span class="sc">$</span>year<span class="sc">==</span><span class="dv">2021</span>])</span>
+<span id="cb21-204"><a href="#cb21-204" aria-hidden="true" tabindex="-1"></a>nonOR_gt250k_users_20 <span class="ot">&lt;-</span> <span class="fu">mean</span>(nonOR_gt250k<span class="sc">$</span>Users[nonOR_gt250k<span class="sc">$</span>year<span class="sc">==</span><span class="dv">2020</span>])</span>
+<span id="cb21-205"><a href="#cb21-205" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb21-206"><a href="#cb21-206" aria-hidden="true" tabindex="-1"></a>nonOR_gt250k_uptick <span class="ot">&lt;-</span> (nonOR_gt250k_users_21 <span class="sc">-</span> nonOR_gt250k_users_20)<span class="sc">/</span>nonOR_gt250k_users_20</span>
+<span id="cb21-207"><a href="#cb21-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-208"><a href="#cb21-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-209"><a href="#cb21-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-210"><a href="#cb21-210" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb21-211"><a href="#cb21-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-212"><a href="#cb21-212" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- (As in interactive Gitbook) --&gt;</span></span>
+<span id="cb21-213"><a href="#cb21-213" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb21-214"><a href="#cb21-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-215"><a href="#cb21-215" aria-hidden="true" tabindex="-1"></a><span class="fu">### Bound: Maximum impact/minimum cost (subject to random variation)</span></span>
+<span id="cb21-216"><a href="#cb21-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-217"><a href="#cb21-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-218"><a href="#cb21-218" aria-hidden="true" tabindex="-1"></a>(This duplicates the  <span class="co">&lt;!-- (todo: integrate in) update --&gt;</span> hand-calculated results in Gitbook <span class="co">[</span><span class="ot">HERE</span><span class="co">](https://app.gitbook.com/o/-MfFk4CTSGwVOPkwnRgx/s/-Mf8cHxdwePMZXRTKnEE/contexts-and-environments-for-testing/tlycs/advisor-signup-portland/results-first-pass)</span>)</span>
+<span id="cb21-219"><a href="#cb21-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-220"><a href="#cb21-220" aria-hidden="true" tabindex="-1"></a>^<span class="co">[</span><span class="ot">The present very simple section is hand-input for now...</span><span class="co">]</span></span>
+<span id="cb21-221"><a href="#cb21-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-222"><a href="#cb21-222" aria-hidden="true" tabindex="-1"></a>We have a....</span>
+<span id="cb21-223"><a href="#cb21-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-224"><a href="#cb21-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-225"><a href="#cb21-225" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>lower bound on cost of \$13.07 per user (\$10.28 per visit) if 'all visits were generated by the ad.'</span>
+<span id="cb21-226"><a href="#cb21-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-227"><a href="#cb21-227" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>somewhat more reasonable \$24.69 cost per user if Portland was the 'same as last year'. But it seems more reasonable to allow Portland to have similar trends as other cities.</span>
+<span id="cb21-228"><a href="#cb21-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-229"><a href="#cb21-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-230"><a href="#cb21-230" aria-hidden="true" tabindex="-1"></a><span class="fu">### Difference in Differences comparison to other cities</span></span>
+<span id="cb21-231"><a href="#cb21-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-232"><a href="#cb21-232" aria-hidden="true" tabindex="-1"></a>Guiding assumptions:</span>
+<span id="cb21-233"><a href="#cb21-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-234"><a href="#cb21-234" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>the cities used are fairly representative</span>
+<span id="cb21-235"><a href="#cb21-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-236"><a href="#cb21-236" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>'uptick as a percentage' is unrelated to city size/visits last year</span>
+<span id="cb21-237"><a href="#cb21-237" aria-hidden="true" tabindex="-1"></a>all the cities in the comparison group are 'informative to the counterfactual' in proportion to their total number of sessions.^<span class="co">[</span><span class="ot">I'm waving the hands a bit here; this is not precise.</span><span class="co">]</span></span>
+<span id="cb21-238"><a href="#cb21-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-239"><a href="#cb21-239" aria-hidden="true" tabindex="-1"></a>\</span>
+<span id="cb21-240"><a href="#cb21-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-241"><a href="#cb21-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-242"><a href="#cb21-242" aria-hidden="true" tabindex="-1"></a>*Thus*</span>
+<span id="cb21-243"><a href="#cb21-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-244"><a href="#cb21-244" aria-hidden="true" tabindex="-1"></a><span class="in">`r 100*(OR_users_21 - OR_users_20)/OR_users_20`</span>% visits uptick (Year on Year) for Portland in 2020</span>
+<span id="cb21-245"><a href="#cb21-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-246"><a href="#cb21-246" aria-hidden="true" tabindex="-1"></a>For 'all North American cities other than Portland (with greater than 250,000 people )':</span>
+<span id="cb21-247"><a href="#cb21-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-248"><a href="#cb21-248" aria-hidden="true" tabindex="-1"></a>The average is <span class="in">`r op(mean(nonOR_gt250k$Users[nonOR_gt250k$year==2020]))`</span>  users in the 2020 period and <span class="in">`r op(mean(nonOR_gt250k$Users[nonOR_gt250k$year==2021]))`</span> users in the 2021 period, an uptick of <span class="in">`r op(nonOR_gt250k_users_21)`</span></span>
+<span id="cb21-249"><a href="#cb21-249" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`r op(nonOR_gt250k_users_20)`</span>)/<span class="in">`r op(nonOR_gt250k_users_20)`</span> = about <span class="in">`r op(100*nonOR_gt250k_uptick)`</span>%.</span>
+<span id="cb21-250"><a href="#cb21-250" aria-hidden="true" tabindex="-1"></a>^<span class="co">[</span><span class="ot">This is very similar to the result if we look at all cities which has an uptick of `r op(100*nonOR_uptick)`%</span><span class="co">]</span></span>
+<span id="cb21-251"><a href="#cb21-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-252"><a href="#cb21-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-253"><a href="#cb21-253" aria-hidden="true" tabindex="-1"></a><span class="in">`r op(100*nonOR_gt250k_uptick)`</span>% uptick $\times$ <span class="in">`r OR_users_20`</span> = <span class="in">`r op(nonOR_gt250k_uptick*OR_users_20)`</span> 'counterfactual uptick' in users for Portland</span>
+<span id="cb21-254"><a href="#cb21-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-255"><a href="#cb21-255" aria-hidden="true" tabindex="-1"></a><span class="in">`r OR_users_21 - OR_users_20`</span> -<span class="in">`r op(nonOR_gt250k_uptick*OR_users_20)`</span> = <span class="in">`r op(OR_users_21 - OR_users_20 - nonOR_gt250k_uptick*OR_users_20)`</span>  'uptick relative to counterfactual'</span>
+<span id="cb21-256"><a href="#cb21-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-259"><a href="#cb21-259" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb21-260"><a href="#cb21-260" aria-hidden="true" tabindex="-1"></a>or_uptick_vs_cfl_gt250 <span class="ot">&lt;-</span> OR_users_21 <span class="sc">-</span> OR_users_20 <span class="sc">-</span> nonOR_gt250k_uptick<span class="sc">*</span>OR_users_20</span>
+<span id="cb21-261"><a href="#cb21-261" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb21-262"><a href="#cb21-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-263"><a href="#cb21-263" aria-hidden="true" tabindex="-1"></a>USD 4000 /<span class="in">`r op(or_uptick_vs_cfl_gt250)`</span>  = \$ <span class="in">`r op(4000/or_uptick_vs_cfl_gt250)`</span>  cost per user</span>
+<span id="cb21-264"><a href="#cb21-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-265"><a href="#cb21-265" aria-hidden="true" tabindex="-1"></a>This seems realistic at a first-pass.</span>
+<span id="cb21-266"><a href="#cb21-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-267"><a href="#cb21-267" aria-hidden="true" tabindex="-1"></a>\</span>
+<span id="cb21-268"><a href="#cb21-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-269"><a href="#cb21-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-270"><a href="#cb21-270" aria-hidden="true" tabindex="-1"></a><span class="fu">### Plotting the 'difference in difference' </span></span>
+<span id="cb21-271"><a href="#cb21-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-272"><a href="#cb21-272" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-273"><a href="#cb21-273" aria-hidden="true" tabindex="-1"></a>Scatterplot of unique users by city, both time periods, US cities with 500k-1.5mill population, Portland highlighted</span>
+<span id="cb21-274"><a href="#cb21-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-275"><a href="#cb21-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-276"><a href="#cb21-276" aria-hidden="true" tabindex="-1"></a><span class="in">```{r users_by_year}</span></span>
+<span id="cb21-277"><a href="#cb21-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-278"><a href="#cb21-278" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb21-279"><a href="#cb21-279" aria-hidden="true" tabindex="-1"></a>  users_by_year <span class="ot">&lt;-</span>  tl21 <span class="sc">%&gt;%</span> </span>
+<span id="cb21-280"><a href="#cb21-280" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(pop2022 <span class="sc">&gt;=</span> <span class="dv">500000</span> <span class="sc">&amp;</span> pop2022 <span class="sc">&lt;</span> <span class="dv">1500000</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-281"><a href="#cb21-281" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb21-282"><a href="#cb21-282" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> pop2022, <span class="at">y =</span> Users, <span class="at">label =</span> City) <span class="sc">+</span></span>
+<span id="cb21-283"><a href="#cb21-283" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> <span class="fu">factor</span>(year)), <span class="at">size=</span><span class="dv">3</span>, <span class="at">alpha=</span><span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb21-284"><a href="#cb21-284" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="fu">aes</span>(<span class="at">group =</span> City)) <span class="sc">+</span></span>
+<span id="cb21-285"><a href="#cb21-285" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label</span>(<span class="at">data =</span> <span class="fu">subset</span>(tl21, City <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">'Portland_OR'</span>,<span class="st">'Boston'</span>,<span class="st">'Seattle'</span>, <span class="st">'San Francisco'</span>, <span class="st">'Atlanta'</span>, <span class="st">'San Diego'</span>, <span class="st">'Indianapolis'</span>, <span class="st">'Fort Worth'</span>, <span class="st">'Sacramento'</span>, <span class="st">'Denver'</span>, <span class="st">'San Jose'</span>, <span class="st">'Las Vegas'</span>) <span class="sc">&amp;</span> year<span class="sc">==</span><span class="dv">2020</span>), <span class="at">alpha  =</span> <span class="fl">0.3</span>, <span class="at">size =</span><span class="fl">2.5</span>) <span class="sc">+</span></span>
+<span id="cb21-286"><a href="#cb21-286" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">trans=</span><span class="st">'log10'</span>) <span class="sc">+</span></span>
+<span id="cb21-287"><a href="#cb21-287" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() </span>
+<span id="cb21-288"><a href="#cb21-288" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-289"><a href="#cb21-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-290"><a href="#cb21-290" aria-hidden="true" tabindex="-1"></a>users_by_year <span class="sc">%&gt;%</span>  plotly<span class="sc">::</span><span class="fu">ggplotly</span>()</span>
+<span id="cb21-291"><a href="#cb21-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-292"><a href="#cb21-292" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb21-293"><a href="#cb21-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-294"><a href="#cb21-294" aria-hidden="true" tabindex="-1"></a>Plotting increases in users by population...</span>
+<span id="cb21-295"><a href="#cb21-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-296"><a href="#cb21-296" aria-hidden="true" tabindex="-1"></a><span class="in">```{r increase_by_size}</span></span>
+<span id="cb21-297"><a href="#cb21-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-298"><a href="#cb21-298" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb21-299"><a href="#cb21-299" aria-hidden="true" tabindex="-1"></a>  increase_by_size <span class="ot">&lt;-</span>  tl21 <span class="sc">%&gt;%</span> </span>
+<span id="cb21-300"><a href="#cb21-300" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(pop2022 <span class="sc">&gt;=</span> <span class="dv">500000</span> <span class="sc">&amp;</span> pop2022 <span class="sc">&lt;</span> <span class="dv">1500000</span> <span class="sc">&amp;</span> year<span class="sc">==</span><span class="dv">2021</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-301"><a href="#cb21-301" aria-hidden="true" tabindex="-1"></a>   <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb21-302"><a href="#cb21-302" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> pop2022, <span class="at">y =</span> diff_users, <span class="at">label =</span> City) <span class="sc">+</span></span>
+<span id="cb21-303"><a href="#cb21-303" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">3</span>, <span class="at">alpha=</span><span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb21-304"><a href="#cb21-304" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label</span>(<span class="at">data =</span> <span class="fu">subset</span>(tl21, City <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">'Portland_OR'</span>,<span class="st">'Boston'</span>,<span class="st">'Seattle'</span>, <span class="st">'San Francisco'</span>, <span class="st">'Atlanta'</span>, <span class="st">'San Diego'</span>, <span class="st">'Indianapolis'</span>, <span class="st">'Fort Worth'</span>, <span class="st">'Sacramento'</span>, <span class="st">'Denver'</span>, <span class="st">'San Jose'</span>, <span class="st">'Las Vegas'</span>)), <span class="at">alpha  =</span> <span class="fl">0.3</span>, <span class="at">size =</span><span class="fl">2.5</span>) <span class="sc">+</span></span>
+<span id="cb21-305"><a href="#cb21-305" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">trans=</span><span class="st">'log10'</span>) <span class="sc">+</span></span>
+<span id="cb21-306"><a href="#cb21-306" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() </span>
+<span id="cb21-307"><a href="#cb21-307" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-308"><a href="#cb21-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-309"><a href="#cb21-309" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-310"><a href="#cb21-310" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb21-311"><a href="#cb21-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-312"><a href="#cb21-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-313"><a href="#cb21-313" aria-hidden="true" tabindex="-1"></a>Plotting proportional increases in users by 2020 users...</span>
+<span id="cb21-314"><a href="#cb21-314" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-317"><a href="#cb21-317" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb21-318"><a href="#cb21-318" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb21-319"><a href="#cb21-319" aria-hidden="true" tabindex="-1"></a>  prop_increase_by_size <span class="ot">&lt;-</span>  tl21 <span class="sc">%&gt;%</span> </span>
+<span id="cb21-320"><a href="#cb21-320" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(pop2022 <span class="sc">&gt;=</span> <span class="dv">500000</span> <span class="sc">&amp;</span> pop2022 <span class="sc">&lt;</span> <span class="dv">1500000</span> <span class="sc">&amp;</span> year<span class="sc">==</span><span class="dv">2021</span> <span class="sc">&amp;</span> lag_users<span class="sc">&gt;</span><span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-321"><a href="#cb21-321" aria-hidden="true" tabindex="-1"></a>   <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb21-322"><a href="#cb21-322" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> lag_users, <span class="at">y =</span> prop_diff_users, <span class="at">label =</span> City) <span class="sc">+</span></span>
+<span id="cb21-323"><a href="#cb21-323" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">3</span>, <span class="at">alpha=</span><span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb21-324"><a href="#cb21-324" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">'lm'</span>) <span class="sc">+</span></span>
+<span id="cb21-325"><a href="#cb21-325" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">hjust=</span><span class="dv">0</span>, <span class="at">vjust=</span><span class="dv">0</span>, <span class="at">alpha=</span>.<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb21-326"><a href="#cb21-326" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">trans=</span><span class="st">'log10'</span>) <span class="sc">+</span></span>
+<span id="cb21-327"><a href="#cb21-327" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb21-328"><a href="#cb21-328" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="st">"Mid-sized cities, proportional changes"</span>) <span class="sc">+</span></span>
+<span id="cb21-329"><a href="#cb21-329" aria-hidden="true" tabindex="-1"></a>     <span class="fu">xlab</span>(<span class="st">"Users in 2020"</span>) <span class="sc">+</span></span>
+<span id="cb21-330"><a href="#cb21-330" aria-hidden="true" tabindex="-1"></a>     <span class="fu">ylab</span>(<span class="st">"Proportional change in users"</span>)</span>
+<span id="cb21-331"><a href="#cb21-331" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-332"><a href="#cb21-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-333"><a href="#cb21-333" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-334"><a href="#cb21-334" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb21-335"><a href="#cb21-335" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-336"><a href="#cb21-336" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-337"><a href="#cb21-337" aria-hidden="true" tabindex="-1"></a><span class="fu">## Next steps, if warranted</span></span>
+<span id="cb21-338"><a href="#cb21-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-339"><a href="#cb21-339" aria-hidden="true" tabindex="-1"></a>The above comparisons are crude and have limitations:</span>
+<span id="cb21-340"><a href="#cb21-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-341"><a href="#cb21-341" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>All cities are weighted equally, no matter their size or similasrity to Portland</span>
+<span id="cb21-342"><a href="#cb21-342" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Some year-to-year idiosynchratic variation may be unrelated to trends or to the trial. We have not 'quantified this uncertainty'</span>
+<span id="cb21-343"><a href="#cb21-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-344"><a href="#cb21-344" aria-hidden="true" tabindex="-1"></a>If we want a  more precise estimate and careful CIs^<span class="co">[</span><span class="ot">confidence, credible or 'consistent intervals', depending on model and terminology</span><span class="co">]</span> we can build an explicit model and simulation. But I want to know the value of precision here before I dig deeper.</span>
+<span id="cb21-345"><a href="#cb21-345" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb21-346"><a href="#cb21-346" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-347"><a href="#cb21-347" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-348"><a href="#cb21-348" aria-hidden="true" tabindex="-1"></a></span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+</body></html>

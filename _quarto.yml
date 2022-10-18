@@ -19,7 +19,7 @@ book:
     - chapters/gwwc_fb.qmd
     - chapters/gwwc_pledge_wip.qmd
     - chapters/oftw_upsell_input_first_analysis.qmd
-    - chapters/tlycs_placeholder.qmd
+    - chapters/tlycs_input_simple_analysis.qmd
     - references.qmd
   reader-mode: true
 

@@ -10,10 +10,9 @@ execute:
 
 ::: {.callout-note}
 
-This chapter will align with a (forthcoming) EA Forum post; we will provide links in both directions. 
+This chapter will align with an EA Forum post; we will provide links in both directions.  [Add here]
 
 :::
-
 
 
 ```{r, include=FALSE}
@@ -28,7 +27,6 @@ p_load(cmdstanr)
 
 #install.packages("tidybayes")
 library(tidybayes)
-
 
 library(GDAtools, include.only = 'wtable', 'dichotom')
 
@@ -106,6 +104,9 @@ The page they were directed to,  <!-- (DR: probably the one linked below ) --> "
 
 2.  [Charity research facts long video](https://drive.google.com/file/d/1c58siggrMh2KN33bcj5f3afKgqY3RE5B/view?usp=sharing) (22 seconds): Trivial things we search (shows someone searching how to do Gangnam style), things we should research (shows someone searching how to donate effectively), only 3% of donors research charity effectiveness, yet the best charities can 100x your impact, learn how to give effectively. Slower paced music compared to the short video and cause videos.  
 :::
+
+
+
 
 ::: {.callout-note collapse="true"}
 ## "Cause focus"

@@ -10,12 +10,18 @@ execute:
 
 ::: {.callout-note}
 
-This chapter will align with an EA Forum post; we will provide links in both directions.  [Add here]
-
+This chapter aligns with, and supplements [the EA Forum post "Marketing messages trial for GWWC Giving Guide Campaign"](https://forum.effectivealtruism.org/posts/nhbeKbwMgFKfrzLNb/marketing-messages-trial-for-gwwc-giving-guide-campaign)
 :::
 
+<!-- 
+## Main takeaways
+-->
 
-```{r, include=FALSE}
+
+```{r}
+#| label: setup_gg
+#| code-summary: "code: Setup and packages"
+
 library(here)
 source(here("code", "shared_packages_code.R"))
 library(dplyr, janitor)
@@ -32,7 +38,10 @@ library(GDAtools, include.only = 'wtable', 'dichotom')
 
 ```
 
-```{r import_raw_0}
+```{r }
+#| label: import_raw_0
+#| code-summary: "Code: Import raw data for descriptions"
+
 #importing for dynamic input of descriptions below
 
 #Todo: get direct import working: See https://cran.r-project.org/web/packages/rfacebookstat/rfacebookstat.pdf
@@ -52,12 +61,11 @@ gg_campaign_by_ad_by_text <- read_csv(here(raw_data_path, "gg_campaign_by_ad_by_
  mini_clean
 ```
 
-
 ## The trial
 
 See full description in the gitbook [here](https://effective-giving-marketing.gitbook.io/untitled/contexts-partner-organizations-trials/gwwc/giving-guides-+).
 
-**Context**: Facebook advertisements on a range of audiences
+**Context**: Facebook advertisements with a range of audiences/filters^[See ['which videos'](#which_videos) below for a list and brief descrription of these audiences.]
 
 > **Effective Giving Guide Lead Generation campaign** ... ran late November 2021 - January 2022. The objective of this campaign was to see whether a factual ['who researches giving' or 'magnitude of impact differences'] or cause-led approach was more cost-effective at getting people to fill out a form and give us their email in order to download our Effective Giving Guide.
 
@@ -149,7 +157,7 @@ Details in Gitbook [HERE (and embedded below)](https://effective-giving-marketin
 knitr::include_url("https://effective-giving-marketing.gitbook.io/untitled/partner-organizations-and-trials/gwwc/giving-guides-+")
 ```
 
-### Implementation & assignment: key details
+### Implementation & assignment: key details {-}
 
 
 ::: {.callout-note collapse="true"}
@@ -175,7 +183,6 @@ The videos were adapted across the trials as we learned. First, we updated the f
 
 ::: {.callout-note collapse="true"}
 ## Accessing, downloading, inputting data
-
 
 See:
 
@@ -208,7 +215,10 @@ Each row represents a combination of the below (with different numbers of 'reach
 
 :::
 
-```{r import_real_raw_data}
+```{r}
+#| label: import_real_raw_data
+#| code-summary: "Import raw data"
+ 
 
 raw_data_path <- list("gwwc", "gg_raw_data_shareable")
 
@@ -250,7 +260,10 @@ gg_make_cols()
 ```
 
 
-```{r video_general_encoding}
+```{r }
+#| label: video_general_encoding
+#| code-summary: "Encode video types"
+ 
 
 gg_video_breakdowns %<>%
   mutate(
@@ -269,8 +282,9 @@ gg_video_breakdowns %<>%
 ```
 
 
-
-```{r export}
+```{r}
+#| label: export
+#| code-summary: "Export/save data"
 
 cleaned_data_path <- list("gwwc", "gg_processed_data")
 
@@ -280,7 +294,6 @@ write.csv(gg_campaign_by_ad_by_text_age_gender, here(cleaned_data_path, "gg_camp
 
 write_rds(gg_video_breakdowns, here(cleaned_data_path, "gg_video_breakdowns.Rdata"))
 write_rds(gg_campaign_by_ad_by_text_age_gender, here(cleaned_data_path, "gg_campaign_by_ad_by_text_age_gender.Rdata"))
-
 
 
 ```
@@ -315,7 +328,7 @@ This content/input has been moved to `eamt_data_analysis/gwwc/giving_guides/arch
 
 ## Descriptives
 
-### Implemented treatments, 'reach'
+### Implemented treatments, 'reach' {-reach}
 
 First we illustrate 'where, when, and to whom' the different campaigns and treatments were shown ('people reached' on Facebook).
 
@@ -375,7 +388,7 @@ reach_campaign_audience <- gg_campaign_by_ad_by_text_age_gender %>% #created but
 
 :::
 
-**Which videos were shown to which audiences?**
+#### Which videos were shown to which audiences? {-which_videos}
 
 Some audiences were profiled as being associated with a certain cause (through their Facebook interests or activities): in 'cause-focused' campaigns they were shown videos  for their profiled cause. In campaigns that were not cause-focused, they were shown general interest videos. However, those associated with one cause were never shown videos for other causes.
 
@@ -448,7 +461,7 @@ Note (again) that we cannot identify all of the video treatments in the same dat
 
 :::
 
-Note that treatment shares are not equal.  In fact, as the first table in this sectionshows, they are not even equal within each campaign. This is because Facebook optimizes to show more succesful videos and text more than less succesful versions.^[This also may lead FB to particularly combine certain message presentations more with certain video presentations. However we cannot check this in our current setup: it is confounded with 'audience profile' (at least in the data we can observe).]
+Note that treatment shares are not equal.  In fact, as the first table in this section shows, they are not even equal within each campaign. This is because Facebook optimizes to show more succesful videos and text more than less succesful versions.^[This also may lead FB to particularly combine certain message presentations more with certain video presentations. However we cannot check this in our current setup: it is confounded with 'audience profile' (at least in the data we can observe).]
 
 
 As shown in the fold below, the set of text treatments varied across campaigns:
@@ -479,7 +492,7 @@ Below, we present the text treatments *as shares of each campaign's unique impre
 :::
 
 
-### Demographics
+### Demographics {-}
 
 ```{r}
 
@@ -506,7 +519,7 @@ knitr::include_url("https://www.statista.com/statistics/187549/facebook-distribu
 
 -->
 
-### Outcomes: overview
+### Outcomes: overview {-}
 
 
 Below, we present the dates of each campaign, along with start dates and results:
@@ -986,22 +999,16 @@ The above table is somewhat misleading because of the [divergent delivery](https
 
 ::: 
 
-
-
-
-
-
-
 ## Modeling and inference: Bayesian Logistic regressions and CIs 
 
 ^[This comes from Jamie's work in `fb ad analysis.R`
-
 [google drive link](https://drive.google.com/file/d/1t_dySvC-GIQcSY2hJw7rfofuv15Qlg0s/view?usp=sharing)]
+See discussion of this and other modeling and simulation approaches moved to separate file `modeling_fb_discussion.qmd`]
 
-^[Discussion of this and other modeling and simulation approaches moved to separate file `modeling_fb_discussion.qmd`
-]
+```{r }
+#| label: packages
+#| code-summary: "Load tidy Bayes packages"
 
-```{r packages}
 library(pacman)
 p_load(brms, install=FALSE)
 library(brms)
@@ -1010,8 +1017,10 @@ library(tidybayes)
 
 ```
 
-```{r sum_results_collapse}
-
+```{r}
+#| label: sum_results_collapse
+#| code-summary: "Summing outcomes by breakdowns of interest"
+ 
 sum_results <- function(df) {
     df %>%
      summarise(
@@ -1038,7 +1047,6 @@ sum_results
 #%>%   mutate(starts = as.factor(starts))
 #rem: we are just summing outcomes, so no weights are needed here
 
-
 # collapse into the categories of interest
 gg_campaign_by_text_col <-  gg_campaign_by_ad_by_text_age_gender %>%
    uncount(weights = .$reach) %>%
@@ -1059,14 +1067,14 @@ sum_results
 #%>%   mutate(starts = as.factor(starts))
 #rem: we are just summing outcomes, so no weights are needed here
 
-
-
 ```
 
-In the code chunk below, we compute and set minimally-informative priors for the click rates model.
+Next, we compute and set minimally-informative priors for the click rates model.
 
-```{r priors_clicks}
-
+```{r}
+#| label: priors_clicks
+#| code-summary: "Priors for click rate models"
+ 
 #helper function to 'make priors'
 make_prior_normal <- function(mean, sd, ...) {
   prior_string(paste0("normal(", mean, ",", sd, ")"), ...)
@@ -1098,11 +1106,11 @@ make_prior_normal(0, se_prior_slope_click, class = "b")
 
 In the code chunk just above, we define the priors which we use below.
 
-Where did this come from? It is somewhat casual, but given the very large dataset, we don't expect our results to be very sensitive to the priors.
+Where did this come from? It is somewhat ad-hoc, but it is unlikely to matter much. Given our very large dataset, we don't expect our results to be very sensitive to the priors.
 
-A `r prior_click_per_reach`  click rate (as a share of 'reach') seemed like a reasonable mean. This is approximately the rate GWWC saw in all of its trials before February 2021, when this trial started. `logit(prior_click_per_reach)` gives us the intercept associated with this prior expected outcome rate.  
+A `r op(prior_click_per_reach*100)`% click rate (as a share of 'reach') seemed like a reasonable mean. This is approximately the rate GWWC saw in all of its trials before February 2021, when this trial started. `logit(prior_click_per_reach)` gives us the intercept associated with this prior expected outcome rate.  
 
-The prior on the standard error for the intercept is not based on prior data. We considered 'what baseline rate would we consider to be extremely unlikely?', and set the standard deviations to be about half of this (recalling that 95% of the area of a normal distribution is within 1.96 sd's of the mean) . In the positive direction, a rate of 15% or more would be truly shocking. This would yield a logit intercept of `logit(prior_intercept_click_ub)` = `r logit(prior_intercept_click_ub)`. Differencing this from the prior mean and dividing by two yields our chosen prior intercept standard error: `r op(se_prior_click)`; note this gives a 95 percent lower-bound of a `r op(plogis(prior_intercept_click - 1.96*se_prior_click)*100)`% click rate.   
+The prior on the standard error for the intercept is not based on any previous data. We considered 'what baseline rate would we consider to be extremely unlikely?', and set the standard deviations to be about half of this (recalling that 95% of the area of a normal distribution is within 1.96 sd's of the mean). In the positive direction, a rate of 15% or more would be very surprising. This would yield a logit intercept of `logit(prior_intercept_click_ub)` = `r logit(prior_intercept_click_ub)`. Differencing this from the prior mean and dividing by two yields our chosen prior intercept standard error: `r op(se_prior_click)`; note this gives a 95 percent lower-bound of a `r op(plogis(prior_intercept_click - 1.96*se_prior_click)*100)`% click rate.   
 
 :::
 
@@ -1115,10 +1123,12 @@ Could we instead do this considering reasonable 'proportional differences in rat
 
 :::  
 
-In the chunk below, we compute and set minimally informative priors for the results model. Again, some notes follow.
+Next, we compute and set minimally informative priors for the *results* model. 
 
-
-```{r priors_results}
+```{r }
+#| label: priors_results
+#| code-summary: "Priors: results model"
+ 
 
 prior_results_per_click <- 0.20
 
@@ -1148,11 +1158,10 @@ We would be 'very surprised' (seems 5% likely or less) with an RpC of over `r pr
 
 (Note: this implies a 95% CI lower-bound of a 
 `r op(plogis(prior_intercept_results - 1.96*se_prior_results)*100)`% overall RpC rate.)  
-
 :::
 
 
-### Estimating the models 
+### Estimating the models {-}
 
 ```{r bayes_model_formulas}
 #| output: false
@@ -1192,7 +1201,7 @@ clicks_logit_vid <-  do.call("brm", c(list(
                   family = binomial("logit"),
                   control = list(adapt_delta = 0.99, max_treedepth = 15),
                    prior = prior_click),
-                  init = 0, chains = 4, cores = 4, iter = 2500, warmup = 500, seed = 1010, silent=2,  refresh = 0,                  
+                  init = 0, chains = 4, cores = 4, iter = 2500, warmup = 500, seed = 1010, silent=2,  refresh = 0                  
   )
 )
 
@@ -1272,9 +1281,11 @@ results_logit_text_only <-  do.call("brm", c(list(
 ### (TODO) Summarize the model results/coefficients in clean tables here
 -->
 
-### Forest plots
+### Forest plots {-} 
 
-```{r full_crossing_vid}
+```{r}
+#| label: full_crossing_vid
+#| code-summary: "full crossing, posterior expectations"
 
 # posterior expectations:
 full_crossing <- expand_grid(
@@ -1548,7 +1559,7 @@ reach_to_clicks_aud_plot_climate <-  full_post  %>%
 
 ```
 
-### Results by Video
+### Results by Video {-}
 
 ^[Todo: fix weighting]
 
@@ -1645,7 +1656,7 @@ reach_to_results_plot_flip <-  full_post %>%
 ```
 
 
-### Results by text
+### Results by text {-}
 
 ```{r reach_to_results_sum_text_only}
 
@@ -1723,7 +1734,7 @@ reach_to_results_plot_flip <-  full_post_text %>%
 
 
 
-### Outcomes by cost
+### Outcomes by cost {-}
 
 Note: We don't report on the 'text' treatment in this section (for now), because the cost per unique impression was very similar across these texts.
 

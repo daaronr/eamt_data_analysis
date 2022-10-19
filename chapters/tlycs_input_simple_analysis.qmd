@@ -37,28 +37,30 @@ I downloaded this as an Excel spreadsheet to the private `eamt_actual_data` repo
 
 ^[Note: the code below reads directly from the folder structure and is thus not portable. I will modify this to read it in directly from the private Github repo for those with access.]
 
-Reading TLYCS trial data 
+Reading TLYCS trial data
 
 ```{r}
 
 #tl21 <- read_excel(here::here("data_do_not_commit", "tlycs", "tlycs_dec_2021_vs_2020_by_city_n_america.xlsx"), sheet = "Dataset1") #this should have worked?
 
-#tl21 <- readxl::read_excel("~/githubs/eamt_actual_data/tlycs/tlycs_dec_2021_vs_2020_by_city_n_america.xlsx",  sheet = "Dataset1") 
+#tl21 <- readxl::read_excel("~/githubs/eamt_actual_data/tlycs/tlycs_dec_2021_vs_2020_by_city_n_america.xlsx",  sheet = "Dataset1")
 
-  
+
 tl21 <- readxl::read_excel(here::here("tlycs_portland_trial_2021", "tlycs_dec_2021_vs_2020_by_city_n_america.xlsx"),  sheet = "Dataset1") %>%
   dplyr::as_tibble()
 
 
 ```
 
-And companion data on US city sizes downloaded from [this link](https://worldpopulationreview.com/us-cities) accessed on 17 Mar 2022 <!--(input from download link itself?)--> , and largest-15 Canadian cities (hand-input)  
+And companion data on US city sizes downloaded from [this link](https://worldpopulationreview.com/us-cities) accessed on 17 Mar 2022 <!--(input from download link itself?)--> , and largest-15 Canadian cities (hand-input)
 
-```{r us_cities_pop}
+```{r }
+#| label: us_cities_pop
+#| code-summary: "us_cities_pop"
 
 us_cities_pop <- read.csv(here::here("tlycs_portland_trial_2021", "uscities_pop.csv")) %>%
   dplyr::select(name, rank, usps, pop2022) %>%
-  mutate(name = if_else(name=="New York City", "New York", name)) %>% 
+  mutate(name = if_else(name=="New York City", "New York", name)) %>%
   as_tibble()
 
 tl21 <- left_join(
@@ -66,17 +68,19 @@ tl21 <- left_join(
   us_cities_pop,
  by = c("City" = "name") ) %>%
   mutate(
-    pop_gt250k = pop2022>250000 | str_det(City, "Windsor|Oshawa|Halifax|Victoria|Kitchener|Hamilton|Quebec|Winnipeg|Ottawa|Edmonton|Calgary|Vancouver|Montreal|Toronto") 
-  ) %>% 
+    pop_gt250k = pop2022>250000 | str_det(City, "Windsor|Oshawa|Halifax|Victoria|Kitchener|Hamilton|Quebec|Winnipeg|Ottawa|Edmonton|Calgary|Vancouver|Montreal|Toronto")
+  ) %>%
   dplyr::select(City, `Date Range`, Users, pop2022, pop_gt250k, everything())
- 
+
 
 ```
 
 
 Code: creates 'year' feature...
 
-```{r year_feature}
+```{r }
+#| label: year_feature
+#| code-summary: "year_feature"
 
 tl21 <- tl21 %>% mutate(
   year = case_when(
@@ -103,7 +107,9 @@ tl21 %>%
 
 Presumably the largest one is Portland, Oregon, and we'll re-label it as such.
 
-```{r relable_portland}
+```{r }
+#| label: relable_portland
+#| code-summary: "relable_portland"
 
 tl21 <- tl21 %>%
   mutate(
@@ -117,7 +123,9 @@ tl21 <- tl21 %>%
 
 ... (inelegantly) drops other repeat cities to enable panel data features
 
-```{r drop_dup_cities}
+```{r }
+#| label: drop_dup_cities
+#| code-summary: "drop_dup_cities"
 
 tl21 <- tl21 %>%
   rowwise() %>%
@@ -133,19 +141,19 @@ tl21 <- tl21 %>%
 
 ```{r}
 
-tlag <- function(x, n = 1L, time) { 
+tlag <- function(x, n = 1L, time) {
   index <- match(time - n, time, incomparables = NA)
   x[index]
 }
 
 
 tl21 <- tl21 %>%
-  group_by(City) %>% 
+  group_by(City) %>%
   mutate(
   lag_users = tlag(Users, 1, time = year),
   diff_users = Users-lag_users,
     prop_diff_users = diff_users/lag_users
-    ) %>% 
+    ) %>%
   ungroup()
 
 
@@ -158,11 +166,11 @@ tl21 <- tl21 %>%
 
 Below, we give, for the comparable periods in 2020 and 2021...
 
-...the total numbers of cities in the sample, the share with a positive number of user clicks, and the mean, median, 80th quantile, and standard deviation of the number of clicks. 
+...the total numbers of cities in the sample, the share with a positive number of user clicks, and the mean, median, 80th quantile, and standard deviation of the number of clicks.
 
 ... For a few subsets
 
-... First for unique usert visits, and then for total numbers of sessions. 
+... First for unique usert visits, and then for total numbers of sessions.
 
 ```{r}
 tl21 %>% sumtab(Users, year, caption="All N. Amer. cities")
@@ -175,7 +183,7 @@ tl21 %>% sumtab(Sessions, year, caption="Sessions by year, all")
 ```
 
 
-Note that all measures generally show an increase. 
+Note that all measures generally show an increase.
 
 
 ```{r}
@@ -192,12 +200,12 @@ nonOR_gt250k  <- tl21 %>% dplyr::filter(pop_gt250k==TRUE) %>% dplyr::select('Use
 
 nonOR_users_21 <- mean(nonOR$Users[nonOR$year==2021])
 nonOR_users_20 <- mean(nonOR$Users[nonOR$year==2020])
-  
+
 nonOR_uptick <- (nonOR_users_21 - nonOR_users_20)/nonOR_users_20
 
 nonOR_gt250k_users_21 <- mean(nonOR_gt250k$Users[nonOR_gt250k$year==2021])
 nonOR_gt250k_users_20 <- mean(nonOR_gt250k$Users[nonOR_gt250k$year==2020])
-  
+
 nonOR_gt250k_uptick <- (nonOR_gt250k_users_21 - nonOR_gt250k_users_20)/nonOR_gt250k_users_20
 
 
@@ -205,7 +213,7 @@ nonOR_gt250k_uptick <- (nonOR_gt250k_users_21 - nonOR_gt250k_users_20)/nonOR_gt2
 ```
 
 <!-- (As in interactive Gitbook) -->
- 
+
 
 ### Bound: Maximum impact/minimum cost (subject to random variation)
 
@@ -260,16 +268,18 @@ This seems realistic at a first-pass.
 \
 
 
-### Plotting the 'difference in difference' 
+### Plotting the 'difference in difference'
 
 
 Scatterplot of unique users by city, both time periods, US cities with 500k-1.5mill population, Portland highlighted
 
 
-```{r users_by_year}
+```{r }
+#| label: users_by_year
+#| code-summary: "users_by_year"
 
 (
-  users_by_year <-  tl21 %>% 
+  users_by_year <-  tl21 %>%
   filter(pop2022 >= 500000 & pop2022 < 1500000) %>%
 ggplot() +
   aes(x = pop2022, y = Users, label = City) +
@@ -277,7 +287,7 @@ ggplot() +
   geom_path(aes(group = City)) +
   geom_label(data = subset(tl21, City %in% c('Portland_OR','Boston','Seattle', 'San Francisco', 'Atlanta', 'San Diego', 'Indianapolis', 'Fort Worth', 'Sacramento', 'Denver', 'San Jose', 'Las Vegas') & year==2020), alpha  = 0.3, size =2.5) +
   scale_x_continuous(trans='log10') +
-  theme_minimal() 
+  theme_minimal()
 )
 
 users_by_year %>%  plotly::ggplotly()
@@ -286,17 +296,19 @@ users_by_year %>%  plotly::ggplotly()
 
 Plotting increases in users by population...
 
-```{r increase_by_size}
+```{r }
+#| label: increase_by_size
+#| code-summary: "increase_by_size"
 
 (
-  increase_by_size <-  tl21 %>% 
+  increase_by_size <-  tl21 %>%
       filter(pop2022 >= 500000 & pop2022 < 1500000 & year==2021) %>%
    ggplot() +
   aes(x = pop2022, y = diff_users, label = City) +
   geom_point(size=3, alpha=0.4) +
   geom_label(data = subset(tl21, City %in% c('Portland_OR','Boston','Seattle', 'San Francisco', 'Atlanta', 'San Diego', 'Indianapolis', 'Fort Worth', 'Sacramento', 'Denver', 'San Jose', 'Las Vegas')), alpha  = 0.3, size =2.5) +
   scale_x_continuous(trans='log10') +
-  theme_minimal() 
+  theme_minimal()
 )
 
 
@@ -308,7 +320,7 @@ Plotting proportional increases in users by 2020 users...
 ```{r}
 
 (
-  prop_increase_by_size <-  tl21 %>% 
+  prop_increase_by_size <-  tl21 %>%gg
       filter(pop2022 >= 500000 & pop2022 < 1500000 & year==2021 & lag_users>0) %>%
    ggplot() +
   aes(x = lag_users, y = prop_diff_users, label = City) +
@@ -334,7 +346,7 @@ The above comparisons are crude and have limitations:
 - Some year-to-year idiosynchratic variation may be unrelated to trends or to the trial. We have not 'quantified this uncertainty'
 
 If we want a  more precise estimate and careful CIs^[confidence, credible or 'consistent intervals', depending on model and terminology] we can build an explicit model and simulation. But I want to know the value of precision here before I dig deeper.
-    
+
 
 
 

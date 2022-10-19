@@ -18,7 +18,7 @@ In December 2021, [One For the World](https://www.1fortheworld.org/) (OftW) sent
 The details are presented in our gitbook [HERE](https://effective-giving-marketing.gitbook.io/untitled/contexts-partner-organizations-trials/one-for-the-world-oftw/pre-giving-tuesday-email-split-test-+) and in the preregistration linked within (also on OSF).
 
 ## Capturing data
-    
+
 Kennan and Chloe captured the data and metadata from
 
 1. The OFTW database
@@ -38,16 +38,18 @@ Quick note here on how Kennan put the (different types of) data together in that
 
 We input the sheets from the external Google sheet location (access required)...
 
-```{r oftw_21_22_mc, warning=FALSE, message=FALSE}
+```{r , warning=FALSE, message=FALSE}
+#| label: oftw_21_22_mc
+#| code-summary: "oftw_21_22_mc"
 
 gs4_auth(scope = "https://www.googleapis.com/auth/drive")
 drive_auth(token = gs4_token())
 
-#Mailchimp data 
+#Mailchimp data
 
-oftw_21_22_mc <- read_sheet("https://docs.google.com/spreadsheets/d/1iUKXkEqoadBgtUG_epBzUzCgA_J5mdWWstcXtpAdNJs/edit#gid=521638649", 
-  sheet="Raw data (Mailchimp)")  %>% 
-  dplyr::select(-`Treatment group`) %>%  #remove an un-useful repeated name column 
+oftw_21_22_mc <- read_sheet("https://docs.google.com/spreadsheets/d/1iUKXkEqoadBgtUG_epBzUzCgA_J5mdWWstcXtpAdNJs/edit#gid=521638649",
+  sheet="Raw data (Mailchimp)")  %>%
+  dplyr::select(-`Treatment group`) %>%  #remove an un-useful repeated name column
     mutate(`Treatment Group` = purrr::map_chr(`Treatment Group`, ~ .[[1]])) %>%
   dplyr::select(`Email Address`, `Email Date`, `Treatment Group`, Opens, `Donate link clicks`, everything()) %>% #Most relevant features organized first
   arrange(`Email Address`)
@@ -56,18 +58,20 @@ oftw_21_22_mc <- read_sheet("https://docs.google.com/spreadsheets/d/1iUKXkEqoadB
 #later: remove features brought in from OFTW database, reconstruct it
 
 oftw_21_22_mc %>% names() %>% paste(collapse=", ")
- 
+
 #...input descriptors for the above (do this later from "doc: ...Mailchimp" sheet
 
 ```
 
-```{r oftw_21_22_db_don, warning=FALSE, message=FALSE}
+```{r , warning=FALSE, message=FALSE}
+#| label: oftw_21_22_db_don
+#| code-summary: "oftw_21_22_db_don"
 
 #Donations data (and OftW database info)
 
 oftw_21_22_db_don <- read_sheet(
-  "https://docs.google.com/spreadsheets/d/1iUKXkEqoadBgtUG_epBzUzCgA_J5mdWWstcXtpAdNJs/edit#gid=521638649", 
-  sheet="Giving Season contributions (BigQuery)") %>% 
+  "https://docs.google.com/spreadsheets/d/1iUKXkEqoadBgtUG_epBzUzCgA_J5mdWWstcXtpAdNJs/edit#gid=521638649",
+  sheet="Giving Season contributions (BigQuery)") %>%
   mutate(`Treatment group` = purrr::map_chr(`Treatment group`, ~ .[[1]])) %>%
     dplyr::select(`email`, `primary_email`, `donation_date`, `Net_Contribution_Amount_USD`, `payment_platform`, everything()) %>%  #Most relevant features organized first
   filter(donation_date>=as.Date("2021-11-15")) # At least for now, remove pre-treatment donation data
@@ -77,7 +81,7 @@ oftw_21_22_db_don %>% names() %>% paste(collapse=", ")
 
 ```
 
-<!-- 
+<!--
 
 For the first question, we'll need to transform the contribution data to look at how many contributions came from people in each group who actually opened the emails (Column D) and then further subset it to just website donations (ie Column I = "Squarespace").
 
@@ -86,20 +90,20 @@ For the second, I just updated the formulas in both of those columns. Remember t
 
 
 
-### Labeling and cleaning 
+### Labeling and cleaning
 
 
-The code ... 
+The code ...
 
 ...makes names `snake_case`, using original names as labels...
 
 ```{r}
 
-labelled::var_label(oftw_21_22_mc) <- names(oftw_21_22_mc) 
-names(oftw_21_22_mc) <- snakecase::to_snake_case(names(oftw_21_22_mc)) 
+labelled::var_label(oftw_21_22_mc) <- names(oftw_21_22_mc)
+names(oftw_21_22_mc) <- snakecase::to_snake_case(names(oftw_21_22_mc))
 
-labelled::var_label(oftw_21_22_db_don) <- names(oftw_21_22_db_don) 
-names(oftw_21_22_db_don) <- snakecase::to_snake_case(names(oftw_21_22_db_don)) 
+labelled::var_label(oftw_21_22_db_don) <- names(oftw_21_22_db_don)
+names(oftw_21_22_db_don) <- snakecase::to_snake_case(names(oftw_21_22_db_don))
 ```
 
 <!--Todo: Remove useless columns -->
@@ -117,7 +121,7 @@ oftw_21_22_mc <- oftw_21_22_mc %>%
   dplyr::select(-first_name, -last_name) %>%
     mutate(across(c(email_address,  employer, school_string), salty_hash))
 
-  
+
 oftw_21_22_db_don <- oftw_21_22_db_don %>%
       mutate(across(c(primary_email, email, school), salty_hash))
 
@@ -125,7 +129,9 @@ oftw_21_22_db_don <- oftw_21_22_db_don %>%
 
 Roll up to 1 per person; summarize and pivot_wider
 
-```{r roll-up}
+```{r }
+#| label: rollup
+#| code-summary: "rollup"
 
 outcomes_base_mc <- c("opens", "donate_link_clicks")
 
@@ -161,14 +167,14 @@ oftw_21_22_db_don <- oftw_21_22_db_don %>%
   )
 
 
-oftw_21_22_db_don_persons <- oftw_21_22_db_don %>%  
+oftw_21_22_db_don_persons <- oftw_21_22_db_don %>%
   arrange(email) %>%
   filter(row_number()==1)     %>%
 mutate(
       treat_emotion = case_when(
         treatment_group=="1.000000" ~ 0,
         treatment_group == "2.000000" ~ 1)
-    ) 
+    )
 
 
 oftw_mc_db <- power_full_join(oftw_21_22_mc_wide,
@@ -178,11 +184,11 @@ oftw_mc_db <- power_full_join(oftw_21_22_mc_wide,
   )
 
 
-oftw_mc_db_openers <- oftw_mc_db %>% 
+oftw_mc_db_openers <- oftw_mc_db %>%
   filter(!is.na(treat_emotion))
 
 # oftw_21_22_db_don_wide <- oftw_21_22_db_don %>%
-#   select(email, donation_date, net_contribution_amount_usd, payment_platform) %>% 
+#   select(email, donation_date, net_contribution_amount_usd, payment_platform) %>%
 #    group_by(email) %>%
 #    mutate(row = row_number()) %>%
 #       tidyr::pivot_wider(names_from = row, values_from = c("donation_date", "net_contribution_amount_usd"))
@@ -190,7 +196,7 @@ oftw_mc_db_openers <- oftw_mc_db %>%
 ```
 
 
-Prelim results 
+Prelim results
 ```{r}
 
 oftw_mc_db %>% tabyl(treat_emotion, d_don)
@@ -219,11 +225,11 @@ are in Giving Season contributions (BigQuery)
 (note that one needs aggregating by donor because it is 'per email')
 
 
-2. Giving season donations .. 
+2. Giving season donations ..
 
 Giving Season contributions (BigQuery), sum donation_date	Net_Contribution_Amount_USD with filters for one-time etc
 
-Can check against fields 'Total Giving Season contributions	Total Giving Season contribution amount' 
+Can check against fields 'Total Giving Season contributions	Total Giving Season contribution amount'
 
 
 <!-- Could make a nested array:
@@ -235,12 +241,12 @@ Can check against fields 'Total Giving Season contributions	Total Giving Season 
 
 #list/matrix of rates for later use
 
-oc_mat <- oftw_mc_db %>% 
-  mutate(d_open=n()) %>% 
-  group_by(treat_emotion) %>% 
+oc_mat <- oftw_mc_db %>%
+  mutate(d_open=n()) %>%
+  group_by(treat_emotion) %>%
   dplyr::summarise(across(starts_with("d_"), ~sum(.x, na.rm = TRUE), .names = "tot_{.col}"))
 
-oc_mat_r <- oc_mat %>% filter(!is.na(treat_emotion)) #where treatment observed 
+oc_mat_r <- oc_mat %>% filter(!is.na(treat_emotion)) #where treatment observed
 
 assigned_emails <- c(2000, 2000) #I was told that about 4000 emails were sent, 2000 to each group
 
@@ -249,7 +255,7 @@ assigned_emails <- c(2000, 2000) #I was told that about 4000 emails were sent, 2
 
 ## Descriptives and exploratory analysis
 
-Notes:^[We could and should do a great deal of this. We should present the results relevant to this trial in specific here. Elsewhere we can do a deeper dive into OftW data in a general sense.]  
+Notes:^[We could and should do a great deal of this. We should present the results relevant to this trial in specific here. Elsewhere we can do a deeper dive into OftW data in a general sense.]
 
 
 ### Donation and outcome summary statistics, by treatment
@@ -257,14 +263,14 @@ Notes:^[We could and should do a great deal of this. We should present the resul
 
 ## Basic tests: Donation incidence and amounts
 
-(See preregistration -- go through preregistered tests one at a time. Note that given the observed conversion rates I do not expect any 'significant differences'.)   
+(See preregistration -- go through preregistered tests one at a time. Note that given the observed conversion rates I do not expect any 'significant differences'.)
 
 ## Basic tests: Clicks and retention outcomes
 
-I'm following the approach discussed in the 'RP methods discussion' under ["Significance and equivalence testing" with randomization inference/simulation; building to Bayes]()      
+I'm following the approach discussed in the 'RP methods discussion' under ["Significance and equivalence testing" with randomization inference/simulation; building to Bayes]()
 
 We see a 'small difference' between treatment groups and it is 'not significant in standard tests' (tests not shown here yet). But can we put meaningful bounds on this? Can we statistically 'rule out large effects'?
-                
+
 (This parallels the analysis done in  [HERE](https://rethinkpriorities.github.io/methodology-statistics-design/inference-and-rough-equivalence-testing-with-binomial-outcomes.html#how-likely-are-proportions-this-similar-under-different-size-true-effect-sizes), which includes some further explanation of the methods)
 
 \
@@ -273,7 +279,9 @@ We see a 'small difference' between treatment groups and it is 'not significant 
 ###  Difference between two binomial random variables: Bayesian binomial test
 
 
-```{r fill-in-data}
+```{r }
+#| label: fill-in-data
+#| code-summary: "fill-in-data"
 
 #would need to generate 'fill in data' if we want to use bayesAB, which requires actual vectors
 
@@ -282,18 +290,18 @@ We see a 'small difference' between treatment groups and it is 'not significant 
 blank_impact <- as_tibble(matrix(NA, nrow = assigned_emails[1]- oc_mat_r$tot_d_open[1], ncol = NCOL(oftw_mc_db)))
 names(blank_impact) <- names(oftw_mc_db)
 
-blank_impact %<>% 
+blank_impact %<>%
   mutate(across(starts_with("d_"), ~ifelse(is.na(.), 0, 0)),
     treat_emotion=0)
-  
+
 blank_emotion <- as_tibble(matrix(NA, nrow = assigned_emails[1]- oc_mat_r$tot_d_open[2], ncol = NCOL(oftw_mc_db)))
 names(blank_emotion) <- names(oftw_mc_db)
 
-blank_emotion %<>% 
+blank_emotion %<>%
   mutate(across(starts_with("d_"), ~ifelse(is.na(.), 0, 0)),
     treat_emotion=1)
 
-oftw_mc_db_assigned <- 
+oftw_mc_db_assigned <-
     bind_rows(oftw_mc_db, blank_impact, blank_emotion) %>%
   filter(!is.na(treat_emotion))
 
@@ -306,8 +314,8 @@ Opens by treatment:
 
 ```{r}
 
-# Following r https://www.sumsar.net/blog/2014/06/bayesian-first-aid-prop-test/  
-# alt: http://frankportman.github.io/bayesAB/ 
+# Following r https://www.sumsar.net/blog/2014/06/bayesian-first-aid-prop-test/
+# alt: http://frankportman.github.io/bayesAB/
 
 
 #opens_by_treat_fit <- bayes.prop.test(oc_mat_r$tot_d_open, assigned_emails, cred.mass = 0.95) #here I highlight the 95% bounds because it's a strong effect!
@@ -315,7 +323,7 @@ Opens by treatment:
 #plot(opens_by_treat_fit)
 
 unif_prior <- c('alpha' = 1, 'beta' = 1)
- 
+
 empir_prior <- c('alpha' = sum(oc_mat_r$tot_d_open), 'beta' = sum(assigned_emails))
 
 
@@ -333,8 +341,8 @@ opens_by_treat_AB_empir <- bayesAB::bayesTest(
                  priors = empir_prior,
                  distribution = 'bernoulli')
 
-plot(opens_by_treat_AB) 
-plot(opens_by_treat_AB_empir) 
+plot(opens_by_treat_AB)
+plot(opens_by_treat_AB_empir)
 
 #WTF -- I need to advance this by command prompt!?
 
@@ -344,7 +352,7 @@ plot(opens_by_treat_AB_empir)
 
 \
 
-'Some donation' by treatment (only for those who opened, otherwise donations are surely undercounted for Emotion treatment) 
+'Some donation' by treatment (only for those who opened, otherwise donations are surely undercounted for Emotion treatment)
 
 ```{r}
 
@@ -373,12 +381,12 @@ don_by_treat_AB_empir <- bayesAB::bayesTest(
                  priors = empir_prior,
                  distribution = 'bernoulli')
 
-plot(don_by_treat_AB) 
-plot(don_by_treat_AB_empir) 
+plot(don_by_treat_AB)
+plot(don_by_treat_AB_empir)
 
 
 ```
-Thus we put 80% probability on the difference between the donation rates being no more than (hard-coded) .023/.19 = 12% in either direction. Note that this is not terribly narrowly bounded. 
+Thus we put 80% probability on the difference between the donation rates being no more than (hard-coded) .023/.19 = 12% in either direction. Note that this is not terribly narrowly bounded.
 
 
 \
@@ -407,8 +415,8 @@ don_ot_by_treat_AB_empir <- bayesAB::bayesTest(
                  priors = empir_prior,
                  distribution = 'bernoulli')
 
-plot(don_ot_by_treat_AB) 
-plot(don_ot_by_treat_AB_empir) 
+plot(don_ot_by_treat_AB)
+plot(don_ot_by_treat_AB_empir)
 
 don_ot_by_treat_AB %>% summary(credInt=0.9)
 
@@ -462,8 +470,8 @@ don_ss_by_treat_AB_empir <- bayesAB::bayesTest(
                  distribution = 'bernoulli')
 
 
-plot(don_ss_by_treat_AB) 
-plot(don_ss_by_treat_AB_empir) 
+plot(don_ss_by_treat_AB)
+plot(don_ss_by_treat_AB_empir)
 
 don_ss_by_treat_AB %>% summary(credInt=0.9)
 
@@ -489,7 +497,7 @@ and for the empirically informed (but symmetric prior):
 
 \
 
-Finally, we consider the above as a share of total emails sent, allowing that  'opens' is non-random, 
+Finally, we consider the above as a share of total emails sent, allowing that  'opens' is non-random,
 
 ... and also implicitly assuming that the only impact of these treatments could be on the Squarespace donations made by someone who did open the email.
 
@@ -500,7 +508,7 @@ Finally, we consider the above as a share of total emails sent, allowing that  '
     cred.mass = 0.80) # 80% credible interval for decision-making purposes
 )
 
-# 
+#
 #same with AB package
 
 empir_prior <- c('alpha' = sum(oc_mat_r$tot_d_don_ss), 'beta' = sum(assigned_emails))
@@ -519,8 +527,8 @@ don_ss_by_treat_all_AB_empir <- bayesAB::bayesTest(
                  priors = empir_prior,
                  distribution = 'bernoulli')
 
-plot(don_ss_by_treat_all_AB) 
-plot(don_ss_by_treat_all_AB_empir) 
+plot(don_ss_by_treat_all_AB)
+plot(don_ss_by_treat_all_AB_empir)
 
 don_ss_by_treat_all_AB %>% summary(credInt=0.9)
 
@@ -552,10 +560,10 @@ Hard-coded: Here there is almost no evidence in either direction. However, our 8
 
 \
 
-Unfortunately, this experiment proved to be underpowered, at least for the donation outcome. 
+Unfortunately, this experiment proved to be underpowered, at least for the donation outcome.
 
 
-**But what about clicks on the 'donation link'?** This could arguably be seen as a measure of 'desire and intention to donate', and thus might be a more fine-grained and less noisy measure, improving our statistical power.  
+**But what about clicks on the 'donation link'?** This could arguably be seen as a measure of 'desire and intention to donate', and thus might be a more fine-grained and less noisy measure, improving our statistical power.
 
 
 Some quick crosstabs (here as a share of *opens*)
@@ -563,14 +571,14 @@ Some quick crosstabs (here as a share of *opens*)
 ```{r}
 
 (
-  donclick_by_treat <-  oftw_mc_db %>% 
-  filter(!is.na(treat_emotion)) %>% 
+  donclick_by_treat <-  oftw_mc_db %>%
+  filter(!is.na(treat_emotion)) %>%
   tabyl(treat_emotion, d_click_don_link) %>%
     adorn_percentages("row") %>%
     adorn_pct_formatting() %>%
     adorn_ns() %>%
-    adorn_title() %>% 
-    kable(caption ="Click on donation link by treatment; all opened emails")  %>% 
+    adorn_title() %>%
+    kable(caption ="Click on donation link by treatment; all opened emails")  %>%
   kable_styling(latex_options = "scale_down")
 )
 
@@ -593,7 +601,9 @@ plot(click_don_by_treat_opened_fit)
 ```
 
 
-```{r don_click_by_treat_all_AB}
+```{r }
+#| label: don_click_by_treat_all_AB
+#| code-summary: "don_click_by_treat_all_AB"
 
 #same with AB  package
 
@@ -614,8 +624,8 @@ don_click_by_treat_all_AB_empir <- bayesAB::bayesTest(
                  priors = empir_prior,
                  distribution = 'bernoulli')
 
-plot(don_click_by_treat_all_AB) 
-plot(don_click_by_treat_all_AB_empir) 
+plot(don_click_by_treat_all_AB)
+plot(don_click_by_treat_all_AB_empir)
 
 don_click_by_treat_all_AB %>% summary(credInt=0.9)
 
@@ -636,7 +646,7 @@ and for the empirically informed (but symmetric prior):
 
 (Hard-coded)
 
-There is fairly strong evidence that the emotion email lead to a higher rate of clicks on the donation link; note that this even is *in spite of* the lower rate of email opens. 
+There is fairly strong evidence that the emotion email lead to a higher rate of clicks on the donation link; note that this even is *in spite of* the lower rate of email opens.
 
 This suggests (IMO) it is worth testing this further.
 
@@ -689,8 +699,8 @@ i.e., but 'probability of observing (d1-d2)/(n1+n2) share more of d1 responses t
 For the present case
 
  Hard-coded notes...
- 
-::: {.foldable} 
+
+::: {.foldable}
 
 
 
@@ -766,8 +776,8 @@ This implies there is a `r op(mag_db_0*100)`% chance of getting a difference *no
 \
 
 **And finally, what we were looking for:** the chance of 'a difference this small or smaller' as a function of the **true difference...**
- 
- 
+
+
  (Think about: should we do this for 'a difference in the same direction' instead?)
 
 Set up an arbitrary vector of 'true differences' <!-- (to keep it simple, only change it in one direction for now ...) -->
@@ -829,7 +839,7 @@ Main point: given the rareness of donations in this context, our sample size doe
 
 Approx 4000 total emails sent?
 
-For squarespace     
+For squarespace
 
 ```{r}
 
@@ -868,11 +878,11 @@ probmag_ss <- ltmag_diffBin(z, n1, p1, n2, p2)
 
 #note that it is not symmetric bc (I think) a very low incidence on one side makes particular large observed proportional differences more likely
 
-```   
+```
 
 
 
-For all one-time donations 
+For all one-time donations
 
 
 ```{r}
@@ -897,7 +907,9 @@ p2 <- p1*B
 (the below halts on build, so I commented it out)
 
 
-```{r probmag_plot_ot, eval=FALSE}
+```{r , eval=FALSE}
+#| label: probmag_plot_ot
+#| code-summary: "probmag_plot_ot"
 
 (
   probmag_plot_ot <-
@@ -912,6 +924,6 @@ p2 <- p1*B
 )
 
 
-```   
+```
 
 ## Demographics and interactions (to do)

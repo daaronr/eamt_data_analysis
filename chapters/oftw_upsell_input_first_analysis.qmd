@@ -9,8 +9,6 @@ source(here("code", "shared_packages_code.R"))
 ```
 
 
-
-
 ## The trial
 
 In December 2021, [One For the World](https://www.1fortheworld.org/) (OftW) sent out a sequence of emails to existing OftW pledgers/participants asking them for an additional donation. There were two 'treatment variants'; an emotional email and a standard impact-based email. The treatment was constant by individual (the same person always got emails with the same theme).

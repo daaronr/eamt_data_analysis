@@ -19,7 +19,7 @@ Campaign"](https://forum.effectivealtruism.org/posts/nhbeKbwMgFKfrzLNb/marketing
 
 ## Quick overview
 
-### **Context**: Facebook ads on a range of audiences 
+### Context: Facebook ads on a range of audiences {-}
 
 ... \[with text and rich content promoting effective giving and a
 "giving guide" -- links people to [a Giving What We Can
@@ -2058,10 +2058,9 @@ reach_to_results_plot_flip <-  full_post %>%
 ```{r reach_to_results_sum_text_only}
 
 
-
 reach_to_results_sum_text_only <-  full_post_text_only %>% 
       filter(grepl("3", level)) %>% 
-      group_by(text_treat) %>% #, startslevel, 
+      group_by(text_treat) %>% #, startslevel, conte
       sum_mean_hdi( CI_choice_n=0.90, CI_choice_w = 0.99) %>%         
   mutate(text_treat = reorder(as.factor(text_treat), `mean`)) 
 

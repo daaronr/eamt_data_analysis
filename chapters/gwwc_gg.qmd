@@ -1335,9 +1335,13 @@ not count towards the overall total!
 
 ## Modeling and inference: Bayesian Logistic regressions and CIs
 
-[^gwwc_gg-20] See discussion of this and other modeling and simulation
-approaches moved to separate file `modeling_fb_discussion.qmd`\]
 
+::: {.callout-note collapse="true"}
+## See discussion of this and other modeling and simulation approaches,  
+
+Moved to separate file `modeling_fb_discussion.qmd`, publicly hosted [here](https://modeling-fb-gwwc-discussion.netlify.app/)]
+
+::: 
 [^gwwc_gg-20]: This comes from Jamie's work in `fb ad analysis.R`
     [google drive
     link](https://drive.google.com/file/d/1t_dySvC-GIQcSY2hJw7rfofuv15Qlg0s/view?usp=sharing)
@@ -1347,16 +1351,16 @@ approaches moved to separate file `modeling_fb_discussion.qmd`\]
 #| code-summary: "Load tidy Bayes packages"
 
 library(pacman)
-p_load(brms, install=FALSE)
+#p_load(brms, install=FALSE)
 library(brms)
-p_load(tidybayes, install=FALSE)
-library(tidybayes)
+#p_load(tidybayes, install=FALSE)
+library(tidybayes) #integrate Bayesian modeling into a 'tidy data + ggplot' workflow
 
 ```
 
 ```{r}
 #| label: sum_results_collapse
-#| code-summary: "Summing outcomes by breakdowns of interest"
+#| code-summary: "Summing outcomes by breakdowns of interest, for use in Bayesian modeling"
  
 sum_results <- function(df) {
     df %>%
@@ -1406,8 +1410,19 @@ sum_results
 
 ```
 
-Next, we compute and set minimally-informative priors for the click
-rates model.
+::: {.callout-note collapse="true"}
+## Examples of these summed breakdowns, to be used in Bayesian modeling
+
+```{r}
+gg_video_breakdowns_col %>% 
+  mutate(spend = round(spend,2))
+  DT::datatable()
+
+```
+
+::: 
+
+Next, we compute and set minimally-informative priors for the click-rates model.
 
 ```{r}
 #| label: priors_clicks
@@ -1418,14 +1433,16 @@ make_prior_normal <- function(mean, sd, ...) {
   prior_string(paste0("normal(", mean, ",", sd, ")"), ...)
 }
 
-prior_click_per_reach <- 0.028
+prior_click_per_reach <- 0.028 #based on outside/prior data; see discussion below
 
 prior_intercept_click <-  logit(prior_click_per_reach)
 
-prior_intercept_click_ub <- 0.15
-se_prior_click <- (logit(prior_intercept_click_ub) - prior_intercept_click)/1.96
+prior_intercept_click_ub <- 0.15 #a 15% click rate seemed the highest conceivable
 
-prior_slope_click_ub <- 0.25
+se_prior_click <- (logit(prior_intercept_click_ub) - prior_intercept_click)/1.96 #see discussion below
+
+prior_slope_click_ub <- 0.25 #the strongest reasonably-likely impact of a particular add is to increase click rates by 25 percentage points 
+
 se_prior_slope_click <- (logit(prior_slope_click_ub) - prior_intercept_click)/1.96
 
 prior_click <- c(
@@ -1489,7 +1506,6 @@ model.
 ```{r }
 #| label: priors_results
 #| code-summary: "Priors: results model"
- 
 
 prior_results_per_click <- 0.20
 
@@ -1538,10 +1554,13 @@ overall RpC rate.)
 
 ### Estimating the models {.unnumbered}
 
-```{r bayes_model_formulas}
+Below, some 
+```{r }
 #| output: false
+#| label: bayes_model_formulas
+#| code-summary: "Creating formulas for Bayes models (I try to automate)"
 
-clicks_per_reach_video_aud <- as.formula("clicks | trials(reach) ~ video_theme + audience + video_theme:audience")
+clicks_per_reach_video_aud <- as.formula("clicks | trials(reach) ~ video_theme + audience + video_theme:audience") #DR: I guess trials(reach) indicates a particular transformation of the outcome to suit the logistic equation.  video_theme:audience is specifying a type of interaction term
 
 # +  starts
 results_per_click_video_aud <- as.formula("results | trials(clicks) ~ video_theme + audience + video_theme:audience")
@@ -1556,18 +1575,21 @@ clicks_per_reach_text_aud <- as.formula("clicks | trials(reach) ~ text_treat + a
 results_per_click_text_aud <- as.formula("results | trials(clicks) ~ text_treat + audience + text_treat:audience")
 
 
-#  Fuller, mixed model 
+#  Fuller, mixed model (todo)
 # results_per_reach_video_aud_mix <- as.formula("results | trials(reach) ~ (1|starts) + video_theme + audience + (video_theme | audience) + (video_theme:audience)")
 
 ```
 
 ```{r }
-# label: bayes_args_estimates
+# label: bayes_estimates_vid
+#| code-summary: "Estimating models using brm, focus on video treatment dimension"
 #| output: false
 #| warning: false
 
 ## passing a list
 #arg.list <- list(init = 0, chains = 4, cores = 4, iter = 2500, warmup = 500, backend = "cmdstanr", seed = 1010, silent=2,  refresh = 0) 
+
+#note 'do.call' was the start of an attempt to automate
 
 clicks_logit_vid <-  do.call("brm", c(list(
   data = gg_video_breakdowns_col, 
@@ -1600,8 +1622,9 @@ results_per_reach_logit_vid <-  do.call("brm", c(list(
 )
 ```
 
-```{r bayes_args_estimates_text}
-# label: bayes_args_estimates_text
+```{r }
+# label: bayes_estimates_text
+#| code-summary: "Estimating models using brm, focus on text treatment dimension"
 #| output: false
 #| warning: false
 
@@ -1655,6 +1678,7 @@ results_logit_text_only <-  do.call("brm", c(list(
 ### (TODO) Summarize the model results/coefficients in clean tables here
 -->
 ```
+
 ### Forest plots {.unnumbered}
 
 ```{r}
@@ -1687,7 +1711,7 @@ results_per_reach_post <- posterior_epred(results_per_reach_logit_vid, full_cros
 #make tibbles of the stuff above, put it together s
 post_tib_clean <- function(df, name) {
   data <- df %>% 
-    as.tibble() %>% 
+    as_tibble() %>% 
     pivot_longer(cols = everything(),
     names_to = "identifier",
     values_to = "probability") 

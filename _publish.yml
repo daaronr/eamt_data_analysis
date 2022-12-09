@@ -1,0 +1,4 @@
+- source: modeling_fb_discussion.qmd
+  netlify:
+    - id: 17995ad5-bdb7-48c8-a588-e26937dbcd09
+      url: 'https://endearing-tartufo-25b79b.netlify.app'

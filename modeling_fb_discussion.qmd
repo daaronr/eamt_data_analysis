@@ -23,9 +23,9 @@ I still want to model "cost per result" (or perhaps better "results per cost") a
 
 Fundamentally, the data represents many rows of mostly 0's (no result, no email left) with a few 1's. Each of these rows has a set of design features; the 'levers' above, as well as some other features like demographics and calendar date (although FB makes it difficult/impossible to view everything together.)
 
-We could examine the relationship between the features and the 'probability an individual yields a result'. I'Cost' could be one of those features, in something like a logit model.  A transformation of the function $p(result) = a + b_1 \times cost \times (b_2 \timems AdVersion + b_3 \times audience + b_4 \times AdVersion*audience +... ), perhaps.
+We could examine the relationship between the features and the 'probability an individual yields a result'. 'Cost' could be one of those features, in something like a logit model.  A transformation of the function $p(result) = a + b_1 \times cost \times (b_2 \timems AdVersion + b_3 \times audience + b_4 \times AdVersion*audience +... )$, perhaps.
 
-But cost (cost per impression) is also a function of some of these characteristics.  We could examine the relationship between cost and these features in a separate equation and somehow try to simultaneously estimate these ... but it's challenging.
+But cost (cost per impression) is *also* a function of some of these characteristics.  We could examine the relationship between cost and these features in a separate equation and somehow try to simultaneously estimate these ... but it's challenging.
 
 
 ## CpR as a black box...

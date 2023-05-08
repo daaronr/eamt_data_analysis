@@ -31,18 +31,14 @@ people to download our Giving Guide. (Previously called "emotional and
 factual" approaches; basically these were "Charity research facts" vs.
 "cause focus")
 
-Worked with a creative agency to develop a set of animated video ads:
-Differing texts
-
-Also informative about costs and the 'value of targeting' in this
-context
-
-Note this had several 'versions' during the campaign (see 'Test 1 - Test
-4')
+**Process and further goals:** GWWC worked with a creative agency to develop a set of animated video ads wiht 
+differing texts. This work is also informative about costs and the 'value of targeting' in this
+context. Note these ads had several 'versions' during the campaign (see 'Test 1 - Test
+4').
 
 **Key findings:**
 
--   The cost of an email address via a Facebook campaign during Giving
+-   The cost of an email address acquired via a Facebook campaign during Giving
     Season was as low as \$8.00 across campaigns but could be lower with
     more targeting.
 
@@ -77,7 +73,7 @@ Note this had several 'versions' during the campaign (see 'Test 1 - Test
 
 -   **Outcome** is 'click to download the giving guide'.
 
-```{r}
+```{r, results=hide, message=FALSE}
 #| label: setup_gg
 #| code-summary: "code: Setup and packages"
 
@@ -187,7 +183,7 @@ impactful charities across a range of causes.
 :::
 
 ::: {.callout-note collapse="true"}
-## Check against data export of texts
+## Full text: exported from data set
 
 `r  unique(gg_campaign_by_ad_by_text$text)`
 :::
@@ -333,10 +329,10 @@ for all videos.
 
 See:
 
+https://effective-giving-marketing.gitbook.io/untitled/marketing-and-testing-opportunities-tools-tips/collecting-data-trial-outcomes/facebook-meta-ads-interface
+
 [Accessing and bringing down simple results
-HERE](https://app.gitbook.com/o/-MfFk4CTSGwVOPkwnRgx/s/-Mf8cHxdwePMZXRTKnEE/core-knowledge-base/marketing-implementation-and-practical-tips/collecting-data-trial-outcomes/facebook-meta-ads-interface);
-(Public access version
-[here](https://effective-giving-marketing.gitbook.io/untitled/marketing-and-testing-opportunities-tools-tips/collecting-data-trial-outcomes/facebook-meta-ads-interface))
+HERE](https://effective-giving-marketing.gitbook.io/untitled/marketing-and-testing-opportunities-tools-tips/collecting-data-trial-outcomes/facebook-meta-ads-interface)
 
 We import the exported 'pivot table' `gg_campaign_by_ad_by_text` below,
 as well as the more detailed version, broken down by age range and
@@ -1563,7 +1559,7 @@ Below, some
 clicks_per_reach_video_aud <- as.formula("clicks | trials(reach) ~ video_theme + audience + video_theme:audience") #DR: I guess trials(reach) indicates a particular transformation of the outcome to suit the logistic equation.  video_theme:audience is specifying a type of interaction term
 
 # +  starts
-results_per_click_video_aud <- as.formula("results | trials(clicks) ~ video_theme + audience + video_theme:audience")
+results_per_click_video_aud <- as.formula("results | trials(clicks) ~ video_theme*audience") #todo: use same interaction notation or explain
 
 #  For comparison: a one-step model 
 results_per_reach_video_aud <- as.formula("results | trials(reach) ~ video_theme + audience + (video_theme|audience)")
@@ -1585,6 +1581,7 @@ results_per_click_text_aud <- as.formula("results | trials(clicks) ~ text_treat 
 #| code-summary: "Estimating models using brm, focus on video treatment dimension"
 #| output: false
 #| warning: false
+#| message: false
 
 ## passing a list
 #arg.list <- list(init = 0, chains = 4, cores = 4, iter = 2500, warmup = 500, backend = "cmdstanr", seed = 1010, silent=2,  refresh = 0) 
@@ -1594,7 +1591,7 @@ results_per_click_text_aud <- as.formula("results | trials(clicks) ~ text_treat 
 clicks_logit_vid <-  do.call("brm", c(list(
   data = gg_video_breakdowns_col, 
   formula = clicks_per_reach_video_aud,
-                  family = binomial("logit"),
+                  family = binomial("logit"), 
                   control = list(adapt_delta = 0.99, max_treedepth = 15),
                    prior = prior_click),
                   init = 0, chains = 4, cores = 4, iter = 2500, warmup = 500, seed = 1010, silent=2,  refresh = 0                  
@@ -1882,7 +1879,7 @@ audience. (Later: by text and by demographics.) The product of these
 shares (probabilities) yields 'results as a share of impressions', the
 main outcome of interest.
 
-[^gwwc_gg-21]: TODO: tables summarizing these.
+[^gwwc_gg-21]: TODO: tables summarizing these models themselvees
 
 Below, we plot the point means (aka 'coefficients') and 'highest density
 intervals' (HDI) of our posterior beliefs for these. These models

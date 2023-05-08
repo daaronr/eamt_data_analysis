@@ -1,4 +1,6 @@
-# TLYCS Portland trial: background, data input, brief report
+# TLYCS Portland trial: Brief report
+
+**Background, data input, brief report**
 
 ```{r, include=FALSE}
 library(here)
@@ -6,7 +8,6 @@ library(pacman)
 p_load(dplyr, plotly, install = FALSE)
 source(here("code", "shared_packages_code.R"))
 ```
-
 
 ## The trial
 

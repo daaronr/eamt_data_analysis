@@ -1,5 +1,7 @@
-# OftW pre-giving-tuesday-email upselling split test (considering 'impact vs emotion') {#oftw_pregt}
+# OftW pre-GT-email upsell (impact/emotion) {#oftw_pregt}
 
+
+OftW pre-giving-tuesday-email upselling split test (considering 'impact vs emotion') c
 
 ^[Setup at top installs/loads packages.]
 ```{r, include=FALSE}
@@ -7,7 +9,6 @@ library(here)
 library(dplyr)
 source(here("code", "shared_packages_code.R"))
 ```
-
 
 ## The trial
 
@@ -75,7 +76,6 @@ oftw_21_22_db_don <- read_sheet(
   filter(donation_date>=as.Date("2021-11-15")) # At least for now, remove pre-treatment donation data
 
 oftw_21_22_db_don %>% names() %>% paste(collapse=", ")
-
 
 ```
 

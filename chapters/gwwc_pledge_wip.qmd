@@ -13,7 +13,7 @@ execute:
 ::: {.alert .alert-secondary}
 
 
-This trial is reported in the [gitbook here](https://effective-giving-marketing.gitbook.io/untitled/contexts-partner-organizations-trials/gwwc/pledge-page-options-trial).
+This trial is reported in the [gitbook here](https://effective-giving-marketing.gitbook.io/untitled/contexts-partner-organizations-trials/gwwc/pledge-page-options-trial). This mainly uses Google Analytics built in tools. 
 
 The present chapter is given as a placeholder, and for putting any supplementary analysis.
 :::

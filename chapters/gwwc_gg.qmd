@@ -73,7 +73,7 @@ context. Note these ads had several 'versions' during the campaign (see 'Test 1 
 
 -   **Outcome** is 'click to download the giving guide'.
 
-```{r, results=hide, message=FALSE}
+```{r echo=FALSE}
 #| label: setup_gg
 #| code-summary: "code: Setup and packages"
 
@@ -1411,7 +1411,7 @@ sum_results
 
 ```{r}
 gg_video_breakdowns_col %>% 
-  mutate(spend = round(spend,2))
+  mutate(spend = round(spend,2)) %>% 
   DT::datatable()
 
 ```
@@ -1550,7 +1550,6 @@ overall RpC rate.)
 
 ### Estimating the models {.unnumbered}
 
-Below, some 
 ```{r }
 #| output: false
 #| label: bayes_model_formulas
@@ -1594,7 +1593,8 @@ clicks_logit_vid <-  do.call("brm", c(list(
                   family = binomial("logit"), 
                   control = list(adapt_delta = 0.99, max_treedepth = 15),
                    prior = prior_click),
-                  init = 0, chains = 4, cores = 4, iter = 2500, warmup = 500, seed = 1010, silent=2,  refresh = 0                  
+                  init = 0, chains = 4, cores = 4, iter = 2500, warmup = 500, seed = 1010, silent=2,  refresh = 0,
+  file = "clicks_logit_vid.rds", file_refit = "on_change"
   )
 )
 
@@ -1605,7 +1605,8 @@ results_logit_vid <-  do.call("brm", c(list(
                   control = list(adapt_delta = 0.99, max_treedepth = 15),
                   prior = prior_results),
                   init = 0, chains = 4, cores = 4, iter = 2500, warmup = 500, backend = "cmdstanr", seed = 1010, silent=2,  refresh = 0,                   
-  list(threads = threading(8)))
+  list(threads = threading(8)), 
+  file = "results_logit_vid.rds", file_refit = "on_change")
 )
 
 results_per_reach_logit_vid <-  do.call("brm", c(list(
@@ -1615,8 +1616,10 @@ results_per_reach_logit_vid <-  do.call("brm", c(list(
                   control = list(adapt_delta = 0.99, max_treedepth = 15),
                   prior = prior_results),
                   init = 0, chains = 4, cores = 4, iter = 2500, warmup = 500, backend = "cmdstanr", seed = 1010, silent=2,  refresh = 0,                   
-  list(threads = threading(8)))
+  list(threads = threading(8)), 
+  file = "results_per_reach_logit_vid.rds", file_refit = "on_change")
 )
+
 ```
 
 ```{r }
@@ -1633,7 +1636,8 @@ clicks_logit_text <-  do.call("brm", c(list(
                   control = list(adapt_delta = 0.99, max_treedepth = 15),
                    prior = prior_click),
                   init = 0, chains = 4, cores = 4, iter = 2500, warmup = 500, backend = "cmdstanr", seed = 1010, silent=2,  refresh = 0,                   
-  list(threads = threading(8)))
+   list(threads = threading(8)), 
+  file = "clicks_logit_text.rds", file_refit = "on_change")
 )
 
 results_logit_text <-  do.call("brm", c(list(
@@ -1643,7 +1647,8 @@ results_logit_text <-  do.call("brm", c(list(
                   control = list(adapt_delta = 0.99, max_treedepth = 15),
                   prior = prior_results),
                   init = 0, chains = 4, cores = 4, iter = 2500, warmup = 500, backend = "cmdstanr", seed = 1010, silent=2,  refresh = 0,                   
-  list(threads = threading(8)))
+   list(threads = threading(8)), 
+  file = "results_logit_text.rds", file_refit = "on_change")
 )
 
 
@@ -1655,7 +1660,8 @@ clicks_logit_text_only <-  do.call("brm", c(list(
                   control = list(adapt_delta = 0.99, max_treedepth = 15),
                    prior = prior_click),
                   init = 0, chains = 4, cores = 4, iter = 2500, warmup = 500, backend = "cmdstanr", seed = 1010, silent=2,  refresh = 0,                   
-  list(threads = threading(8)))
+   list(threads = threading(8)), 
+  file = "clicks_logit_text_only.rds", file_refit = "on_change")
 )
 
 results_logit_text_only <-  do.call("brm", c(list(
@@ -1665,7 +1671,8 @@ results_logit_text_only <-  do.call("brm", c(list(
                   control = list(adapt_delta = 0.99, max_treedepth = 15),
                   prior = prior_results),
                   init = 0, chains = 4, cores = 4, iter = 2500, warmup = 500, backend = "cmdstanr", seed = 1010, silent=2,  refresh = 0,                   
-  list(threads = threading(8)))
+   list(threads = threading(8)), 
+  file = "results_logit_text_only.rds", file_refit = "on_change")
 )
 
 ```

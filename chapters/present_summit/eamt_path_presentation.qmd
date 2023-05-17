@@ -1,0 +1,602 @@
+# EAMTT & giving trials: Presentation (EG Summit)
+
+David will present and then open up discussion on:
+
+1.  The EA Market Testing Team, its resources and future plans
+
+2.  Specific trials/field experiments[^eamt_path_presentation-1]
+
+[^eamt_path_presentation-1]: on the effect of impact information on giving, and social influences on giving in social fundraising
+
+\
+
+::: callout-note
+## TMI
+
+I put in and linked a lot in this presentation, lots of fine print. Some links are password protected: ask me for access.
+:::
+
+```{=html}
+<!-- [eamt](eamt)
+[[Effective giving summit]]
+[[presentations]]
+-->
+```
+```{=html}
+<!-- DR notes: Incorporate material from
+- "Shared Grant Report EV - EA Market Testing (Reinstein/LongView)"
+- Private/public gitbook (integrate these) -->
+```
+\
+\
+\
+\
+\
+\
+
+## Ideas, goals, evolution of EAMTT & effective giving research
+
+::: {.callout-note collapse="true"}
+## Key update: Unjournal, EAMTT retrenching
+
+Because of funding (limited funding for this, large grant for [The Unjournal](unjournal.org) I need to reduce my direct involvement in EAMTT, promoting EA testing/measurement, and experiments in effective giving/social fundraising.
+:::
+
+\
+\
+\
+
+::: {.callout-note collapse="true"}
+## \~*Original EAMTT elevator pitch... :*
+
+> Why don't people seem to prioritize effectiveness in their giving and altruistic behavior, and what could change this?" ... We have little evidence and little organized ambitious research on this super-important question.
+
+> EA orgs, effective charities, and key (academic) researchers are unusually well-aligned and motivated to work together. The EAMTT will bring these groups together to share knowledge and tools, run trials and experiments, analyze data, and share our evidence and insights. We will target robust results yielding practical insights on approaches that can 'move the needle'.
+:::
+
+\
+\
+
+### Phase 1: Academic research: 'barriers to effective giving' {.unnumbered}
+
+**Synthesis:** Limited reliable/practical academic work on *effective* giving $\rightarrow$ ["Increasing effective giving (& action): The puzzle, what we (need to) know"](https://daaronr.github.io/ea_giving_barriers/index.html)... [^eamt_path_presentation-2]
+
+[^eamt_path_presentation-2]: ... laid out an agenda, taxonomy, and platform for building the evidence base (see also [innovations in fundraising](https://innovationsinfundraising.org/doku.php), and shared Airtable)
+
+\
+
+**A key focus:** [Impact of impact information on giving: field experiments and synthesis](https://daaronr.github.io/dualprocess/introduction-and-background.html#introduction-and-background)
+
+\
+\
+\
+\
+\
+
+### Phase 2: EAMTT -- Bringing together and engaging Academics, EA orgs, and marketers {-}
+
+\~The idea:
+
+> Academics are eager to run and analyze field experiments, EA orgs are running A/B trials these but don't have the bandwidth to carefully plan, analyze, and communicate them. EAMTT could organize this effort, bringing in marketing/digital experts to generate shared resources and knowledge, and communicate the results.
+
+\
+\
+
+See [What is the "EA Market Testing Team"?](https://effective-giving-marketing.gitbook.io/untitled)
+
+-   "Promote EA, make giving effectively/significantly ... a cultural norm"
+
+\
+
+Working both with our [partner organizations](https://effective-giving-marketing.gitbook.io/untitled/partners-contexts-trials/section-introduction) and independently through surveys and trials. ...
+
+-   to improve the design, messaging, outreach
+
+-   Measuring and testing 'what works and when'
+
+-   Communication...
+
+\
+\
+\
+
+
+... Building and organizing resources and a knowledge base on
+
+-   How to [implement](/untitled/marketing-and-testing-opportunities-tools-tips/implementation-and-collecting-data-issues) and test marketing campaigns?
+
+-   [What has worked](https://daaronr.github.io/eamt_data_analysis/) to promote EA?
+
+-   What [motivates/blocks effective giving](https://daaronr.github.io/ea_giving_barriers/)?
+
+-   What [profiles of people are](/untitled/profiling-and-segmentation) most likely to be interested in effective altruism?
+
+\
+\
+\
+\
+
+### Phase 2.5: Partial pivot towards 'encouraging EA mindset and involvement' {-}
+
+(Funding and steer $\rightarrow$)
+
+-   80K (large-sample messaging trials on Prolific & M-Turk; repeated, panel, 'real clicks')
+
+-   EA Future Leaders; promoting remote fellowships[^eamt_path_presentation-3]
+
+-   Work with CEA/UGAP on groups[^eamt_path_presentation-4]
+
+[^eamt_path_presentation-3]: I pushed 'video testimonial' ads which were produced, and substantially more successful (\$0.79 per click vs \$1.14-\$3.75 per click) Tracking results in Google Analytics (150 'engaged sessions') and outcomes within CEA intake data (still premature). FTX thing ended this.
+
+[^eamt_path_presentation-4]: University (and local) Groups and UGAP: coalescing and documenting organizers, active groups, data collection and potential experimentation; see work and progress [here](https://effective-giving-marketing.gitbook.io/untitled/partners-contexts-trials/university-groups-promotion) (joint with volunteer Kynan Behan). An ambitious ready-to-fund agenda. Supported by qualitative (interview and survey) work.
+
+\
+
+See [What we've (helped) accomplish](#accomplish), [resources](#resources) below.
+
+\
+\
+\
+\
+
+### Phase 3 (\~WIP): Consulting + public goods, rigorous analysis ('pivot back')[^eamt_path_presentation-5] {-}
+
+[^eamt_path_presentation-5]: I'll come back to the latter below
+
+1.  The funding landscape/approach has changed[^eamt_path_presentation-6]
+
+[^eamt_path_presentation-6]: Focus on consulting models. Lack of funding for promoting giving. Prefer implementing professional marketing directly, less interest in longer-duration testing.
+
+Initiatives developed alongside EAMTT, with our encouragement \~and tool/spaces
+
+-   Good Impressions (full-scale EA marketing org); [building User-Friendly](https://forum.effectivealtruism.org/posts/FNSbGh2msfjFGtD7D/user-friendly-year-summary-and-learnings)
+
+-   [EA Psychology Lab](https://www.eapsychology.org/members)
+
+\
+\
+\
+\
+
+$\rightarrow$ EAMT pivot to a *heightened focus on*
+
+1.  Advising, proposing, helping design & coordinate experiments, trials, and initiatives.
+
+2.  [Transparent presentation](https://daaronr.github.io/eamt_data_analysis/) of the results, rigorous statistical analysis
+
+3.  Synthesizing, sharing, and communicating this knowledge and skills base
+
+    -   and encouraging open communications of tools and insights
+
+\
+\
+
+::: {.callout-note collapse="true"}
+## Also perhaps...
+
+-   Facilitating mutually-beneficial partnerships and collaborations between academics/researchers and EA orgs/marketers in this space
+
+-   Maintaining and building knowledge base, making it more accessible, integrated with other resources
+
+-   Running and furthering selected independent trials
+:::
+
+\
+\
+\
+\
+
+## What we've (helped) accomplish, resources {#accomplish}
+
+\
+\
+
+### EAMTT org, communications and information-sharing {.unnumbered}
+
+*See: Slack, Airtable, Gitbooks, Data presentations*
+
+-   Shared marketing insights, e.g., GWWC & 80k
+
+-   Sparked/Facilitated...
+    -   [GWWC bequest interface](https://www.givingwhatwecan.org/get-involved/bequests)
+    -   Inroads at Charity Navigator
+    -   Other collaborations[^eamt_path_presentation-7]
+
+[^eamt_path_presentation-7]: E.g., 1. Kyle Smith $\rightarrow$ Effective Institutions Project, Effective Giving on foundation data). 2. Michael Zoroob (Meta research liaison) --\> \$15k+ in ad funding, process and method insights relevant to EA Psych Lab, Good Impressions
+
+\
+\
+\
+\
+
+### GWWC, 1FTW, and TLYCS (Trials and insights) {.unnumbered}
+
+[GWWC](https://effective-giving-marketing.gitbook.io/untitled/partners-contexts-trials/gwwc): Pledge Page placement, Giving Guides, Message Testing, YouTube Remarketing
+
+\
+\
+
+### [Pledge page trial](https://effective-giving-marketing.gitbook.io/untitled/partners-contexts-trials/gwwc/pledge-page-options-trial) {-}
+
+![](Pasted%20image%2020230514111524.png)
+
+\
+
+[Consider the Posteriors](https://effective-giving-marketing.gitbook.io/untitled/partners-contexts-trials/gwwc/pledge-page-options-trial#these-differences-are-meaningful-consider-the-posteriors) (from Google's Bayesian modeling)
+
+-   E.g., 'Separate Bullets' has a 25% chance of being 4-20% better (click rate) than the original, a 25% chance being 20-36% better, a 22.5% chance of 36-76% better, etc.
+
+-   But this is *clicking* not necessarily follow-through[^eamt_path_presentation-8]
+
+[^eamt_path_presentation-8]: The attribution/long-funnel issue.
+
+\
+\
+\
+\
+
+### [Giving Guides](https://daaronr.github.io/eamt_data_analysis/chapters/gwwc_gg.html) {-}
+
+See [forum post](https://forum.effectivealtruism.org/posts/nhbeKbwMgFKfrzLNb/marketing-messages-trial-for-gwwc-giving-guide-campaign) and data [presentation here](https://daaronr.github.io/eamt_data_analysis/chapters/gwwc_gg.html)
+
+-   Note 'divergent delivery' and
+
+-   'cost-per-click vs. click-per-view' issues
+
+\
+\
+\
+\
+\
+\
+
+## 80k and 'making EAs' (Trials and insights)
+
+Prolific (+Prime) Study with some 'real clicking' and followup
+
+\[Full report and notebook\]\[https://80k-adreads-fix.netlify.app/#analysis\][^eamt_path_presentation-9]
+
+[^eamt_path_presentation-9]: password protected, do not share publicly
+
+(bit.ly/80ktest)
+
+For 'interest in 80k' average Likert metric', initial runs (top-5 conditions + control)
+
+\
+
+["Probability of superiority across population"](https://80k-adreads-fix.netlify.app/#how-likely-is-it-that-an-individual-rates-one-condition-over-another)
+
+\
+
+[Probability of a higher (average Likert) rating for any individual (vs counterfactual)](https://80k-adreads-fix.netlify.app/#how-likely-is-it-that-an-individual-rates-one-condition-over-another)
+
+\
+\
+
+::: callout-note
+## Note: There are many more steps before we get at "Value of Information" here
+:::
+
+\
+
+[In followup](https://80k-adreads-fix.netlify.app/#followup_outcomes), the differences do not really persist
+
+\
+\
+\
+\
+\
+\
+\
+
+## Charity Elections: ongoing trial and assessment
+
+[Intermediate report](https://charityelectionsanon.netlify.app/)[^eamt_path_presentation-10]
+
+[^eamt_path_presentation-10]: Password protected, please email me to request access.
+
+\
+\
+
+## Resources we've built (some are still ongoing) {#resources}
+
+[EA Market Testing - Public Gitbook](https://effective-giving-marketing.gitbook.io/untitled/) - Use 'lens' to ask questions of this knowledge base (we could also integrate the resources below, and improve this)
+
+[Private version](https://app.gitbook.com/o/-MfFk4CTSGwVOPkwnRgx/s/-Mf8cHxdwePMZXRTKnEE/) (Discusses ongoing/private trials and issues)
+
+[EA Market testing data analysis](https://daaronr.github.io/eamt_data_analysis/)
+
+[Impact of impact information on giving: field experiments and synthesis](https://daaronr.github.io/dualprocess/introduction-and-background.html#introduction-and-background)
+
+[innovationsinfundraising.org](https://innovationsinfundraising.org)
+
+[Tools for promoting 'effective birthday fundraising on Facebook'](https://momentumbirthdayfundraisers.com/)
+
+[Tools, platform, design for 'seeding and messaging on (effective) fundraisers on JustGiving']()
+
+\
+
+::: {.callout-note collapse="true"}
+## *However*, these tools need to be *useful and used* for this to have an impact
+:::
+
+## Challenges
+
+::: {.callout-note collapse="true"}
+## Funding
+
+-   the 'public goods vs consulting' problem
+-   skeptical of generalizability across orgs/situations
+-   skepticism about EA outreach, popular effective giving
+
+$\rightarrow$ Lack of compensated time/staff (researchers, communicators, developers) for this very ambitious proposed project[^eamt_path_presentation-11]
+:::
+
+[^eamt_path_presentation-11]: Several volunteers have done useful work as well, but it has been hard to retain them and
+
+\
+
+### Coalitions and cooperation: Academia vs. Marketing vs. EA orgs* {-}
+
+
+::: {.callout-note collapse="true"}
+##  Academic side-goals and limitations
+
+- must 'publish well' ... inform their discipline/science, $\neq$ 'learn what's best for EA marketing';[^eamt_path_presentation-12]
+- Frequentist statistical inference/NHST vs. decision-relevant Bayesian updating/ Divergent delivery issue
+
+:::
+
+\
+
+::: {.callout-note collapse="true"}
+
+## Marketers
+-   reputation for overselling 'big wins' rather than cautious evidence
+
+-   incentives for preserving 'secret sauce', building brand
+
+:::
+
+\
+
+
+::: {.callout-note collapse="true"}
+
+## EA Orgs
+-   Bandwidth (to cooperate on trials)
+-   Short timelines and urgencies, shifting priorities
+-   Statistics and data science limitations
+
+:::
+
+\
+\
+
+Methodology: Thorny problems in social science and quantitative marketing
+
+::: {.callout-note collapse="true"}
+##  e.g.,
+-   in social science (stated responses vs meaningful attitudes/behaviors, abstraction vs. realistic social context),
+-   statistics and experimetrics (attrition, rare outcomes),
+-   marketing attribution & 'ultimate outcomes' (what are the pivotal points in a 'long funnel'?, lift vs shift),
+-   reinforcement learning ('learning best' in a large space).
+-   ... The payoffs are potentially big, but we need to be convinced the time investments are worth it
+:::
+
+\
+\
+
+::: {.callout-note collapse="true"}
+
+## Management and implementation challenges
+
+-   It's a "big project"; need intermediate feedback and encouragement
+-   Limitations to sharing (at some orgs)
+-   Implementing trials on platforms' can be hard
+-   Making progress on projects while justifying work, securing funding
+-   Specific distractions
+
+:::
+
+[^eamt_path_presentation-12]: The Unjournal might be able to play a role here, particularly if we take on work specifically targeting 'other-regarding behavior, effectiveness in altruistic decisionmaking' etc.
+
+\
+\
+\
+\
+\
+\
+
+## Ongoing (and planned) projects
+
+### [Just Giving 'seed donation' (+ message?) trials](https://jg-sponsorship.netlify.app/chapters/presentation_slides.html) {-}
+
+
+#### The experiment {.unnumbered}
+
+[full presentation here, password protected](https://jg-sponsorship.netlify.app/chapters/presentation_slides.html)
+
+Context: JustGiving = UK-based social charitable fundraising
+
+-   E.g., pages like [this](https://www.justgiving.com/page/shadowpuppetsagainstmalaria)
+-   We make (anonymous, visible) donations on a subset of 'new fundraising pages'.
+-   We observe future donations on these pages, and compare these to control pages. (*See: [Project abstract](#abstract) and [Introduction](#introduction) for more detailed discussion.*)
+
+
+\
+
+#### Context: JustGiving = UK-based social charitable fundraising {-}
+
+-   E.g., pages like [this](https://www.justgiving.com/page/shadowpuppetsagainstmalaria)
+
+-   We make (anonymous, visible) donations on a subset of 'new fundraising pages'.
+\
+
+-   We observe future donations on these pages, and compare these to control pages.
+
+\
+
+
+
+\
+\
+::: {.callout-note collapse="true"}
+##   The current 'Pilot' ...
+
+... is anonymously donating £2 to every one in seven 'newly created pages with some donations' (across \~all charities); we'll make up to 1500 donations made. 
+
+We are \~statistically powered to detect: 
+
+- Will this substantially increase (or decrease) the number of donations made on the page over it's lifetime? 
+
+- Will it decrease the amount donated 'while our low donation is visible'?
+
+*This is a pilot to show feasibility and interestingness: if it works, and we get funding, we have ambitious plans.*
+
+:::
+
+#### Goals and questions {.unnumbered}
+
+1.  Should EA/Effective donors (such as GWWC pledgers) give privately or on peers' social fundraising (effective charity) pages?^[Will it spur others, or crowd them out?]
+
+2.  If social giving is better, what would be the most effective way to do this?^[Through many small donations or a few large donations? When? With/without adding a message about the charity's effectiveness?]
+
+3.  For charities and platforms: How and when to present/hide donation histories?
+
+4.  A new tool: First 'experiment by donating' manipulation, automated and planned for several contingencies (API call, bot, data capture)
+
+\
+
+::: {.callout-note collapse="true"}
+## JG Pilot has launched
+
+![](20230514162223.png)
+
+![](Pasted%20image%2020230514162321.png)
+:::
+
+\
+
+::: {.callout-note collapse="true"}
+## Effective donations/Planned followup
+
+-   Target 'more effective charities' (\~300 fundraisers per month, generously speaking)
+-   No donation / small donation/ large donation (get at different margins of effect)
+-   May introduce effectiveness-relevant messages
+:::
+
+::: {.callout-note collapse="true"}
+## What we 'need':
+
+-   Funding ('channeling funds from aligned donors')
+    -   Possibly a UK-based earner, to enable Gift Aid
+-   Work with ML statistics for a matched design to increase statistical power
+-   Work with Bayesian statistics to make decision-relevant inference
+:::
+
+\
+
+::: {.callout-note collapse="true"}
+## Maximal expansion
+
+i.  A range of donation sizes and timings, focused on effective fundraisers
+
+ii. Test message categories *along with* seed donations, observe donation and 'future message' response. E.g.,
+
+-   Quantified impact messages/ratings
+-   Reponsibility/privilege framings
+-   Peter Singer's ['tested arguments'](https://schwitzsplinters.blogspot.com/2020/06/contest-winner-philosophical-argument.html); see also [Rhetorical.org](https://www.benmtappin.com/)
+-   Explicit social appeal
+-   Use GPT for message variation, to avoid 'experiment detection'.
+
+iii. Release the tools/bot to EA/effective giving community *with explicit randomization built in* $\rightarrow$ measure success at scale
+:::
+
+\
+\
+\
+\
+\
+\
+
+## Whither EAMTT+?
+
+### Consulting + public goods model? {-}
+
+### Public goods and coordination: generating, proving, communicating value {-}
+
+Driven by EA 'fundraising' orgs' high-value questions (feedback and synthesis)
+
+\
+
+Light-touch resource provision, feedback, coordination?
+
+-   Orgs are likely to do some trials independently. Curate guides/workshops on 'how your inferences can go wrong' (key examples of 'failure modes')
+
+\
+
+::: {.callout-note collapse="true"}
+## Protocols, tips, tools, bespoke research methods/surveys/adaptation, e.g.,
+
+-   General trial design and data collection template (useful?)
+
+-   [Geo experiments](https://effective-giving-marketing.gitbook.io/untitled/methodological-discussion/splits-randomization/geographic-segmentation-blocked-randomization#why-geo-experiments) template
+
+-   "Ways to infer the counterfactual donation-boost from Google search ads"
+:::
+
+\
+
+Framework for academic/marketer/EA org collaboration?
+
+-   A standard understanding, templates, and approach,to enable win-win cooperations
+
+\
+
+\
+
+### Management: New 'founder' and champions? Integrate under another umbrella? {-}
+
+\
+\
+\
+
+### Updates from this summit {-}
+
+Effective Giving ecosystem is coordinating and working to share data
+
+-   Leadership from EA:GHD
+
+-   Coordination from GWWC[^eamt_path_presentation-13]
+
+-   Yesterday: quick collaboration on Google paid search ads 'benchmarking' (NL, DE, ES, SE, etc.)
+
+[^eamt_path_presentation-13]: through Lucas and others
+
+\
+
+$\rightarrow$ Could focus on:
+
+-   High-value coordinated trials (see earlier [EAMT high value questions](https://docs.google.com/document/d/1Jyn_6aFt7z1kDo-6sHm9o_ccPgEvig1b6c8OqPRH2eI/edit#heading=h.gjcw9rquq2um))
+
+-   Environments and tools to enable inference
+
+    -   data collection and sharing
+    -   paths with full-funnel tracking/attribution within defined units
+    -   (or) pivotal choice points
+
+\
+\
+\
+\
+\
+\
+\
+\
+
+
+
+{{< video https://youtu.be/tom6_ceTu9s?t=124 >}}
+
+

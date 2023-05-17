@@ -1,4 +1,0 @@
----
-title: "erinsplots_gg"
-editor: visual
----

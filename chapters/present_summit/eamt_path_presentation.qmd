@@ -19,10 +19,6 @@ David will present and then open up discussion on:
 \
 \
 
-::: callout-note
-## TMI
-
-:::
 
 ```{=html}
 <!-- [eamt](eamt)
@@ -258,7 +254,7 @@ See [forum post](https://forum.effectivealtruism.org/posts/nhbeKbwMgFKfrzLNb/mar
 \
 \
 
-## 80k and 'making EAs' (Trials and insights)
+## 80k & 'making EAs' (Trials & insights)
 
 Prolific (+Prime) Study with some 'real clicking' and followup
 
@@ -327,6 +323,13 @@ For 'interest in 80k' average Likert metric', initial runs (top-5 conditions + c
 ::: {.callout-note collapse="true"}
 ## *However*, these tools need to be *useful and used* for this to have an impact
 :::
+
+\
+\
+\
+\
+\
+\
 
 ## Challenges
 
@@ -399,11 +402,12 @@ Methodology: Thorny problems in social science and quantitative marketing
 
 ## Management and implementation challenges
 
--   It's a "big project"; need intermediate feedback and encouragement
--   Limitations to sharing (at some orgs)
--   Implementing trials on platforms' can be hard
--   Making progress on projects while justifying work, securing funding
--   Specific distractions
+- It's a "big project"; need intermediate feedback and encouragement
+- Limitations to sharing (at some orgs)
+- Implementing trials on platforms' can be hard
+- Making progress on projects while justifying work, securing funding
+- Specific distractions
+- Need team of interested peers for dialogue, encouragement, focus
 
 :::
 

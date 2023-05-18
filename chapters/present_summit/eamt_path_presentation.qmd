@@ -312,7 +312,7 @@ For 'interest in 80k' average Likert metric', initial runs (top-5 conditions + c
 
 [Tools for promoting 'effective birthday fundraising on Facebook'](https://momentumbirthdayfundraisers.com/)
 
-[Tools, platform, design for 'seeding and messaging on (effective) fundraisers on JustGiving']()
+[Tools, platform, design for 'seeding and messaging on (effective) fundraisers on JustGiving'](https://jg-sponsorship.netlify.app/chapters/presentation_slides.html)
 
 \
 
@@ -420,76 +420,9 @@ Methodology: Thorny problems in social science and quantitative marketing
 Context: JustGiving = UK-based social charitable fundraising
 
 -   E.g., pages like [this](https://www.justgiving.com/page/shadowpuppetsagainstmalaria)
--   We make (anonymous, visible) donations on a subset of 'new fundraising pages'.
--   We observe future donations on these pages, and compare these to control pages. (*See: [Project abstract](#abstract) and [Introduction](#introduction) for more detailed discussion.*)
 
 
-\
-
-#### Context: JustGiving = UK-based social charitable fundraising {-}
-
--   E.g., pages like [this](https://www.justgiving.com/page/shadowpuppetsagainstmalaria)
-
--   We make (anonymous, visible) donations on a subset of 'new fundraising pages'.
-\
-
--   We observe future donations on these pages, and compare these to control pages.
-
-\
-
-
-
-\
-\
-
-
-::: {.callout-note collapse="true"}
-##   The current 'Pilot' ...
-
-... is anonymously donating £2 to every one in seven 'newly created pages with some donations' (across \~all charities); we'll make up to 1500 donations made. 
-
-We are \~statistically powered to detect: 
-
-- Will this substantially increase (or decrease) the number of donations made on the page over it's lifetime? 
-
-- Will it decrease the amount donated 'while our low donation is visible'?
-
-*This is a pilot to show feasibility and interestingness: if it works, and we get funding, we have ambitious plans.*
-
-:::
-
-\
-\
-
-#### Goals and questions {.unnumbered}
-
-1.  Should EA/Effective donors (such as GWWC pledgers) give privately or on peers' social fundraising (effective charity) pages?^[Will it spur others, or crowd them out?]
-
-2.  If social giving is better, what would be the most effective way to do this?^[Through many small donations or a few large donations? When? With/without adding a message about the charity's effectiveness?]
-
-3.  For charities and platforms: How and when to present/hide donation histories?
-
-4.  A new tool: First 'experiment by donating' manipulation, automated and planned for several contingencies (API call, bot, data capture)
-
-\
-
-::: {.callout-note collapse="true"}
-## JG Pilot has launched
-
-![](20230514162223.png)
-
-![](Pasted%20image%2020230514162321.png)
-:::
-
-\
-
-::: {.callout-note collapse="true"}
-## Effective donations/Planned followup
-
--   Target 'more effective charities' (\~300 fundraisers per month, generously speaking)
--   No donation / small donation/ large donation (get at different margins of effect)
--   May introduce effectiveness-relevant messages
-:::
+[Go to link; I can't share details on a public page](https://jg-sponsorship.netlify.app/chapters/presentation_slides.html)
 
 ::: {.callout-note collapse="true"}
 ## What we 'need':
@@ -502,21 +435,6 @@ We are \~statistically powered to detect:
 
 \
 
-::: {.callout-note collapse="true"}
-## Maximal expansion
-
-i.  A range of donation sizes and timings, focused on effective fundraisers
-
-ii. Test message categories *along with* seed donations, observe donation and 'future message' response. E.g.,
-
--   Quantified impact messages/ratings
--   Reponsibility/privilege framings
--   Peter Singer's ['tested arguments'](https://schwitzsplinters.blogspot.com/2020/06/contest-winner-philosophical-argument.html); see also [Rhetorical.org](https://www.benmtappin.com/)
--   Explicit social appeal
--   Use GPT for message variation, to avoid 'experiment detection'.
-
-iii. Release the tools/bot to EA/effective giving community *with explicit randomization built in* $\rightarrow$ measure success at scale
-:::
 
 \
 \

@@ -9,11 +9,19 @@ David will present and then open up discussion on:
 [^eamt_path_presentation-1]: on the effect of impact information on giving, and social influences on giving in social fundraising
 
 \
+\
+\
+
+<span style="color:red"> This page is currently publicly hosted on the WWW, without a password. Feel free to share it in small circles. I put in and linked a lot in this presentation, lots of fine print. Some links are password protected: ask me for access (and obviously, please do not share those widely.)
+</span>
+
+
+\
+\
 
 ::: callout-note
 ## TMI
 
-I put in and linked a lot in this presentation, lots of fine print. Some links are password protected: ask me for access.
 :::
 
 ```{=html}
@@ -254,7 +262,7 @@ See [forum post](https://forum.effectivealtruism.org/posts/nhbeKbwMgFKfrzLNb/mar
 
 Prolific (+Prime) Study with some 'real clicking' and followup
 
-\[Full report and notebook\]\[https://80k-adreads-fix.netlify.app/#analysis\][^eamt_path_presentation-9]
+[Full report and notebook](https://80k-adreads-fix.netlify.app/#analysis)^[eamt_path_presentation-9]
 
 [^eamt_path_presentation-9]: password protected, do not share publicly
 
@@ -471,7 +479,7 @@ Light-touch resource provision, feedback, coordination?
 
 \
 
-Framework for academic/marketer/EA org collaboration?
+Framework and matchmaking for academic/marketer/EA org collaboration?
 
 -   A standard understanding, templates, and approach,to enable win-win cooperations
 

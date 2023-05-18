@@ -441,6 +441,8 @@ Context: JustGiving = UK-based social charitable fundraising
 
 \
 \
+
+
 ::: {.callout-note collapse="true"}
 ##   The current 'Pilot' ...
 
@@ -455,6 +457,9 @@ We are \~statistically powered to detect:
 *This is a pilot to show feasibility and interestingness: if it works, and we get funding, we have ambitious plans.*
 
 :::
+
+\
+\
 
 #### Goals and questions {.unnumbered}
 
@@ -597,6 +602,6 @@ $\rightarrow$ Could focus on:
 
 
 
-{{< video https://youtu.be/tom6_ceTu9s?t=124 >}}
+{{< video ttps://youtu.be/tom6_ceTu9s >}}
 
 

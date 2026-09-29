@@ -23,6 +23,8 @@ book:
     - chapters/present_summit/eamt_path_presentation.qmd
     - references.qmd
   reader-mode: true
+  page-footer:
+    center: "[More projects by David Reinstein](https://projects.davidreinstein.org/)"
 
 comments:
     hypothesis: true
